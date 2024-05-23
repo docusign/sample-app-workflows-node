@@ -1,0 +1,38 @@
+{
+  "env": {
+    "node": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:import/recommended",
+    "plugin:prettier/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings"
+  ],
+  "plugins": ["import", "prettier"],
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": "latest"
+  },
+  "settings": {
+    "import/resolver": {
+      "node": true
+    }
+  },
+  "rules": {
+    "prettier/prettier": ["error"],
+    "import/no-unresolved": [
+      2,
+      {
+        "commonjs": true,
+        "amd": false,
+        "caseSensitive": true
+      }
+    ],
+    "no-unused-vars": "warn",
+    "import/named": 2,
+    "import/namespace": 2,
+    "import/default": 2,
+    "import/export": 2
+  }
+}

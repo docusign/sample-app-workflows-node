@@ -34,7 +34,6 @@ Before you can run this sample app on your local machine, you must first create 
 
 The following must be enabled on your developer account in order to run all of the examples:
 
-- **Payment**: You must have a Payment gateway set up, see the [Payments](#configure-a-payment-gateway) section below for further instructions.
 - **SMS delivery**: Follow the instructions in the [Docusign eSignature Admin Guide](https://support.docusign.com/guides/ndse-admin-guide-sending-settings) under the **Fields and Properties** section. Make sure "Allow SMS delivery to recipients" is checked.
 - **Conditional routing**: Follow the instructions in the [Introduction to Conditional Routing](https://support.docusign.com/en/guides/ndse-user-guide-intro-to-conditional-routing) under the **Getting started with conditional routing** section. Make sure "Enable conditional routing" is checked.
 - **CertifiedDelivery recipients**: Follow the instructions on this [Docusign eSignature Admin Guide](https://support.docusign.com/guides/ndse-admin-guide-sending-settings) under the **Recipient Roles** section. Make sure "Enable needs to view role" is checked.
@@ -53,7 +52,7 @@ The following must be enabled on your developer account in order to run all of t
    > **Note:** Protect your integration key and client secret. You should make sure that the **.env** file will not be stored in your source code repository.
 8. Rename the **example_private.key** file to **private.key**, and paste your complete private RSA key into this file (including the header and footer of the key).
 
-## Running MyGovernment
+## Running MyMaestro
 
 1. Navigate to the application folder: **`cd sample-app-mymaestro-node`**
 2. Navigate to the server folder: **`cd server`**
