@@ -34,8 +34,8 @@
 
 .close {
     padding: 0 !important;
-    height: 32px !important;
-    width: 32px !important;
+    height: 48px !important;
+    width: 48px !important;
     background: none !important;
     border: none !important;
     color: var(--black-main) !important;
@@ -45,7 +45,7 @@
     right: 24px;
     font-size: 32px !important;
     font-weight: 300 !important;
-    border-radius: 50%;
+    border-radius: 50% !important;
 }
 
 .form {
