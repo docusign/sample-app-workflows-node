@@ -34,8 +34,8 @@
 
 .close {
     padding: 0 !important;
-    height: 48px !important;
-    width: 48px !important;
+    height: 24px !important;
+    width: 24px !important;
     background: none !important;
     border: none !important;
     color: var(--black-main) !important;
@@ -46,6 +46,16 @@
     font-size: 32px !important;
     font-weight: 300 !important;
     border-radius: 50% !important;
+}
+
+.closeLabel {
+    display: block !important;
+    text-align: center !important;
+    height: 18px !important;
+    width: 18px !important;
+    position: absolute;
+    top: 5%;
+    left: 10%;
 }
 
 .form {

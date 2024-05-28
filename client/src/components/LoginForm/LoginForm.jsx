@@ -31,7 +31,7 @@ const LoginForm = ({ togglePopup }) => {
     <div className={styles.popup}>
       <div className={styles.inner}>
         <button className={styles.close} onClick={togglePopup} type="button" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
+          <span className={styles.closeLabel} aria-hidden="true">&times;</span>
         </button>
         {loading ? <Loader visible={loading} /> :
           <div>
