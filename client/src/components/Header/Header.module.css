@@ -1,0 +1,32 @@
+.Header {
+    display: flex;
+    width: 100%;
+}
+
+.navBar {
+    display: flex;
+    background: rgba(0,0,0,0);
+    padding-top: 1.5rem;
+    min-height: 80px;
+    margin-left: 0;
+    margin-right: 0;
+
+    width: 100%;
+    justify-content: space-between;
+}
+
+.logo {
+    display: flex;
+    padding-left: 5%;
+    justify-content: start;
+    height: 25px;
+    width: 136px;
+}
+
+.navLink {
+    display: flex;
+    padding-right: 5%;
+    justify-content: end;
+    height: 28px;
+    width: 140px;
+}

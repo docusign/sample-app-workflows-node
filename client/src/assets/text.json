@@ -1,0 +1,24 @@
+{
+  "hero": {
+    "title": "Welcome to the MyMaestro Sample Application",
+    "paragraph": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+    "tryButton": "Try the App",
+    "GitHub": "Go to GitHub",
+    "footer": {
+      "title": "DocuSign: it’s time to agree better",
+      "paragraph": "DocuSign helps organizations connect and automate how they prepare, sign, act on, and manage agreements.",
+      "copyright": "© 2023 DocuSign Inc.",
+      "createButton": "Create developer account",
+      "learnButton": "Learn more ->"
+    }
+  },
+  "loader": {
+    "title": "Waiting for log in",
+    "paragraph": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+  },
+  "links" : {
+    "github": "https://github.com/docusign/sample-app-mymaestro-node",
+    "createsandbox": "https://go.docusign.com/o/sandbox/",
+    "learnmore": "https://developers.docusign.com/"
+  }
+}

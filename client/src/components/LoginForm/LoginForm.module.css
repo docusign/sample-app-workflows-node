@@ -1,0 +1,136 @@
+.popup {
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.inner {
+    background-color: white;
+    max-height: 342px;
+    max-width: 660px;
+    position: absolute;
+    left: 50%;
+    top: 40%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.75);
+    width: 100%;
+    height: 100%;
+}
+
+.inner h2 {
+    text-align: center !important;
+    margin-top: 48px;
+    line-height: 16px !important;
+    font-size: 24px !important;
+    font-weight: 600 !important;
+}
+
+.close {
+    padding: 0 !important;
+    height: 32px !important;
+    width: 32px !important;
+    background: none !important;
+    border: none !important;
+    color: #080014 !important;
+
+    position: absolute;
+    top: 16px;
+    right: 24px;
+    font-size: 32px !important;
+    font-weight: 300 !important;
+    border-radius: 50%;
+}
+
+.form {
+    text-align: center !important;
+    margin-top: 40px;
+}
+
+.form h3 {
+    text-align: left !important;
+    line-height: 24px !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    margin-top: 36px;
+    margin-left: 48px;
+}
+
+.radioButtonWrapper {
+    height: 60px !important;
+    width: 268px !important;
+    border: 1px solid #CECDD0;
+    background-color: #F4F4F4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    float:left;
+}
+
+input[type=radio] {
+    width: 24px;
+    height: 24px;
+    accent-color: #8154FF;
+}
+
+.label {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    padding-top: 12px;
+    padding-left: 16px;
+    line-height: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    width: 100%;
+    align-items: center;
+}
+
+.subLabel {
+    line-height: 16px;
+    font-size: 12px;
+    font-weight: 400;
+    width: 100%;
+    margin-left: 80px;
+    margin-top: -5px;
+
+    display: inline-block;
+    color: #96929B;
+    text-align: left;
+}
+
+.authVariants {
+    margin-left: 48px;
+    gap: 24px;
+    width: 100%;
+    display: flex;
+    justify-items: center;
+}
+
+.formButtons {
+    margin-top: 40px;
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+}
+
+.formButtons button {
+    width: 80px !important;
+    height: 40px !important;
+    padding: 0 0 0 0 !important;
+
+    line-height: 20px !important;
+    font-size: 16px !important;
+    font-weight: 400 !important;
+}
+
+.cancel {
+    background-color: #FAFAFA !important;
+    color: #080014 !important;
+}
