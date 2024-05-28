@@ -16,7 +16,7 @@
     "title": "Waiting for log in",
     "paragraph": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
   },
-  "links" : {
+  "links": {
     "github": "https://github.com/docusign/sample-app-mymaestro-node",
     "createsandbox": "https://go.docusign.com/o/sandbox/",
     "learnmore": "https://developers.docusign.com/"

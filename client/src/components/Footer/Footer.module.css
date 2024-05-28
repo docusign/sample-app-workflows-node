@@ -5,8 +5,8 @@
     position: absolute;
     left: 5%;
     bottom: 0;
-    background: #080014;
-    color: #F4F4F4;
+    background: var(--black-main);
+    color: var(--grey-main);
     height: 37.3%;
     border-radius: 20px 20px 0 0;
     overflow: hidden;
@@ -22,7 +22,7 @@
     text-align: center;
     line-height: 40px;
 
-    color: #FFFFFF;
+    color: var(--white-main);
     font-size: 36px;
     font-family: "Poppins", sans-serif;
     font-weight: 600;
@@ -36,10 +36,10 @@
     width: 100%;
     line-height: 24px;
     margin-top: -0.8em;
-    margin-left:auto;
-    margin-right:auto;
+    margin-left: auto;
+    margin-right: auto;
 
-    color: #FAFAFA;
+    color: var(--grey-light);
     font-size: 16px;
     font-family: "Poppins", sans-serif;
     font-weight: 300;
@@ -49,13 +49,13 @@
 .Copyright {
     position: absolute;
     left: 0;
-    bottom:0;
+    bottom: 0;
     right: 0;
     padding-bottom: 1rem;
     line-height: 16px;
     text-align: center;
 
-    color: #F4F4F4;
+    color: var(--grey-main);
     font-size: 12px;
     font-family: "Poppins", sans-serif;
     font-weight: 200;
@@ -68,8 +68,8 @@
     width: 100%;
     height: 40px;
     padding-top: 1.5%;
-    margin-left:auto;
-    margin-right:auto;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .Button {
@@ -77,8 +77,8 @@
     height: 40px;
     border-radius: 2px;
 
-    color: #080014;
-    background-color: #FAFAFA;
+    color: var(--black-main);
+    background-color: var(--grey-light);
     line-height: 16px;
     font-size: 16px;
     font-family: "Poppins", sans-serif;
@@ -94,7 +94,7 @@
     padding: 0 !important;
     margin-left: 16px;
 
-    color: #FFFFFF;
+    color: var(--white-main);
     line-height: 16px;
     font-size: 16px;
     font-family: "Poppins", sans-serif;
