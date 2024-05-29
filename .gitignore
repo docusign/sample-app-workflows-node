@@ -35,7 +35,8 @@ dist-ssr
 .env.production.local
 
 private.key
-
+public.key
+route.http
 
 
 
