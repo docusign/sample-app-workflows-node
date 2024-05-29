@@ -22,7 +22,7 @@ class JwtController {
   // Constants
   static rsaKey = fs.readFileSync(path.resolve(__dirname, '../../private.key'));
   static jwtLifeSec = 60 * 60; // requested lifetime for the JWT is 60 min
-  static scopes = ['signature', 'aow_manage'];
+  static scopes = ['signature', 'aow_manage', 'impersonation'];
   static webformsScopes = ['webforms_read', 'webforms_instance_read', 'webforms_instance_write'];
   static dsApi = new docusign.ApiClient();
 
@@ -137,6 +137,7 @@ class JwtController {
       req.session.isLoggedIn = true;
       res.status(200).send('Successfully logged in.');
     } catch (error) {
+      console.log(JSON.stringify(error.message));
       // User has not provided consent yet, send the redirect URL to user.
       if (error.message === ResponseStatus.ConsentRequired) {
         const urlScopes = this.scopes.concat(this.webformsScopes).join('+');
