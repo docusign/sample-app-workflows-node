@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "client": "cd ../ && npm start --prefix client",
+    "client": "cd ../client && npm run dev",
     "server": "nodemon server.js --ignore client",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
@@ -17,6 +17,7 @@
     "chalk": "^4.1.2",
     "cookie-parser": "^1.4.6",
     "cookie-session": "^2.1.0",
+    "cors": "^2.8.5",
     "dayjs": "^1.11.11",
     "docusign-esign": "^7.0.1",
     "dotenv": "^16.4.5",

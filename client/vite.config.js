@@ -15,10 +15,17 @@ export default defineConfig(({ mode }) => {
     },
     server: {
       hmr: {
-        host: '127.0.0.1',
+        host: 'localhost',
         port: env['FRONTEND_PORT'],
       },
       port: env['FRONTEND_PORT'],
+      proxy: {
+        '/api': {
+          target: `${env['BACKEND_HOST']}:${env['BACKEND_PORT']}`,
+          changeOrigin: true,
+          rewrite: path => path.replace(/^\/api/, ''),
+        },
+      },
     },
   };
 });

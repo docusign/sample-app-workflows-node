@@ -91,7 +91,7 @@ class JwtController {
    */
   static getUserInfo = async req => {
     // Get API client
-    const targetAccountId = process.env.TARGET_ACCOUNT_ID;
+    const targetAccountId = JSON.parse(process.env.TARGET_ACCOUNT_ID);
     const baseUriSuffix = '/restapi';
 
     // Get API client and set the base paths
@@ -177,7 +177,7 @@ class JwtController {
     if (req.session.isLoggedIn === undefined) {
       isLoggedIn = false;
     } else {
-      isLoggedIn = req.session.isLoggedIn;
+      isLoggedIn = req.session.isLoggedIn; // true
     }
 
     res.status(200).send(isLoggedIn);
