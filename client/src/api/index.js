@@ -1,11 +1,13 @@
 import axios from 'axios';
 
-// TODO: Enchance and/or correct API logic after setting up backend authentication
+let apiUrl = `${process.env.BACKEND_HOST}:${process.env.BACKEND_PORT}`;
+
 const api = axios.create({
-  baseURL: '/api',
+  baseURL: `${apiUrl}/api`,
+  withCredentials: true,
 });
 
-export const login = async () => {
+export const loginJwt = async () => {
   const res = await api.get('/auth/login');
 
   // If user has never logged in before, redirect to consent screen
