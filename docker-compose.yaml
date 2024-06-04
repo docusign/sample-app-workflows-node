@@ -1,17 +1,37 @@
 version: "3.9"
 services:
-  nginx:
-    platform: linux/amd64
-    image: nginx:1.23.2-alpine
+  frontend:
+    container_name: nginx-frontend-app
+    image: mymaestro_frontend
+    restart: always
+    build:
+      context: .
+      dockerfile: ./client/Dockerfile
+    env_file:
+      - .env
+    volumes:
+      - ./infra/nginx/conf/:/etc/nginx/conf.d/:ro
+    networks:
+      - natbridge
     ports:
       - 80:80
       - 443:443
-    volumes:
-      - ./infra/nginx/conf/:/etc/nginx/conf.d/:ro
-      - ./infra/nginx/certbot/www:/var/www/certbot:ro
-      - ./infra/nginx/certbot/conf/:/etc/nginx/ssl/:ro
-  certbot:
-    image: certbot/certbot:latest
-    volumes:
-      - ./infra/nginx/certbot/www:/var/www/certbot:rw
-      - ./infra/nginx/certbot/conf/:/etc/letsencrypt/:rw
+
+  backend:
+    container_name: node-app
+    image: mymaestro_backend
+    restart: always
+    build:
+      context: .
+      dockerfile: ./server/Dockerfile
+    env_file:
+      - .env
+    networks:
+      - natbridge
+
+networks:
+  natbridge:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.35.0.0/24

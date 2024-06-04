@@ -1,6 +1,7 @@
 const fs = require('fs'); // Used to parse RSA key
 const path = require('path');
 const docusign = require('docusign-esign');
+const config = require('../config');
 const dayjs = require('dayjs'); // Used to set and determine a token's expiration date
 
 const ResponseStatus = {
@@ -20,7 +21,7 @@ const restApi = docusign.ApiClient.RestApi;
 
 class JwtController {
   // Constants
-  static rsaKey = fs.readFileSync(path.resolve(__dirname, '../../private.key'));
+  static rsaKey = fs.readFileSync(path.join(path.resolve(), '..', 'private.key'));
   static jwtLifeSec = 60 * 60; // requested lifetime for the JWT is 60 min
   static scopes = ['signature', 'aow_manage', 'impersonation'];
   static webformsScopes = ['webforms_read', 'webforms_instance_read', 'webforms_instance_write'];
@@ -40,8 +41,8 @@ class JwtController {
 
     // Request a JWT token
     const results = await this.dsApi.requestJWTUserToken(
-      process.env.DS_JWT_CLIENT_ID,
-      process.env.USER_ID,
+      config.clientId,
+      config.userId,
       this.scopes.concat(this.webformsScopes),
       this.rsaKey,
       this.jwtLifeSec
@@ -91,7 +92,7 @@ class JwtController {
    */
   static getUserInfo = async req => {
     // Get API client
-    const targetAccountId = JSON.parse(process.env.TARGET_ACCOUNT_ID);
+    const targetAccountId = config.targetAccountId;
     const baseUriSuffix = '/restapi';
 
     // Get API client and set the base paths
@@ -137,18 +138,15 @@ class JwtController {
       req.session.isLoggedIn = true;
       res.status(200).send('Successfully logged in.');
     } catch (error) {
-      console.log(JSON.stringify(error.message));
+      console.log(error);
       // User has not provided consent yet, send the redirect URL to user.
       if (error.message === ResponseStatus.ConsentRequired) {
         const urlScopes = this.scopes.concat(this.webformsScopes).join('+');
-        const dsOauthServer = process.env.DS_OAUTH_SERVER;
-        const dsJWTClientId = process.env.DS_JWT_CLIENT_ID;
-        const redirectUri = process.env.REDIRECT_URI;
 
         const consentUrl =
-          `${dsOauthServer}/oauth/auth?response_type=code&` +
-          `scope=${urlScopes}&client_id=${dsJWTClientId}&` +
-          `redirect_uri=${redirectUri}`;
+          `${config.dsOauthServer}/oauth/auth?response_type=code&` +
+          `scope=${urlScopes}&client_id=${config.clientId}&` +
+          `redirect_uri=${config.redirectUri}`;
 
         console.log(consentUrl);
 
