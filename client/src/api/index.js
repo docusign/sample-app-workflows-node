@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-let apiUrl = `${process.env.BACKEND_HOST}:${process.env.BACKEND_PORT}`;
+let apiUrl = process.env.BACKEND_HOST;
 
 const api = axios.create({
   baseURL: `${apiUrl}/api`,

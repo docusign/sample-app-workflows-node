@@ -1,0 +1,10 @@
+{
+  "name": "sample-app-mymaestro-node",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "server:dev": "npm run dev --prefix server",
+    "client:dev": "npm run dev --prefix client",
+    "concurrently:dev": "npm run concurrently --prefix server"
+  }
+}
