@@ -4,10 +4,10 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "dotenv -e ../.env node server.js",
+    "dev": "dotenv -e ../.env nodemon server.js",
     "client": "cd ../client && npm run dev",
-    "server": "nodemon server.js --ignore client",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "concurrently": "concurrently \"npm run dev\" \"npm run client\""
   },
   "author": "",
   "license": "MIT",
@@ -21,6 +21,7 @@
     "dayjs": "^1.11.11",
     "docusign-esign": "^7.0.1",
     "dotenv": "^16.4.5",
+    "dotenv-cli": "^7.4.2",
     "express": "^4.19.2",
     "helmet": "^7.1.0"
   },
