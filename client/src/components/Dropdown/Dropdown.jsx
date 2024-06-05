@@ -9,7 +9,8 @@ const Dropdown = (props) => {
       </button>
       <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
         {props.options.map(option => (
-          <a key={option.value} className={`dropdown-item ${styles.dropdownItem}`} href={option.route}>{option.value}</a>
+          <a key={option.value} className={`dropdown-item ${styles.dropdownItem}`}
+             href={option.route}>{option.value}</a>
         ))}
       </div>
     </div>
