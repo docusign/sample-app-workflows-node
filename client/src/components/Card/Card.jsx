@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import Dropdown from '../Dropdown/Dropdown.jsx';
 import { LoginStatus, WorkflowOptions } from '../../constants.js';
 import { useSelector } from 'react-redux';
-import PopupUseAcg from '../UseAcgPrompt/UseAcgPrompt.jsx';
+import UseAcgPopup from '../Popups/UseAcgPrompt/UseAcgPrompt.jsx';
 
 const Card = (props) => {
   const authType = useSelector((state) => state.auth.authType);
@@ -36,7 +36,7 @@ const Card = (props) => {
               <button className="btn btn-secondary" type="button" onClick={togglePopup}>
                 Get Started
               </button>
-              {isPopupOpen ? <PopupUseAcg togglePopup={togglePopup} /> : null}
+              {isPopupOpen ? <UseAcgPopup togglePopup={togglePopup} /> : null}
               </div>
               :
               <Dropdown options={WorkflowOptions} />

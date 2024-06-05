@@ -1,4 +1,4 @@
-import withPopup from '../withPopup/withPopup.jsx';
+import withPopup from '../../withPopup/withPopup.jsx';
 
 const UseAcgPrompt = () => {
   return (
@@ -8,5 +8,5 @@ const UseAcgPrompt = () => {
   );
 };
 
-const PopupUseAcg = withPopup(UseAcgPrompt);
-export default PopupUseAcg;
+const UseAcgPopup = withPopup(UseAcgPrompt);
+export default UseAcgPopup;
