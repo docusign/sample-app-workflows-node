@@ -1,24 +1,26 @@
-.Footer {
-    max-height: 336px;
-    display: flex;
+.footer {
+    min-height: 300px;
+    margin-top: auto;
+    margin-left: 5%;
     width: 90%;
-    position: absolute;
-    left: 5%;
-    bottom: 0;
+    height: 33.3%;
+
+    display: flex;
+    flex-direction: column;
     background: var(--black-main);
     color: var(--grey-main);
-    height: 37.3%;
     border-radius: 20px 20px 0 0;
-    overflow: hidden;
 }
 
-.Container {
-    padding: 2.5%;
-    max-height: 168px;
+.container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 64px;
+    height: 100%;
     width: 100%;
 }
 
-.Header {
+.header {
     text-align: center;
     line-height: 40px;
 
@@ -29,13 +31,12 @@
     font-style: normal;
 }
 
-.Text {
+.text {
     text-align: center;
 
     max-width: 474px;
     width: 100%;
     line-height: 24px;
-    margin-top: -0.8em;
     margin-left: auto;
     margin-right: auto;
 
@@ -46,23 +47,20 @@
     font-style: normal;
 }
 
-.Copyright {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    padding-bottom: 1rem;
+.copyright {
+    display: flex;
+    align-self: center;
     line-height: 16px;
+    margin-top: auto;
+    margin-bottom: 1.5em;
     text-align: center;
 
     color: var(--grey-main);
     font-size: 12px;
-    font-family: "Poppins", sans-serif;
     font-weight: 200;
-    font-style: normal;
 }
 
-.Buttons {
+.buttons {
     display: flex;
     justify-content: center;
     width: 100%;
@@ -72,7 +70,7 @@
     margin-right: auto;
 }
 
-.Button {
+.button {
     width: 100%;
     height: 40px;
     border-radius: 2px;
@@ -81,12 +79,10 @@
     background-color: var(--grey-light);
     line-height: 16px;
     font-size: 16px;
-    font-family: "Poppins", sans-serif;
     font-weight: 500;
-    font-style: normal;
 }
 
-.Link {
+.link {
     width: 100%;
     height: 40px;
     background: none !important;
@@ -97,7 +93,5 @@
     color: var(--white-main);
     line-height: 16px;
     font-size: 16px;
-    font-family: "Poppins", sans-serif;
     font-weight: 500;
-    font-style: normal;
 }

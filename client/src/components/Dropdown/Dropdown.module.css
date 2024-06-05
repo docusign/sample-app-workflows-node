@@ -1,0 +1,7 @@
+.dropdownItem {
+    background-color: var(--white-main);
+}
+
+.dropdownItem:active {
+    background-color: var(--primary-main);
+}
