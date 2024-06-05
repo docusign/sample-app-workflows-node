@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import Footer from '../../components/Footer/Footer.jsx';
 import Header from '../../components/Header/Header.jsx';
-import LoginForm from '../../components/LoginForm/LoginForm.jsx';
 
 import textContent from '../../assets/text.json';
 import styles from './Hero.module.css';
+import PopupLoginForm from '../../components/LoginForm/LoginForm.jsx';
 
 const Hero = () => {
   const [isPopupOpen, togglePopupState] = useState(false);
@@ -23,7 +23,7 @@ const Hero = () => {
         </div>
         <div className={styles.buttonGroup}>
           <button className="btn btn-secondary" onClick={togglePopup}>{textContent.hero.tryButton}</button>
-          {isPopupOpen ? <LoginForm togglePopup={togglePopup} /> : null}
+          {isPopupOpen ? <PopupLoginForm togglePopup={togglePopup} /> : null}
         </div>
       </div>
       <Footer />
