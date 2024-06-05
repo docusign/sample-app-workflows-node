@@ -42,8 +42,6 @@ body {
     margin: 0;
     display: flex;
     place-items: center;
-    min-width: 320px;
-    min-height: 100vh;
 }
 
 h1 {
@@ -70,4 +68,21 @@ button:hover {
 button:focus,
 button:focus-visible {
     outline: 4px auto -webkit-focus-ring-color;
+}
+
+.page-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: url("assets/img/hero-background.png") center;
+    background-size: cover;
+    position: relative;
+
+    min-width: 100vw;
+    min-height: 100vh;
+
+    padding-right: 0;
+    padding-left: 0;
+    margin-left: auto;
+    margin-right: auto;
 }

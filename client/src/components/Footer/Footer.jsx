@@ -2,27 +2,27 @@ import textContent from '../../assets/text.json';
 import styles from './Footer.module.css';
 
 const Footer = () => (
-  <footer className={styles.Footer}>
-    <section className={styles.Container}>
+  <footer className={styles.footer}>
+    <section className={styles.container}>
       <div>
-        <h2 className={styles.Header}>{textContent.hero.footer.title}</h2>
-        <div className={styles.Text}>{textContent.hero.footer.paragraph}</div>
+        <h2 className={styles.header}>{textContent.hero.footer.title}</h2>
+        <div className={styles.text}>{textContent.hero.footer.paragraph}</div>
       </div>
-      <div className={styles.Buttons}>
+      <div className={styles.buttons}>
         <a href={textContent.links.createsandbox} rel="noopener noreferrer" target="_blank">
-          <button className={styles.Button} type="button">
+          <button className={styles.button} type="button">
             {textContent.hero.footer.createButton}
           </button>
         </a>
 
         <a href={textContent.links.learnmore} rel="noopener noreferrer" target="_blank">
-          <button className={styles.Link} type="">
+          <button className={styles.link} type="">
             {textContent.hero.footer.learnButton}
           </button>
         </a>
       </div>
     </section>
-    <span className={styles.Copyright}>{textContent.hero.footer.copyright}</span>
+    <span className={styles.copyright}>{textContent.hero.footer.copyright}</span>
   </footer>
 );
 

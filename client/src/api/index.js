@@ -8,8 +8,9 @@ const api = axios.create({
 });
 
 export const loginJwt = async () => {
-  const res = await api.get('/auth/login');
-
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  //const res = await api.get('/auth/login');
+  const res = "test";
   // If user has never logged in before, redirect to consent screen
   if (res.status === 210) {
     window.location = res.data;

@@ -4,18 +4,24 @@ import { LoginStatus } from '../../constants.js';
 
 import styles from './LoginForm.module.css';
 import { loginJwt } from '../../api/index.js';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 const LoginForm = ({ togglePopup }) => {
   const [loading, setLoading] = useState(false);
   const [authType, setAuthType] = useState(LoginStatus.ACG);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleSubmit = async e => {
     e.preventDefault();
     try {
       setLoading(true);
       await loginJwt();
+      dispatch({ type: 'LOGIN' });
       setLoading(false);
       togglePopup();
+      navigate("/home");
     } catch (error) {
       setLoading(false);
       console.log(error);
@@ -52,7 +58,7 @@ const LoginForm = ({ togglePopup }) => {
                       checked={authType === LoginStatus.ACG}
                       onChange={handleChange}
                     />
-                    Authorization Token Grant
+                    {LoginStatus.ACG}
                   </label>
                   <label className={styles.subLabel}>Web Apps</label>
                 </div>
@@ -65,7 +71,7 @@ const LoginForm = ({ togglePopup }) => {
                       checked={authType === LoginStatus.JWT}
                       onChange={handleChange}
                     />
-                    JWT Grant
+                    {LoginStatus.JWT}
                   </label>
                   <label className={styles.subLabel}>System integrations</label>
                 </div>

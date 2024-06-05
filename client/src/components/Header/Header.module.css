@@ -5,28 +5,82 @@
 
 .navBar {
     display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     background: rgba(0, 0, 0, 0);
     padding-top: 1.5rem;
     min-height: 80px;
     margin-left: 0;
     margin-right: 0;
-
     width: 100%;
-    justify-content: space-between;
+}
+
+.navBar p {
+    color: var(--black-light);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 14px;
+}
+
+.navBar img {
+    height: 28px;
+    width: 140px;
+}
+
+.navBar button, .navBar button:hover, .navBar button:active {
+    height: 28px !important;
+    width: 231px !important;
+    background: transparent !important;
+    border: transparent !important;
+    box-shadow: none !important;
+    color: var(--black-main) !important;
+}
+
+.dropDown {
+    margin-top: -0.4rem;
+}
+
+.dropDownMenu {
+    background-color: var(--black-main);
+}
+
+.dropDownMenu h4 {
+    padding-left: 1.5rem;
+    padding-top: 0.25rem;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--white-main);
+}
+
+.dropDownMenu p {
+    padding-left: 1.5rem;
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--black-extralight);
+}
+
+.dropDownMenu button, .dropDownMenu button:hover, .dropDownMenu button:active {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--secondary-main) !important;
 }
 
 .logo {
     display: flex;
     padding-left: 5%;
     justify-content: start;
-    height: 25px;
-    width: 136px;
+    height: 28px;
+    width: 140px;
+    margin-top: -0.4rem;
+}
+
+.headerEnd {
+    display: flex;
+    flex-direction: row;
+    padding-right: 5%;
 }
 
 .navLink {
-    display: flex;
-    padding-right: 5%;
-    justify-content: end;
     height: 28px;
     width: 140px;
 }
