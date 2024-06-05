@@ -20,7 +20,7 @@ const LoginForm = ({ togglePopup, setLoading }) => {
       dispatch({ type: 'LOGIN', authType: authType });
       setLoading(false);
       togglePopup();
-      navigate("/home");
+      navigate('/home');
     } catch (error) {
       setLoading(false);
       console.log(error);

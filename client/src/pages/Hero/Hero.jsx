@@ -23,7 +23,8 @@ const Hero = () => {
         </div>
         <div className={styles.buttonGroup}>
           <button className="btn btn-secondary" onClick={togglePopup}>{textContent.hero.tryButton}</button>
-          {isPopupOpen ? <PopupLoginForm togglePopup={togglePopup} /> : null}
+          {isPopupOpen ? <PopupLoginForm togglePopup={togglePopup} title={textContent.loader.title}
+                                         paragraph={textContent.loader.paragraph} /> : null}
         </div>
       </div>
       <Footer />

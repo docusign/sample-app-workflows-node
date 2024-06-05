@@ -1,14 +1,13 @@
 import styles from './Loader.module.css';
-import textContent from '../../assets/text.json';
 
-function Loader({ visible }) {
+function Loader({ visible, title, paragraph }) {
   return (
     visible && (
       <div className={styles.wrapper}>
         <span className={styles.loader}></span>
         <div>
-          <h2 className={styles.Header}>{textContent.loader.title}</h2>
-          <div className={styles.Text}>{textContent.loader.paragraph}</div>
+          <h2 className={styles.Header}>{title}</h2>
+          <div className={styles.Text}>{paragraph}</div>
         </div>
       </div>
     )
