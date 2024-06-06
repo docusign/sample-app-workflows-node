@@ -16,7 +16,7 @@ const LoginForm = ({ togglePopup, setLoading }) => {
     e.preventDefault();
     try {
       setLoading(true);
-      await loginJwt();
+      //await loginJwt();
       dispatch({ type: 'LOGIN', authType: authType });
       setLoading(false);
       togglePopup();

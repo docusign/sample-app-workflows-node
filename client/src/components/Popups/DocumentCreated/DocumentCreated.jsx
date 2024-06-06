@@ -1,4 +1,4 @@
-import withPopup from '../../withPopup/withPopup.jsx';
+import withPopup from '../../../hocs/withPopup/withPopup.jsx';
 import imgSuccess from '../../../assets/img/success.svg';
 import { Link } from 'react-router-dom';
 import styles from './DocumentCreated.module.css';
