@@ -1,63 +1,3 @@
-.popup {
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: var(--black-background-transparent);
-}
-
-.inner {
-    background-color: var(--white-main);
-    max-height: 342px;
-    max-width: 660px;
-    position: absolute;
-    left: 50%;
-    top: 40%;
-    transform: translate(-50%, -50%);
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px 0 var(--black-main);
-    width: 100%;
-    height: 100%;
-}
-
-.inner h2 {
-    text-align: center !important;
-    margin-top: 48px;
-    line-height: 16px !important;
-    font-size: 24px !important;
-    font-weight: 600 !important;
-}
-
-.close {
-    padding: 0 !important;
-    height: 24px !important;
-    width: 24px !important;
-    background: none !important;
-    border: none !important;
-    color: var(--black-main) !important;
-
-    position: absolute;
-    top: 16px;
-    right: 24px;
-    font-size: 32px !important;
-    font-weight: 300 !important;
-    border-radius: 50% !important;
-}
-
-.closeLabel {
-    display: block !important;
-    text-align: center !important;
-    height: 18px !important;
-    width: 18px !important;
-    position: absolute;
-    top: 5%;
-    left: 10%;
-}
-
 .form {
     text-align: center !important;
     margin-top: 40px;
@@ -86,6 +26,8 @@
 input[type=radio] {
     width: 24px;
     height: 24px;
+    margin-right: 10px;
+    margin-top: 0.25em;
     accent-color: var(--secondary-main);
 }
 
@@ -107,8 +49,8 @@ input[type=radio] {
     font-size: 12px;
     font-weight: 400;
     width: 100%;
-    margin-left: 80px;
-    margin-top: -5px;
+    margin-left: 100px;
+    margin-top: -10px;
 
     display: inline-block;
     color: var(--black-extralight);

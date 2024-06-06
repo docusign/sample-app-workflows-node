@@ -1,30 +1,15 @@
-.Home {
-    background: url("../../assets/img/hero-background.png") center;
-    background-size: cover;
-    min-height: 100%;
-    box-sizing: border-box;
-    color: var(--white-main);
-    width: 100vw;
-    height: 100vh;
-}
-
-.HeroContent {
-    box-sizing: border-box;
-    position: absolute;
-    top: 5%;
-    left: 20%;
+.heroContent {
     width: 60%;
     color: var(--black-main);
     margin: 80px auto;
     padding: 0;
 }
 
-.MessageBox {
+.messageBox {
     width: 100%;
-    font-family: "Poppins", sans-serif;
 }
 
-.MessageBox h1 {
+.messageBox h1 {
     text-align: center;
     margin-bottom: 25px;
 
@@ -35,19 +20,24 @@
     font-style: normal;
 }
 
-.MessageBox p {
+.messageBox p {
     text-align: center;
     line-height: 28px;
     margin-bottom: 32px;
 
     color: var(--black-light);
     font-size: 18px;
-    font-family: "Poppins", sans-serif;
     font-weight: 300;
     font-style: normal;
 }
 
-.ButtonGroup button {
+.buttonGroup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.buttonGroup button {
     height: 40px;
     width: 240px;
     line-height: 24px;
@@ -56,16 +46,11 @@
 
     color: var(--white-main);
     font-size: 16px;
-    font-family: "Poppins", sans-serif;
     font-weight: 400;
     font-style: normal;
     text-align: center;
 }
 
-.ButtonGroup {
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.buttonGroup button:hover {
+    background-color: var(--secondary-main);
 }
