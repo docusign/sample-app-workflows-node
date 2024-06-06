@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import logo from '../../assets/img/logo.svg';
 import source from '../../assets/img/github-source.svg';
 
-import textContent from '../../assets/text.json';
 import styles from './Header.module.css';
 import textContent from '../../assets/text.json';
 
