@@ -6,7 +6,7 @@ import Card from '../../components/Card/Card.jsx';
 import img1 from '../../assets/img/workflow-create.svg';
 import img2 from '../../assets/img/workflow-trigger.svg';
 import img3 from '../../assets/img/workflow-manage.svg';
-import withAuth from '../../components/withAuth/withAuth.jsx';
+import withAuth from '../../hocs/withAuth/withAuth.jsx';
 
 const Home = () => {
   return (

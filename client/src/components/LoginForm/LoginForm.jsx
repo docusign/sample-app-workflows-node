@@ -5,7 +5,7 @@ import styles from './LoginForm.module.css';
 import { loginJwt } from '../../api/index.js';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import withPopup from '../withPopup/withPopup.jsx';
+import withPopup from '../../hocs/withPopup/withPopup.jsx';
 
 const LoginForm = ({ togglePopup, setLoading }) => {
   const [authType, setAuthType] = useState(LoginStatus.ACG);

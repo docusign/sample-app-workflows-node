@@ -1,6 +1,6 @@
-import withPopup from '../withPopup/withPopup.jsx';
+import withPopup from '../../hocs/withPopup/withPopup.jsx';
 
-const UseAcgPrompt = () => {
+const AcgPrompt = () => {
   return (
     <div>
       <h2>To use this feature, please Log in using ACG</h2>
@@ -8,5 +8,5 @@ const UseAcgPrompt = () => {
   );
 };
 
-const PopupUseAcg = withPopup(UseAcgPrompt);
+const PopupUseAcg = withPopup(AcgPrompt);
 export default PopupUseAcg;

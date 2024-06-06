@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Loader from '../Loader/Loader.jsx';
+import Loader from '../../components/Loader/Loader.jsx';
 
 import styles from './withPopup.module.css';
 
