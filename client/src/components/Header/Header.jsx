@@ -6,7 +6,6 @@ import textContent from '../../assets/text.json';
 import styles from './Header.module.css';
 
 const Header = () => {
-
   return (
     <header className={styles.Header} role="banner">
       <nav className={styles.navBar}>
