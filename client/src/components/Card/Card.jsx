@@ -5,6 +5,7 @@ import Dropdown from '../Dropdown/Dropdown.jsx';
 import { LoginStatus, WorkflowOptions } from '../../constants.js';
 import { useSelector } from 'react-redux';
 import PopupUseAcg from '../AcgPrompt/AcgPrompt.jsx';
+
 const Card = (props) => {
   const authType = useSelector((state) => state.auth.authType);
   const [isPopupOpen, togglePopupState] = useState(false);
@@ -35,7 +36,7 @@ const Card = (props) => {
               <button className="btn btn-secondary" type="button" onClick={togglePopup}>
                 Get Started
               </button>
-              {isPopupOpen ? <UseAcgPopup togglePopup={togglePopup} /> : null}
+              {isPopupOpen ? <PopupUseAcg togglePopup={togglePopup} /> : null}
               </div>
               :
               <Dropdown options={WorkflowOptions} />
