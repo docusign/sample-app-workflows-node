@@ -1,4 +1,4 @@
-FROM node:lts AS base
+FROM node:20.14 AS base
 
 RUN mkdir -p /home/node/app
 WORKDIR /home/node
@@ -14,12 +14,11 @@ COPY server ./
 
 
 # Run stage
-FROM node:lts-alpine
+FROM node:20.14-alpine
 
 RUN mkdir -p /home/node/app
 COPY --from=base /home/node /home/node
 WORKDIR /home/node/app
-
 EXPOSE 4000
 ENV NODE_ENV=production
 

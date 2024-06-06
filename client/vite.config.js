@@ -21,7 +21,7 @@ export default defineConfig(({ mode }) => {
       port: env['FRONTEND_PORT'],
       proxy: {
         '/api': {
-          target: `${env['BACKEND_HOST']}`,
+          target: `${env['BACKEND_API']}`,
           changeOrigin: true,
           rewrite: path => path.replace(/^\/api/, ''),
         },
