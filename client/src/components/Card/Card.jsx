@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import Dropdown from '../Dropdown/Dropdown.jsx';
 import { LoginStatus, WorkflowOptions } from '../../constants.js';
 import { useSelector } from 'react-redux';
-import PopupUseAcg from '../UseAcgPrompt/UseAcgPrompt.jsx';
+import PopupUseAcg from '../AcgPrompt/AcgPrompt.jsx';
 
 const Card = (props) => {
   const authType = useSelector((state) => state.auth.authType);

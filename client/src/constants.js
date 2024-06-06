@@ -10,9 +10,7 @@ export const LoginStatus = {
 
 
 export const WorkflowOptions = [
-  { value: "Create 1-9 document", route: "/createOneNineDocument" },
-
-  { value: "Create offer letter", route: "/createOfferLetter" },
-
-  { value: "Create NDA document", route: "/createNdaDocument" }
+  { value: 'Create 1-9 document', route: '/createOneNineDocument' },
+  { value: 'Create offer letter', route: '/createOfferLetter' },
+  { value: 'Create NDA document', route: '/createNdaDocument' },
 ];
