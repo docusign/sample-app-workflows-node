@@ -1,11 +1,13 @@
-import authReducer from './reducers/index.js';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import storage from 'redux-persist/lib/storage';
 import { persistReducer, persistStore } from 'redux-persist';
 import { FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE } from 'redux-persist/es/constants';
+import authReducer from './reducers/authReducer.js';
+import workflowsReducer from './reducers/workflowsReducer.js';
 
 const rootReducer = combineReducers({
   auth: authReducer,
+  workflows: workflowsReducer,
 });
 
 const persistConfig = {

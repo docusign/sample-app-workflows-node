@@ -5,6 +5,7 @@ import logo from '../../assets/img/logo.svg';
 import source from '../../assets/img/github-source.svg';
 import styles from './Header.module.css';
 import textContent from '../../assets/text.json';
+import { ROUTE } from '../../constants.js';
 
 const Header = () => {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
@@ -22,7 +23,7 @@ const Header = () => {
   return (
     <header className={styles.Header} role="banner">
       <nav className={styles.navBar}>
-        <Link className={styles.logo} to="/">
+        <Link className={styles.logo} to={ROUTE.ROOT}>
           <img src={logo} alt="logo" />
         </Link>
         <div className={styles.headerEnd}>

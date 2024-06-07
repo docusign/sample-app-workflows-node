@@ -22,8 +22,14 @@
     --black-light: #393242;
     --black-extralight: #96929B;
     --black-extraextralight: #CECDD0;
+    --blue-main: #2F80ED;
+    --blue-light: #D5E6FB;
+    --green-main: #27AE60;
+    --green-light: #DEF1E6;
     --grey-main: #F4F4F4;
     --grey-light: #FAFAFA;
+    --error-main: #FF475D;
+    --red-light: #FFDADF;
 
     --black-background-transparent: #08001480;
 }
