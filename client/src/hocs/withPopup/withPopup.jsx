@@ -16,9 +16,9 @@ const withPopup = (WrappedComponent) => {
           </span>
           </button>
           {loading ? (
-            <Loader visible={loading} />
+            <Loader visible={loading} title={props.title} paragraph={props.paragraph} />
           ) : (
-            <WrappedComponent {...props} setLoading={setLoading} />
+            <WrappedComponent {...props} setLoading={setLoading}/>
           )}
         </div>
       </div>

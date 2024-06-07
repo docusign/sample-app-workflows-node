@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { LoginStatus } from '../../constants.js';
-
-import styles from './LoginForm.module.css';
 import { loginJwt } from '../../api/index.js';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import withPopup from '../../hocs/withPopup/withPopup.jsx';
+
+import { LoginStatus, ROUTE } from '../../constants.js';
+import styles from './LoginForm.module.css';
 
 const LoginForm = ({ togglePopup, setLoading }) => {
   const [authType, setAuthType] = useState(LoginStatus.ACG);
@@ -20,7 +20,7 @@ const LoginForm = ({ togglePopup, setLoading }) => {
       dispatch({ type: 'LOGIN', authType: authType });
       setLoading(false);
       togglePopup();
-      navigate("/home");
+      navigate(ROUTE.HOME);
     } catch (error) {
       setLoading(false);
       console.log(error);
