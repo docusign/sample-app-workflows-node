@@ -22,7 +22,7 @@ const Dropdown = (props) => {
           <a key={option.value} className={`dropdown-item ${styles.dropdownItem}`} onClick={() => togglePopup(option.value)}>{option.value}</a>
         ))}
       </div>
-      {isPopupOpen ? <DocumentCreatedPopup togglePopup={togglePopup} z message={props.options.find(option => option.value === selectedDocument).message} /> : null}
+      {isPopupOpen ? <DocumentCreatedPopup togglePopup={togglePopup} message={props.options.find(option => option.value === selectedDocument).message} /> : null}
     </div>
   );
 };
