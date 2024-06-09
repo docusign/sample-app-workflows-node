@@ -1,9 +1,10 @@
 import WorkflowStatusPill from '../WorkflowStatusPill/WorkflowStatusPill.jsx';
-
-import styles from './WorkflowList.module.css';
 import { Link } from 'react-router-dom';
-import { ROUTE, WokrflowItemsInteractionType } from '../../constants.js';
+import { ROUTE, WorkflowItemsInteractionType } from '../../constants.js';
 import { useDispatch } from 'react-redux';
+
+import dropdown from '../../assets/img/dropdown.svg';
+import styles from './WorkflowList.module.css';
 
 const WorkflowList = ({ items, interactionType }) => {
   const dispatch = useDispatch();
@@ -19,7 +20,7 @@ const WorkflowList = ({ items, interactionType }) => {
                 <h4>{item.name}</h4>
               </div>
               <p>{item.type}</p>
-              {interactionType === WokrflowItemsInteractionType.TRIGGER ?
+              {interactionType === WorkflowItemsInteractionType.TRIGGER ?
                 <button onClick={() => {
                   //TODO: Inject backend implementation for triggering workflow
                 }}>Trigger workflow</button>
@@ -28,11 +29,7 @@ const WorkflowList = ({ items, interactionType }) => {
                   <button className={styles.dropdownButton} type="button"
                           id="dropdownMenuButton"
                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <svg width="20" height="24" fill="currentColor" className="bi bi-three-dots-vertical"
-                         viewBox="0 0 16 16">
-                      <path
-                        d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
-                    </svg>
+                    <img src={dropdown} alt={('More actions')} />
                   </button>
                   <div className={`dropdown-menu dropdown-menu-right ${styles.dropdownMenu}`}>
                     <a className={`dropdown-item ${styles.dropdownItem}`} href="#" onClick={() => {
