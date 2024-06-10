@@ -1,8 +1,9 @@
 import textContent from '../../assets/text.json';
 import styles from './Footer.module.css';
 
-const Footer = () => (
-  <footer className={styles.footer}>
+const Footer = ({withContent = true}) => (
+  <footer className={withContent ? styles.footerWithContent : styles.footer}>
+    {withContent ?
     <section className={styles.container}>
       <div>
         <h2 className={styles.header}>{textContent.hero.footer.title}</h2>
@@ -22,6 +23,9 @@ const Footer = () => (
         </a>
       </div>
     </section>
+      :
+      null
+    }
     <span className={styles.copyright}>{textContent.hero.footer.copyright}</span>
   </footer>
 );

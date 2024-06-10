@@ -1,6 +1,6 @@
 import styles from './Loader.module.css';
 
-function Loader({ visible, title, paragraph }) {
+const Loader = ({ visible, title, paragraph }) => {
   return (
     visible && (
       <div className={styles.wrapper}>

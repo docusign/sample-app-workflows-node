@@ -1,0 +1,67 @@
+.backButton {
+    margin-left: -20px;
+    width: 100px;
+    height: 40px;
+    background-color: transparent;
+    border: transparent;
+}
+
+.descriptionContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    width: 394px;
+}
+
+.descriptionContainer h2 {
+    color: var(--black-main);
+    font-size: 36px;
+    font-weight: 500;
+    margin-top: -1em;
+}
+
+.dropDown {
+    margin-top: -2em;
+}
+
+.dropDown button, .dropDown button:hover, .dropDown button:active {
+    margin-left: -.5em;
+    text-align: left;
+    width: 394px;
+    background-color: transparent !important;
+    border: transparent !important;
+    box-shadow: none !important;
+    color: var(--black-light) !important;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.dropDownMenu {
+    margin-left: -.5em;
+    background-color: transparent;
+    border: transparent;
+    max-height: 62vh;
+    min-width: 380px;
+    overflow-y: auto;
+}
+
+.dropDownMenu h4 {
+    padding-left: 1.5rem;
+    padding-top: 0.25rem;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--black-light);
+}
+
+.dropDownMenu p {
+    padding-left: 1.5rem;
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--black-light);
+}
+
+.dropDownMenu button, .dropDownMenu button:hover, .dropDownMenu button:active {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--secondary-main) !important;
+}

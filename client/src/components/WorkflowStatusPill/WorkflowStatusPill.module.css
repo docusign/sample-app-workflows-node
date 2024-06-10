@@ -1,0 +1,23 @@
+.workflowStatusPill {
+    height: 20px;
+    width: 80px;
+    border-radius: 100px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.Completed {
+    background-color: var(--green-light);
+    color: var(--green-main);
+}
+
+.Failed {
+    background-color: var(--red-light);
+    color: var(--error-main);
+}
+
+.In-progress {
+    background-color: var(--blue-light);
+    color: var(--blue-main);
+}

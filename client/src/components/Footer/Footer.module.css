@@ -1,4 +1,4 @@
-.footer {
+.footerWithContent {
     min-height: 300px;
     margin-top: auto;
     margin-left: 5%;
@@ -11,6 +11,20 @@
     color: var(--grey-main);
     border-radius: 20px 20px 0 0;
 }
+
+.footer {
+    height: 3.25rem;
+    margin-top: auto;
+    margin-left: 5%;
+    width: 90%;
+
+    display: flex;
+    flex-direction: column;
+    background: var(--black-main);
+    color: var(--grey-main);
+    border-radius: 20px 20px 0 0;
+}
+
 
 .container {
     display: flex;
