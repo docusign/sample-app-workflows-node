@@ -3,6 +3,7 @@ const validator = require('validator');
 const config = require('../config');
 const { createWorkflow, publishWorkflow } = require('../utils/workflowUtils.js');
 const path = require('path');
+const { METHOD, TEMPLATE_TYPE } = require('../constants');
 
 const oAuth = docusign.ApiClient.OAuth;
 const restApi = docusign.ApiClient.RestApi;
@@ -25,7 +26,8 @@ class WorkflowsController {
   static webformsScopes = ['webforms_read', 'webforms_instance_read', 'webforms_instance_write'];
   static scopes = ['signature', 'aow_manage', 'impersonation'];
   static templatesPath = path.resolve(__dirname, '../assets/templates');
-  static newI9Template = 'NewI9Template.json';
+  static i9Template = 'I9Template.json';
+  static offerLetterTemplate = 'OfferLetterTemplate.json';
 
   // For production environment, change "DEMO" to "PRODUCTION"
   static basePath = restApi.BasePath.DEMO; // https://demo.docusign.net/restapi
@@ -96,22 +98,23 @@ class WorkflowsController {
   static createTemplate = async req => {
     let templateFile = null;
 
-    switch (req.templateType) {
-      case 'newI9':
-        templateFile = this.newI9Template;
+    switch (req.body.templateType) {
+      case TEMPLATE_TYPE.I9:
+        templateFile = this.i9Template;
         break;
       // TODO: Add NDA Template File
-      case 'newNda':
+      case TEMPLATE_TYPE.NDA:
         break;
       // TODO: Add OfferLetter Template File
-      case 'newOfferLetter':
+      case TEMPLATE_TYPE.OFFER:
+        templateFile = this.offerLetterTemplate;
         break;
     }
 
     const args = {
       accessToken: req.user.userId,
       accountId: req.session.accountId,
-      templateType: req.templateType,
+      templateType: req.body.templateType,
       docFile: path.resolve(this.templatesPath, templateFile),
     };
 
@@ -161,16 +164,8 @@ class WorkflowsController {
    * Cancels workflow instance and sends a response.
    */
   static createWorkflow = async (req, res) => {
-    const authType = req.session.authType;
-
-    if (authType === 'JWT') {
-      //TODO: Add authenticate redirect url to give user an ability to authenticate
-      // const authenticateUrl
-      res.status(403).send({ errorMessage: 'Authenticate with DocuSign Developer Account.' });
-    }
-
     let templateId;
-    if (req.session.templateId === null) {
+    if (!req.session.templateId) {
       templateId = await this.createTemplate(req).templateId;
     } else {
       templateId = req.session.templateId;

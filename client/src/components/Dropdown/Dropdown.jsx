@@ -28,7 +28,7 @@ const Dropdown = props => {
     <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
       {props.options.map(option => (
         <a key={option.value} className={`dropdown-item ${styles.dropdownItem}`} onClick={() => {
-          api.createWorkflow(option.value).then(r => console.log('Creating ' + option.value + ' ' + r));
+          api.workflows.createWorkflow(option.type).then(r => console.log('Creating ' + option.value + ' ' + r));
           togglePopup(option.value);
         }}>{option.value}</a>))}
     </div>

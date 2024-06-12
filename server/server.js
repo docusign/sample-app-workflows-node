@@ -15,6 +15,7 @@ const moment = require('moment');
 const config = require('./config');
 const { scopes, BACKEND_ROUTE, METHOD } = require('./constants');
 const authRouter = require('./routes/authRouter');
+const workflowsRouter = require('./routes/workflowsRouter');
 
 const maxSessionAge = 1000 * 60 * 60 * 24 * 1; // One day
 
@@ -57,6 +58,7 @@ const app = express()
 
 // Routing
 app.use(BACKEND_ROUTE.AUTH, authRouter);
+app.use(BACKEND_ROUTE.WORKFLOWS, workflowsRouter);
 
 async function start() {
   try {

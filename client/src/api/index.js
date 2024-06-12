@@ -40,9 +40,9 @@ export const api = Object.freeze({
       return JSON.parse(res.data); // response boolean
     },
   },
-  workflow: {
-    createWorkflow: async () => {
-      const res = await api.post('/workflows/create');
+  workflows: {
+    createWorkflow: async (templateType) => {
+      const res = await instance.post('/workflows/create', { templateType: templateType });
       // If user has never logged in before, redirect to consent screen
       if (res.status === 210) {
         window.location = res.data;
