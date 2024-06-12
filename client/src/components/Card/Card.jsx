@@ -6,11 +6,11 @@ import { LoginStatus, WorkflowOptions } from '../../constants.js';
 import { useSelector } from 'react-redux';
 import WrappedAcgPrompt from '../Popups/AcgPrompt/AcgPrompt.jsx';
 
-const Card = (props) => {
-  const authType = useSelector((state) => state.auth.authType);
+const Card = props => {
+  const authType = useSelector(state => state.auth.authType);
   const [isPopupOpen, togglePopupState] = useState(false);
 
-  const togglePopup = (e) => {
+  const togglePopup = e => {
     e.preventDefault();
     togglePopupState(!isPopupOpen);
   };
@@ -27,22 +27,20 @@ const Card = (props) => {
               Get Started
             </button>
           </Link>
-          ) :
-          (
-            <div>
-            { authType !== LoginStatus.ACG
-              ?
+        ) : (
+          <div>
+            {authType !== LoginStatus.ACG ? (
               <div>
-              <button className="btn btn-secondary" type="button" onClick={togglePopup}>
-                Get Started
-              </button>
-              {isPopupOpen ? <WrappedAcgPrompt togglePopup={togglePopup} /> : null}
+                <button className="btn btn-secondary" type="button" onClick={togglePopup}>
+                  Get Started
+                </button>
+                {isPopupOpen ? <WrappedAcgPrompt togglePopup={togglePopup} /> : null}
               </div>
-              :
+            ) : (
               <Dropdown options={WorkflowOptions} />
-            }
-            </div>
-          )}
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

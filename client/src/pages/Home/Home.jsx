@@ -21,20 +21,23 @@ const Home = () => {
         <Card
           img={img1}
           dropDown={true}
-          title={"Create a workflow"}
-          description={"Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"} />
+          title={'Create a workflow'}
+          description={"Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"}
+        />
         <Card
           img={img2}
           dropDown={false}
           linkTo={ROUTE.TRIGGER}
-          title={"Trigger a workflow"}
-          description={"Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece"}/>
+          title={'Trigger a workflow'}
+          description={'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece'}
+        />
         <Card
           img={img3}
           dropDown={false}
           linkTo={ROUTE.MANAGE}
-          title={"Manage a workflow"}
-          description={"There are many variations of Lorem Ipsum"}/>
+          title={'Manage a workflow'}
+          description={'There are many variations of Lorem Ipsum'}
+        />
       </div>
       <Footer />
     </div>

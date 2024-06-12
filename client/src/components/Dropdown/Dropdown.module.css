@@ -1,7 +1,8 @@
 .dropdownItem {
-    background-color: var(--white-main);
+  background-color: var(--white-main);
+  cursor: pointer;
 }
 
 .dropdownItem:active {
-    background-color: var(--primary-main);
+  background-color: var(--primary-main);
 }
