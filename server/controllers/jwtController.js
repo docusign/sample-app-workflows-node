@@ -1,8 +1,11 @@
 const fs = require('fs'); // Used to parse RSA key
 const path = require('path');
+const axios = require('axios');
+const jwt = require('jsonwebtoken');
 const docusign = require('docusign-esign');
+const moment = require('moment'); // Used to set and determine a token's expiration date
 const config = require('../config');
-const dayjs = require('dayjs'); // Used to set and determine a token's expiration date
+const { scopes, METHOD } = require('../constants');
 
 const ResponseStatus = {
   ConsentRequired: 'Consent required. Follow redirectUri in browser and give consent access.',
@@ -23,8 +26,7 @@ class JwtController {
   // Constants
   static rsaKey = fs.readFileSync(path.join(path.resolve(), '..', 'private.key'));
   static jwtLifeSec = 60 * 60; // requested lifetime for the JWT is 60 min
-  static scopes = ['signature', 'aow_manage', 'impersonation'];
-  static webformsScopes = ['webforms_read', 'webforms_instance_read', 'webforms_instance_write'];
+  static scopes = scopes;
   static dsApi = new docusign.ApiClient();
 
   // For production environment, change "DEMO" to "PRODUCTION"
@@ -43,12 +45,12 @@ class JwtController {
     const results = await this.dsApi.requestJWTUserToken(
       config.clientId,
       config.userId,
-      this.scopes.concat(this.webformsScopes),
+      this.scopes,
       this.rsaKey,
       this.jwtLifeSec
     );
 
-    const expiresAt = dayjs().add(results.body.expires_in, 's');
+    const expiresAt = moment().add(results.body.expires_in, 'seconds');
 
     return {
       accessToken: results.body.access_token,
@@ -66,11 +68,11 @@ class JwtController {
       const sessionToken = req.session.accessToken;
       const tokenExpires = req.session.tokenExpirationTimestamp;
       const noToken = !sessionToken || !tokenExpires;
-      const currentTime = dayjs();
+      const currentTime = moment();
       const bufferTime = 1; // One minute buffer time
 
       // Check to see if we have a token or if the token is expired
-      const needToken = noToken || dayjs(tokenExpires).subtract(bufferTime, 'm').isBefore(currentTime);
+      const needToken = noToken || moment(tokenExpires).subtract(bufferTime, 'minutes').isBefore(currentTime);
 
       // Update the token if needed
       if (needToken) {
@@ -116,9 +118,17 @@ class JwtController {
       throw new Error(`Target account ${targetAccountId} not found!`);
     }
 
+    const response = await axios.get(`${config.dsOauthServer}/oauth/userinfo`, {
+      headers: {
+        Authorization: `Bearer ${req.session.accessToken}`,
+      },
+    });
+
     // Save user information in session.
     req.session.accountId = accountInfo.accountId;
     req.session.basePath = `${accountInfo.baseUri}${baseUriSuffix}`;
+    req.session.userName = response.data.name;
+    req.session.userEmail = response.data.email;
   };
 
   /**
@@ -132,16 +142,17 @@ class JwtController {
       // logged in or was redirected to the consent URL and then redirected back to the
       // app. Only set the user to logged out if an unknown error occurred during the
       // login process.
+      req.session.authMethod = METHOD.JWT;
 
       await this.checkToken(req);
       await this.getUserInfo(req);
       req.session.isLoggedIn = true;
-      res.status(200).send('Successfully logged in.');
+      res.json({ name: req.session.userName, email: req.session.userEmail });
     } catch (error) {
       console.log(error);
       // User has not provided consent yet, send the redirect URL to user.
       if (error.message === ResponseStatus.ConsentRequired) {
-        const urlScopes = this.scopes.concat(this.webformsScopes).join('+');
+        const urlScopes = this.scopes.join('+');
 
         const consentUrl =
           `${config.dsOauthServer}/oauth/auth?response_type=code&` +
@@ -161,24 +172,40 @@ class JwtController {
   /**
    * Logs the user out by destroying the session.
    */
-  static logout = (req, res) => {
-    req.session = null;
-    console.log('Successfully logged out!');
-    res.status(200).send('Success: you have logged out');
+  static logout = (req, res, next) => {
+    req.session.destroy(err => {
+      if (err) return next(err);
+    });
+
+    res.send();
   };
 
   /**
    * Return "true" if the user logged in, false otherwise.
    */
   static isLoggedIn = (req, res) => {
-    let isLoggedIn;
     if (req.session.isLoggedIn === undefined) {
-      isLoggedIn = false;
-    } else {
-      isLoggedIn = req.session.isLoggedIn; // true
+      req.session.isLoggedIn = false;
     }
+    let isLoggedIn = req.session.isLoggedIn;
 
-    res.status(200).send(isLoggedIn);
+    try {
+      const decoded = jwt.decode(req.session.accessToken);
+      if (!decoded) {
+        isLoggedIn = false;
+        return res.status(200).send(isLoggedIn);
+      }
+
+      if (decoded.exp && Date.now() >= decoded.exp * 1000) {
+        isLoggedIn = false;
+        return res.status(200).send(isLoggedIn);
+      }
+
+      return res.status(200).send(isLoggedIn);
+    } catch (error) {
+      isLoggedIn = false;
+      return res.status(200).send(isLoggedIn);
+    }
   };
 }
 

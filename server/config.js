@@ -4,8 +4,10 @@ function readRequiredEnvVariable(variableName) {
   return value;
 }
 
+const nodeEnv = readRequiredEnvVariable('NODE_ENV');
+
 const config = {
-  nodeEnv: readRequiredEnvVariable('NODE_ENV'),
+  nodeEnv: nodeEnv,
   backendHost: readRequiredEnvVariable('BACKEND_HOST'),
   backendPort: Number(readRequiredEnvVariable('BACKEND_PORT')),
   redirectUri: readRequiredEnvVariable('REDIRECT_URI'),
@@ -15,7 +17,10 @@ const config = {
   clientSecret: readRequiredEnvVariable('DS_CLIENT_SECRET'),
   targetAccountId: JSON.parse(readRequiredEnvVariable('TARGET_ACCOUNT_ID')),
   sessionSecret: readRequiredEnvVariable('SESSION_SECRET'),
-  reactBackendApi: readRequiredEnvVariable('BACKEND_API'),
+  frontendHost:
+    nodeEnv === 'development'
+      ? readRequiredEnvVariable('FRONTEND_DEV_HOST')
+      : readRequiredEnvVariable('FRONTEND_PROD_HOST'),
 };
 
 module.exports = config;

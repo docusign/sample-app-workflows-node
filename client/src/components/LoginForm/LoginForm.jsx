@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { loginJwt } from '../../api/index.js';
+import { api } from '../../api';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import withPopup from '../../hocs/withPopup/withPopup.jsx';
@@ -14,13 +14,19 @@ const LoginForm = ({ togglePopup, setLoading }) => {
 
   const handleSubmit = async e => {
     e.preventDefault();
+    setLoading(true);
+
     try {
-      setLoading(true);
-      await loginJwt();
-      dispatch({ type: 'LOGIN', authType: authType });
-      setLoading(false);
-      togglePopup();
-      navigate(ROUTE.HOME);
+      if (authType === LoginStatus.JWT) {
+        const res = await api.jwt.login();
+        dispatch({ type: 'LOGIN', authType, userName: res.data.name, userEmail: res.data.email });
+        setLoading(false);
+        togglePopup();
+        navigate(ROUTE.HOME);
+      }
+      if (authType === LoginStatus.ACG) {
+        api.acg.login();
+      }
     } catch (error) {
       setLoading(false);
       console.log(error);
