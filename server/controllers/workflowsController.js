@@ -1,9 +1,10 @@
-const docusign = require('docusign-maestro');
+const fs = require('fs');
+const docusign = require('docusign-esign');
 const validator = require('validator');
 const config = require('../config');
 const { createWorkflow, publishWorkflow } = require('../utils/workflowUtils.js');
 const path = require('path');
-const { METHOD, TEMPLATE_TYPE } = require('../constants');
+const { METHOD, TEMPLATE_TYPE, scopes } = require('../constants');
 
 const oAuth = docusign.ApiClient.OAuth;
 const restApi = docusign.ApiClient.RestApi;
@@ -23,11 +24,12 @@ class WorkflowsController {
   static eg = `mseg00${this.exampleNumber}`; // This example reference.
   static mustAuthenticate = '/ds/mustAuthenticate';
   static dsApi = new docusign.ApiClient();
-  static webformsScopes = ['webforms_read', 'webforms_instance_read', 'webforms_instance_write'];
-  static scopes = ['signature', 'aow_manage', 'impersonation'];
+  static scopes = scopes;
   static templatesPath = path.resolve(__dirname, '../assets/templates');
-  static i9Template = 'I9Template.json';
-  static offerLetterTemplate = 'OfferLetterTemplate.json';
+  // static i9Template = 'I9Template.json';
+  // static offerLetterTemplate = 'OfferLetterTemplate.json';
+  static i9Template = 'ExampleTemplate.json';
+  static offerLetterTemplate = 'ExampleTemplate.json';
 
   // For production environment, change "DEMO" to "PRODUCTION"
   static basePath = restApi.BasePath.DEMO; // https://demo.docusign.net/restapi
@@ -112,14 +114,16 @@ class WorkflowsController {
     }
 
     const args = {
-      accessToken: req.user.userId,
+      basePath: 'https://demo.docusign.net/restapi',
+      accessToken: req.user.accessToken,
       accountId: req.session.accountId,
       templateType: req.body.templateType,
       docFile: path.resolve(this.templatesPath, templateFile),
+      templateName: 'Example Template(1)',
     };
 
     this.dsApi.setBasePath(args.basePath);
-    this.dsApi.addDefaultHeader('Authorization', 'Bearer ' + args.accessToken);
+    this.dsApi.addDefaultHeader('Authorization', `Bearer ${args.accessToken}`);
     let templatesApi = new docusign.TemplatesApi(this.dsApi);
     let results = null;
     let templateId = null; // the template that exists or will be created.
@@ -127,11 +131,15 @@ class WorkflowsController {
     let createdNewTemplate = null;
     // Step 1. See if the template already exists
     // Exceptions will be caught by the calling function
+
+    // results = await templatesApi.listTemplates(args.accountId, function (error, templateList, response) {
+    //   console.log('first');
+    // });
     results = await templatesApi.listTemplates(args.accountId, {
       searchText: args.templateName,
     });
 
-    if (results.resultSetSize > 0) {
+    if (results.resultSetSize && Number(results.resultSetSize) > 0) {
       templateId = results.envelopeTemplates[0].templateId;
       resultsTemplateName = results.envelopeTemplates[0].name;
       createdNewTemplate = false;
@@ -166,7 +174,8 @@ class WorkflowsController {
   static createWorkflow = async (req, res) => {
     let templateId;
     if (!req.session.templateId) {
-      templateId = await this.createTemplate(req).templateId;
+      const templateResponse = await this.createTemplate(req);
+      templateId = templateResponse.templateId;
     } else {
       templateId = req.session.templateId;
     }
@@ -181,20 +190,10 @@ class WorkflowsController {
     let results = null;
 
     try {
-      req.session.workflowId = await createWorkflow(args);
-      const consentUrl = await publishWorkflow(args, req.session.workflowId);
-      if (consentUrl) {
-        const urlScopes = this.scopes.concat(this.webformsScopes).join('+');
-
-        const consentUrl =
-          `${config.dsOauthServer}/oauth/auth?response_type=code&` +
-          `scope=${urlScopes}&client_id=${config.clientId}&` +
-          `redirect_uri=${config.redirectUri}`;
-
-        console.log(consentUrl);
-
-        res.status(210).send(consentUrl);
-      }
+      const workflow = await createWorkflow(args);
+      // const consentUrl = await publishWorkflow(args, req.session.workflowId);
+      const workflowResponse = { ...workflow.workflowDefinition, workflowDefinitionId: workflow.workflowDefinitionId };
+      res.json(workflowResponse);
     } catch (error) {
       const errorCode = error?.response?.statusCode;
       const errorMessage = error?.response?.body?.message;
@@ -319,6 +318,112 @@ class WorkflowsController {
     if (results) {
       res.status(200).send(results);
     }
+  };
+
+  static makeTemplate = args => {
+    const docPdfBytes = fs.readFileSync(args.docFile);
+    const docB64 = Buffer.from(docPdfBytes).toString('base64');
+
+    // add the documents
+    const doc = new docusign.Document.constructFromObject({
+      documentBase64: docB64,
+      name: 'Lorem Ipsum',
+      fileExtension: 'pdf',
+      documentId: '1',
+    });
+
+    // Create fields
+    const signHere = docusign.SignHere.constructFromObject({
+      documentId: '1',
+      tabLabel: 'Signature',
+      anchorString: '/SignHere/',
+      anchorUnits: 'pixels',
+      anchorXOffset: '20',
+      anchorYOffset: '10',
+    });
+    const check = docusign.Checkbox.constructFromObject({
+      documentId: '1',
+      tabLabel: 'Yes',
+      anchorString: '/SMS/',
+      anchorUnits: 'pixels',
+      anchorXOffset: '20',
+      anchorYOffset: '10',
+    });
+    const text1 = docusign.Text.constructFromObject({
+      documentId: '1',
+      tabLabel: 'FullName',
+      anchorString: '/FullName/',
+      anchorUnits: 'pixels',
+      anchorXOffset: '20',
+      anchorYOffset: '10',
+    });
+    const text2 = docusign.Text.constructFromObject({
+      documentId: '1',
+      tabLabel: 'PhoneNumber',
+      anchorString: '/PhoneNumber/',
+      anchorUnits: 'pixels',
+      anchorXOffset: '20',
+      anchorYOffset: '10',
+    });
+    const text3 = docusign.Text.constructFromObject({
+      documentId: '1',
+      tabLabel: 'Company',
+      anchorString: '/Company/',
+      anchorUnits: 'pixels',
+      anchorXOffset: '20',
+      anchorYOffset: '10',
+    });
+    const text4 = docusign.Text.constructFromObject({
+      documentId: '1',
+      tabLabel: 'JobTitle',
+      anchorString: '/JobTitle/',
+      anchorUnits: 'pixels',
+      anchorXOffset: '20',
+      anchorYOffset: '10',
+    });
+    const dateSigned = docusign.DateSigned.constructFromObject({
+      documentId: '1',
+      tabLabel: 'DateSigned',
+      anchorString: '/Date/',
+      anchorUnits: 'pixels',
+      anchorXOffset: '20',
+      anchorYOffset: '10',
+    });
+
+    // Tabs are set per recipient / signer
+    const signerTabs = docusign.Tabs.constructFromObject({
+      checkboxTabs: [check],
+      signHereTabs: [signHere],
+      textTabs: [text1, text2, text3, text4],
+      dateSigned: [dateSigned],
+    });
+
+    // create a signer recipient
+    const signer = docusign.Signer.constructFromObject({
+      roleName: 'signer',
+      recipientId: '1',
+      routingOrder: '1',
+      tabs: signerTabs,
+    });
+
+    // Add the recipients to the env object
+    const recipients = docusign.Recipients.constructFromObject({
+      signers: [signer],
+    });
+
+    // create the overall template definition
+    const template = new docusign.EnvelopeTemplate.constructFromObject({
+      // The order in the docs array determines the order in the env
+      documents: [doc],
+      emailSubject: 'Please sign this document',
+      description: 'Example template created via the API',
+      name: args.templateName,
+      shared: 'false',
+      recipients: recipients,
+      status: 'created',
+    });
+
+    return template;
   };
 }
 

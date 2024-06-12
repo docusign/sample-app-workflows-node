@@ -21,7 +21,7 @@ const config = {
     nodeEnv === 'development'
       ? readRequiredEnvVariable('FRONTEND_DEV_HOST')
       : readRequiredEnvVariable('FRONTEND_PROD_HOST'),
-  maestroApiURL: readRequiredEnvVariable('MAESTRO_API'),
+  maestroApiUrl: readRequiredEnvVariable('MAESTRO_API'),
 };
 
 module.exports = config;

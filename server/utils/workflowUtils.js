@@ -574,7 +574,7 @@ async function createWorkflow(args) {
   const workflowManagementApi = new docusign.WorkflowManagementApi(dsApiClient);
   const workflow = await workflowManagementApi.createWorkflowDefinition({ workflowDefinition }, args.accountId);
 
-  return workflow.workflowDefinitionId;
+  return workflow;
 }
 
 async function publishWorkflow(args, workflowId) {

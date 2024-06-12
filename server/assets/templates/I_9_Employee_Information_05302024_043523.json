@@ -1,1 +1,228 @@
-{"id":"26786393-742f-46e8-88b7-d8eae13d5ec4","accountId":"0820f9c5-0d81-489a-bcc9-8a0df87f44aa","isPublished":true,"isEnabled":true,"hasDraftChanges":false,"formState":"active","formProperties":{"name":"I-9 Employee Information","isPrivateAccess":false},"formMetadata":{"source":"blank","createdDateTime":"2024-05-17T17:34:55.196Z","publishedSlug":"9e3e9ca52c84f5c0b3a067b6aac7157b","owner":{"userId":"8cb9aa3f-ceb6-4424-bdfc-f6ce2e16dad1","userName":"Paige Test"},"lastModifiedDateTime":"2024-05-17T18:48:27.365Z","lastModifiedBy":{"userId":"8cb9aa3f-ceb6-4424-bdfc-f6ce2e16dad1","userName":"Paige Test"},"publishedComponentNames":{"TextBox_LastName":"TextBox","TextBox_FirstName":"TextBox","TextBox_MiddleInitial":"TextBox","TextBox_AddressStreet":"TextBox","TextBox_AptNumber":"TextBox","TextBox_AddressCity":"TextBox","TextBox_Zip":"TextBox","Date_DOB":"Date","TextBox_SSN":"TextBox","TextBox_B2dpWert":"TextBox","RadioButtonGroup_blYIOPvk":"RadioButtonGroup","TextBox_Phone":"TextBox"},"admModelNamespace":"docusign.forms._0820f9c5_0d81_489a_bcc9_8a0df87f44aa._26786393_742f_46e8_88b7_d8eae13d5ec4","formContentModifiedBy":{"userId":"8cb9aa3f-ceb6-4424-bdfc-f6ce2e16dad1","userName":"Paige Test"},"formContentModifiedDateTime":"2024-05-17T18:48:22.290Z","admModelVersion":"1.2.0","type":"standalone","formPropertiesModifiedBy":{"userId":"8cb9aa3f-ceb6-4424-bdfc-f6ce2e16dad1","userName":"Paige Test"},"formPropertiesModifiedDateTime":"2024-05-17T17:57:58.170Z","lastPublishedBy":{"userId":"8cb9aa3f-ceb6-4424-bdfc-f6ce2e16dad1","userName":"Paige Test"},"lastPublishedDateTime":"2024-05-17T18:48:27.365Z","lastEnabledBy":{"userId":"8cb9aa3f-ceb6-4424-bdfc-f6ce2e16dad1","userName":"Paige Test"},"lastEnabledDateTime":"2024-05-17T18:48:27.365Z"},"formContent":{"components":{"Root_Of_Journey":{"text":"","children":["Welcome_gjL8sau4","Step_OhikndvS","Summary_qGyvUC3u","FormSubmitAction_JW0CRBX2","Thankyou_WVi6wbDL"],"componentKey":"Root_Of_Journey","componentType":"Root","componentName":"Root_Of_Journey","componentRules":{}},"Welcome_gjL8sau4":{"text":"I-9 Employee Information","subText":"Please use this form to populate the I-9 form with your information.","startButtonText":"Start","componentKey":"Welcome_gjL8sau4","componentType":"Welcome"},"Step_OhikndvS":{"componentKey":"Step_OhikndvS","componentType":"Step","componentName":"Step_OhikndvS","text":"Employee Information","children":["TextBox_cKLmV54o","TextBox_kcoElbIa","TextBox_Dfjd9UGn","TextBox_BKuRCkRn","TextBox_GgWxYlR5","TextBox_r3RRkFgB","TextBox_3igKtq4O","Date_57duiBOz","TextBox_7XvkMVbO","TextBox_B2dpWert","RadioButtonGroup_blYIOPvk"]},"Summary_qGyvUC3u":{"text":"Summary","subText":"Please review the information you have entered:","componentKey":"Summary_qGyvUC3u","componentType":"Summary"},"FormSubmitAction_JW0CRBX2":{"componentKey":"FormSubmitAction_JW0CRBX2","componentType":"FormSubmitAction"},"Thankyou_WVi6wbDL":{"text":"Thank you","subText":"We've received your form.","showConfirmationButton":false,"confirmationButtonText":"Done","confirmationButtonUrl":"","componentKey":"Thankyou_WVi6wbDL","componentType":"Thankyou"},"TextBox_cKLmV54o":{"label":"Last Name","maxLength":4000,"componentKey":"TextBox_cKLmV54o","componentType":"TextBox","componentName":"TextBox_LastName","required":true},"TextBox_kcoElbIa":{"label":"First Name","maxLength":4000,"componentKey":"TextBox_kcoElbIa","componentType":"TextBox","componentName":"TextBox_FirstName","required":true},"TextBox_Dfjd9UGn":{"label":"Middle Initial","maxLength":4000,"componentKey":"TextBox_Dfjd9UGn","componentType":"TextBox","componentName":"TextBox_MiddleInitial"},"TextBox_BKuRCkRn":{"label":"Address (Street Number and Name)","maxLength":4000,"componentKey":"TextBox_BKuRCkRn","componentType":"TextBox","componentName":"TextBox_AddressStreet","required":true},"TextBox_GgWxYlR5":{"label":"Apt Number","maxLength":4000,"componentKey":"TextBox_GgWxYlR5","componentType":"TextBox","componentName":"TextBox_AptNumber"},"TextBox_r3RRkFgB":{"label":"City or Town","maxLength":4000,"componentKey":"TextBox_r3RRkFgB","componentType":"TextBox","componentName":"TextBox_AddressCity","required":true},"TextBox_3igKtq4O":{"label":"ZIP Code","maxLength":4000,"componentKey":"TextBox_3igKtq4O","componentType":"TextBox","componentName":"TextBox_Zip","required":true,"predefinedValidation":"zip","multiLine":false},"Date_57duiBOz":{"label":"Date of Birth","predefinedValidation":"MM_dd_yyyy","description":"Please format as mm/dd/yyyy","componentKey":"Date_57duiBOz","componentType":"Date","componentName":"Date_DOB","required":true,"placeholder":"MM/DD/YYYY"},"TextBox_7XvkMVbO":{"label":"U.S. Social Security Number","maxLength":4000,"componentKey":"TextBox_7XvkMVbO","componentType":"TextBox","componentName":"TextBox_SSN","required":true,"predefinedValidation":"ssn","multiLine":false},"TextBox_B2dpWert":{"label":"Phone Number","maxLength":4000,"componentKey":"TextBox_B2dpWert","componentType":"TextBox","componentName":"TextBox_Phone","validation":{"expression":"djTextValueMatchesRegex(This_component, \"^(\\\\+\\\\d{1,2}\\\\s)?\\\\(?\\\\d{3}\\\\)?[\\\\s.-]\\\\d{3}[\\\\s.-]\\\\d{4}$\")","errorMsg":"Please enter a valid phone number"},"multiLine":false,"defaultValue":"555-555-5555"},"RadioButtonGroup_blYIOPvk":{"label":"Citizen or Immigration Status","options":[{"optionKey":"o8w6hiTs","label":"A citizen of the U.S.","value":"US_Citizen","description":""},{"optionKey":"1MnrvbyU","value":"Noncitizen_National_US","label":"A noncitizen national of the U.S.","description":"","selected":false},{"optionKey":"L5IF5d0u","value":"PermanentResident","label":"A lawful permanent resident ","description":"","selected":false},{"optionKey":"Fh4VJFo2","value":"Noncitizen","label":"A noncitizen","description":"","selected":false}],"required":true,"componentKey":"RadioButtonGroup_blYIOPvk","componentType":"RadioButtonGroup","componentName":"RadioButtonGroup_blYIOPvk","description":"Check one of the following boxes to attest to your citizenship or immigration status"}},"isStandalone":true,"templates":[]},"formLocale":"en","versionId":3,"eSignTemplates":[]}
+{
+  "id": "26786393-742f-46e8-88b7-d8eae13d5ec4",
+  "accountId": "0820f9c5-0d81-489a-bcc9-8a0df87f44aa",
+  "isPublished": true,
+  "isEnabled": true,
+  "hasDraftChanges": false,
+  "formState": "active",
+  "formProperties": { "name": "I-9 Employee Information", "isPrivateAccess": false },
+  "formMetadata": {
+    "source": "blank",
+    "createdDateTime": "2024-05-17T17:34:55.196Z",
+    "publishedSlug": "9e3e9ca52c84f5c0b3a067b6aac7157b",
+    "owner": { "userId": "8cb9aa3f-ceb6-4424-bdfc-f6ce2e16dad1", "userName": "Paige Test" },
+    "lastModifiedDateTime": "2024-05-17T18:48:27.365Z",
+    "lastModifiedBy": { "userId": "8cb9aa3f-ceb6-4424-bdfc-f6ce2e16dad1", "userName": "Paige Test" },
+    "publishedComponentNames": {
+      "TextBox_LastName": "TextBox",
+      "TextBox_FirstName": "TextBox",
+      "TextBox_MiddleInitial": "TextBox",
+      "TextBox_AddressStreet": "TextBox",
+      "TextBox_AptNumber": "TextBox",
+      "TextBox_AddressCity": "TextBox",
+      "TextBox_Zip": "TextBox",
+      "Date_DOB": "Date",
+      "TextBox_SSN": "TextBox",
+      "TextBox_B2dpWert": "TextBox",
+      "RadioButtonGroup_blYIOPvk": "RadioButtonGroup",
+      "TextBox_Phone": "TextBox"
+    },
+    "admModelNamespace": "docusign.forms._0820f9c5_0d81_489a_bcc9_8a0df87f44aa._26786393_742f_46e8_88b7_d8eae13d5ec4",
+    "formContentModifiedBy": { "userId": "8cb9aa3f-ceb6-4424-bdfc-f6ce2e16dad1", "userName": "Paige Test" },
+    "formContentModifiedDateTime": "2024-05-17T18:48:22.290Z",
+    "admModelVersion": "1.2.0",
+    "type": "standalone",
+    "formPropertiesModifiedBy": { "userId": "8cb9aa3f-ceb6-4424-bdfc-f6ce2e16dad1", "userName": "Paige Test" },
+    "formPropertiesModifiedDateTime": "2024-05-17T17:57:58.170Z",
+    "lastPublishedBy": { "userId": "8cb9aa3f-ceb6-4424-bdfc-f6ce2e16dad1", "userName": "Paige Test" },
+    "lastPublishedDateTime": "2024-05-17T18:48:27.365Z",
+    "lastEnabledBy": { "userId": "8cb9aa3f-ceb6-4424-bdfc-f6ce2e16dad1", "userName": "Paige Test" },
+    "lastEnabledDateTime": "2024-05-17T18:48:27.365Z"
+  },
+  "formContent": {
+    "components": {
+      "Root_Of_Journey": {
+        "text": "",
+        "children": [
+          "Welcome_gjL8sau4",
+          "Step_OhikndvS",
+          "Summary_qGyvUC3u",
+          "FormSubmitAction_JW0CRBX2",
+          "Thankyou_WVi6wbDL"
+        ],
+        "componentKey": "Root_Of_Journey",
+        "componentType": "Root",
+        "componentName": "Root_Of_Journey",
+        "componentRules": {}
+      },
+      "Welcome_gjL8sau4": {
+        "text": "I-9 Employee Information",
+        "subText": "Please use this form to populate the I-9 form with your information.",
+        "startButtonText": "Start",
+        "componentKey": "Welcome_gjL8sau4",
+        "componentType": "Welcome"
+      },
+      "Step_OhikndvS": {
+        "componentKey": "Step_OhikndvS",
+        "componentType": "Step",
+        "componentName": "Step_OhikndvS",
+        "text": "Employee Information",
+        "children": [
+          "TextBox_cKLmV54o",
+          "TextBox_kcoElbIa",
+          "TextBox_Dfjd9UGn",
+          "TextBox_BKuRCkRn",
+          "TextBox_GgWxYlR5",
+          "TextBox_r3RRkFgB",
+          "TextBox_3igKtq4O",
+          "Date_57duiBOz",
+          "TextBox_7XvkMVbO",
+          "TextBox_B2dpWert",
+          "RadioButtonGroup_blYIOPvk"
+        ]
+      },
+      "Summary_qGyvUC3u": {
+        "text": "Summary",
+        "subText": "Please review the information you have entered:",
+        "componentKey": "Summary_qGyvUC3u",
+        "componentType": "Summary"
+      },
+      "FormSubmitAction_JW0CRBX2": { "componentKey": "FormSubmitAction_JW0CRBX2", "componentType": "FormSubmitAction" },
+      "Thankyou_WVi6wbDL": {
+        "text": "Thank you",
+        "subText": "We've received your form.",
+        "showConfirmationButton": false,
+        "confirmationButtonText": "Done",
+        "confirmationButtonUrl": "",
+        "componentKey": "Thankyou_WVi6wbDL",
+        "componentType": "Thankyou"
+      },
+      "TextBox_cKLmV54o": {
+        "label": "Last Name",
+        "maxLength": 4000,
+        "componentKey": "TextBox_cKLmV54o",
+        "componentType": "TextBox",
+        "componentName": "TextBox_LastName",
+        "required": true
+      },
+      "TextBox_kcoElbIa": {
+        "label": "First Name",
+        "maxLength": 4000,
+        "componentKey": "TextBox_kcoElbIa",
+        "componentType": "TextBox",
+        "componentName": "TextBox_FirstName",
+        "required": true
+      },
+      "TextBox_Dfjd9UGn": {
+        "label": "Middle Initial",
+        "maxLength": 4000,
+        "componentKey": "TextBox_Dfjd9UGn",
+        "componentType": "TextBox",
+        "componentName": "TextBox_MiddleInitial"
+      },
+      "TextBox_BKuRCkRn": {
+        "label": "Address (Street Number and Name)",
+        "maxLength": 4000,
+        "componentKey": "TextBox_BKuRCkRn",
+        "componentType": "TextBox",
+        "componentName": "TextBox_AddressStreet",
+        "required": true
+      },
+      "TextBox_GgWxYlR5": {
+        "label": "Apt Number",
+        "maxLength": 4000,
+        "componentKey": "TextBox_GgWxYlR5",
+        "componentType": "TextBox",
+        "componentName": "TextBox_AptNumber"
+      },
+      "TextBox_r3RRkFgB": {
+        "label": "City or Town",
+        "maxLength": 4000,
+        "componentKey": "TextBox_r3RRkFgB",
+        "componentType": "TextBox",
+        "componentName": "TextBox_AddressCity",
+        "required": true
+      },
+      "TextBox_3igKtq4O": {
+        "label": "ZIP Code",
+        "maxLength": 4000,
+        "componentKey": "TextBox_3igKtq4O",
+        "componentType": "TextBox",
+        "componentName": "TextBox_Zip",
+        "required": true,
+        "predefinedValidation": "zip",
+        "multiLine": false
+      },
+      "Date_57duiBOz": {
+        "label": "Date of Birth",
+        "predefinedValidation": "MM_dd_yyyy",
+        "description": "Please format as mm/dd/yyyy",
+        "componentKey": "Date_57duiBOz",
+        "componentType": "Date",
+        "componentName": "Date_DOB",
+        "required": true,
+        "placeholder": "MM/DD/YYYY"
+      },
+      "TextBox_7XvkMVbO": {
+        "label": "U.S. Social Security Number",
+        "maxLength": 4000,
+        "componentKey": "TextBox_7XvkMVbO",
+        "componentType": "TextBox",
+        "componentName": "TextBox_SSN",
+        "required": true,
+        "predefinedValidation": "ssn",
+        "multiLine": false
+      },
+      "TextBox_B2dpWert": {
+        "label": "Phone Number",
+        "maxLength": 4000,
+        "componentKey": "TextBox_B2dpWert",
+        "componentType": "TextBox",
+        "componentName": "TextBox_Phone",
+        "validation": {
+          "expression": "djTextValueMatchesRegex(This_component, \"^(\\\\+\\\\d{1,2}\\\\s)?\\\\(?\\\\d{3}\\\\)?[\\\\s.-]\\\\d{3}[\\\\s.-]\\\\d{4}$\")",
+          "errorMsg": "Please enter a valid phone number"
+        },
+        "multiLine": false,
+        "defaultValue": "555-555-5555"
+      },
+      "RadioButtonGroup_blYIOPvk": {
+        "label": "Citizen or Immigration Status",
+        "options": [
+          { "optionKey": "o8w6hiTs", "label": "A citizen of the U.S.", "value": "US_Citizen", "description": "" },
+          {
+            "optionKey": "1MnrvbyU",
+            "value": "Noncitizen_National_US",
+            "label": "A noncitizen national of the U.S.",
+            "description": "",
+            "selected": false
+          },
+          {
+            "optionKey": "L5IF5d0u",
+            "value": "PermanentResident",
+            "label": "A lawful permanent resident ",
+            "description": "",
+            "selected": false
+          },
+          {
+            "optionKey": "Fh4VJFo2",
+            "value": "Noncitizen",
+            "label": "A noncitizen",
+            "description": "",
+            "selected": false
+          }
+        ],
+        "required": true,
+        "componentKey": "RadioButtonGroup_blYIOPvk",
+        "componentType": "RadioButtonGroup",
+        "componentName": "RadioButtonGroup_blYIOPvk",
+        "description": "Check one of the following boxes to attest to your citizenship or immigration status"
+      }
+    },
+    "isStandalone": true,
+    "templates": []
+  },
+  "formLocale": "en",
+  "versionId": 3,
+  "eSignTemplates": []
+}

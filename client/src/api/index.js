@@ -12,6 +12,12 @@ export const api = Object.freeze({
     // Login by JSON Web Token
     login: async () => {
       const res = await instance.get('/auth/jwt/login');
+      // If user has never logged in before, redirect to consent screen
+      if (res.status === 210) {
+        window.location = res.data;
+        return;
+      }
+
       return res;
     },
     logout: async () => {
@@ -41,12 +47,9 @@ export const api = Object.freeze({
     },
   },
   workflows: {
-    createWorkflow: async (templateType) => {
+    createWorkflow: async templateType => {
       const res = await instance.post('/workflows/create', { templateType: templateType });
-      // If user has never logged in before, redirect to consent screen
-      if (res.status === 210) {
-        window.location = res.data;
-      }
+      return res;
     },
-  }
+  },
 });
