@@ -10,8 +10,8 @@ const METHOD = {
 
 const TEMPLATE_TYPE = {
   I9: '1-9 document',
-  NDA: 'Offer letter',
-  OFFER: 'NDA document',
+  OFFER: 'Offer letter',
+  NDA: 'NDA document',
 };
 
 const MAESTRO_SCOPES = ['signature', 'aow_manage', 'impersonation'];

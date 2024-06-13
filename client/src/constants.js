@@ -22,9 +22,9 @@ export const WorkflowStatus = {
 };
 
 export const WorkflowOptions = [
-  { value: 'Create 1-9 document', type: "1-9 document", message: "You've successfully created a 1-9 document" },
-  { value: 'Create offer letter', type: "Offer letter", message: "You've successfully created Offer letter" },
-  { value: 'Create NDA document', type: "NDA document", message: "You've successfully created NDA document" },
+  { value: 'Create 1-9 document', type: "1-9 document", message: "You've successfully created a 1-9 workflow" },
+  { value: 'Create offer letter', type: "Offer letter", message: "You've successfully created Offer letter workflow" },
+  { value: 'Create NDA document', type: "NDA document", message: "You've successfully created NDA workflow" },
 ];
 
 export const JWTWorkflowTypes = [

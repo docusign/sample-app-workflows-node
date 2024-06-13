@@ -28,7 +28,7 @@ class WorkflowsController {
   static templatesPath = path.resolve(__dirname, '../assets/templates');
   // static i9Template = 'I9Template.json';
   // static offerLetterTemplate = 'OfferLetterTemplate.json';
-  static i9Template = 'ExampleTemplate.json';
+  static i9Template = 'I9Template.json';
   static offerLetterTemplate = 'ExampleTemplate.json';
 
   // For production environment, change "DEMO" to "PRODUCTION"
@@ -119,7 +119,7 @@ class WorkflowsController {
       accountId: req.session.accountId,
       templateType: req.body.templateType,
       docFile: path.resolve(this.templatesPath, templateFile),
-      templateName: 'Example Template(1)',
+      templateName: 'Example Template',
     };
 
     this.dsApi.setBasePath(args.basePath);
@@ -144,21 +144,9 @@ class WorkflowsController {
       resultsTemplateName = results.envelopeTemplates[0].name;
       createdNewTemplate = false;
     } else {
-      // Template doesn't exist. Therefore, create it...
-      // Step 2 Create the template
-      //ds-snippet-start:eSign8Step3
-      let templateReqObject = this.makeTemplate(args);
-      results = await templatesApi.createTemplate(args.accountId, {
-        envelopeTemplate: templateReqObject,
-      });
-      //ds-snippet-end:eSign8Step3
-      createdNewTemplate = true;
-      // Retrieve the new template Name / TemplateId
-      results = await templatesApi.listTemplates(args.accountId, {
-        searchText: args.templateName,
-      });
-      templateId = results.envelopeTemplates[0].templateId;
-      resultsTemplateName = results.envelopeTemplates[0].name;
+      return {
+        errorMessage: 'Template for this workflow is missing, make sure that you uploaded it on your account',
+      };
     }
 
     return {
@@ -175,39 +163,50 @@ class WorkflowsController {
     let templateId;
     if (!req.session.templateId) {
       const templateResponse = await this.createTemplate(req);
-      templateId = templateResponse.templateId;
+      if (templateResponse.templateId) {
+        templateId = templateResponse.templateId;
+      } else {
+        res.status(200).send({ err: templateResponse.errorMessage });
+      }
     } else {
       templateId = req.session.templateId;
     }
 
-    // Step 2. Call the worker method
-    const args = {
-      templateId: templateId,
-      accessToken: req.user.accessToken,
-      basePath: config.maestroApiUrl,
-      accountId: req.session.accountId,
-    };
-    let results = null;
+    if (templateId) {
+      // Step 2. Call the worker method
+      const args = {
+        templateId: templateId,
+        accessToken: req.user.accessToken,
+        basePath: config.maestroApiUrl,
+        accountId: req.session.accountId,
+      };
+      let results = null;
 
-    try {
-      const workflow = await createWorkflow(args);
-      // const consentUrl = await publishWorkflow(args, req.session.workflowId);
-      const workflowResponse = { ...workflow.workflowDefinition, workflowDefinitionId: workflow.workflowDefinitionId };
-      res.json(workflowResponse);
-    } catch (error) {
-      const errorCode = error?.response?.statusCode;
-      const errorMessage = error?.response?.body?.message;
-      let errorInfo;
+      try {
+        const workflow = await createWorkflow(args);
+        // const consentUrl = await publishWorkflow(args, req.session.workflowId);
+        const workflowResponse = {
+          ...workflow.workflowDefinition,
+          workflowDefinitionId: workflow.workflowDefinitionId,
+        };
+        res.json(workflowResponse);
+      } catch (error) {
+        const errorCode = error?.response?.statusCode;
+        const errorMessage = error?.response?.body?.message;
+        let errorInfo;
 
-      // use custom error message if Maestro is not enabled for the account
-      if (errorCode === 403) {
-        errorInfo = 'Contact Support to enable this Feature';
+        // use custom error message if Maestro is not enabled for the account
+        if (errorCode === 403) {
+          errorInfo = 'Contact Support to enable this Feature';
+        }
+
+        res.status(403).send({ err: error, errorCode, errorMessage, errorInfo });
+        return;
       }
 
-      res.status(403).send({ err: error, errorCode, errorMessage, errorInfo });
-    }
-    if (results) {
-      res.status(200).send(results);
+      if (results) {
+        res.status(200).send(results);
+      }
     }
   };
 

@@ -14,15 +14,15 @@ const LoginForm = ({ togglePopup, setLoading }) => {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    setLoading(true);
+    dispatch({ type: 'LOADING' });
 
     try {
       if (authType === LoginStatus.JWT) {
         const res = await api.jwt.login();
         dispatch({ type: 'LOGIN', authType, userName: res.data.name, userEmail: res.data.email });
-        setLoading(false);
-        togglePopup();
         navigate(ROUTE.HOME);
+        dispatch({ type: 'CLOSE' });
+        dispatch({ type: 'LOADED' });
       }
       if (authType === LoginStatus.ACG) {
         api.acg.login();
