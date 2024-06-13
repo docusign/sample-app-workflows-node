@@ -12,6 +12,7 @@ const Dropdown = props => {
 
   const togglePopup = () => {
     dispatch({ type: isOpened ? 'CLOSE' : 'OPEN' });
+    dispatch({ type: 'CLEAR_ERROR' });
   };
 
   const handleCreateWorkflow = async option => {
@@ -19,8 +20,12 @@ const Dropdown = props => {
     dispatch({ type: 'OPEN' });
     dispatch({ type: 'LOADING' });
     const responseWorkflow = await api.workflows.createWorkflow(option.type);
-    if (responseWorkflow.data.err) {
-      dispatch( { type: 'ERROR', payload: responseWorkflow.data.err });
+
+    if (responseWorkflow.status === 400) {
+      dispatch({
+        type: 'ERROR',
+        payload: { errorMessage: responseWorkflow.data.message, templateName: responseWorkflow.data.templateName },
+      });
     } else {
       dispatch({ type: 'ADD_WORKFLOW', payload: responseWorkflow.data });
     }

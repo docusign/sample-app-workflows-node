@@ -25,11 +25,10 @@ class WorkflowsController {
   static mustAuthenticate = '/ds/mustAuthenticate';
   static dsApi = new docusign.ApiClient();
   static scopes = scopes;
-  static templatesPath = path.resolve(__dirname, '../assets/templates');
-  // static i9Template = 'I9Template.json';
-  // static offerLetterTemplate = 'OfferLetterTemplate.json';
+  // static templatesPath = path.resolve(__dirname, '../assets/templates');
+  static templatesPath = path.join(path.resolve(), 'assets/templates');
   static i9Template = 'I9Template.json';
-  static offerLetterTemplate = 'ExampleTemplate.json';
+  static offerLetterTemplate = 'OfferLetterTemplate.json';
 
   // For production environment, change "DEMO" to "PRODUCTION"
   static basePath = restApi.BasePath.DEMO; // https://demo.docusign.net/restapi
@@ -113,13 +112,17 @@ class WorkflowsController {
         break;
     }
 
+    const templateFileBuffer = fs.readFileSync(path.resolve(this.templatesPath, templateFile), 'utf8');
+    const templateFileContent = JSON.parse(templateFileBuffer);
+
     const args = {
       basePath: 'https://demo.docusign.net/restapi',
       accessToken: req.user.accessToken,
       accountId: req.session.accountId,
       templateType: req.body.templateType,
       docFile: path.resolve(this.templatesPath, templateFile),
-      templateName: 'Example Template',
+      templateName: templateFileContent.name,
+      // templateName: 'Example Template',
     };
 
     this.dsApi.setBasePath(args.basePath);
@@ -145,7 +148,8 @@ class WorkflowsController {
       createdNewTemplate = false;
     } else {
       return {
-        errorMessage: 'Template for this workflow is missing, make sure that you uploaded it on your account',
+        message: 'Template for this workflow is missing, make sure that you uploaded it on your account',
+        templateName: this.i9Template,
       };
     }
 
@@ -166,7 +170,7 @@ class WorkflowsController {
       if (templateResponse.templateId) {
         templateId = templateResponse.templateId;
       } else {
-        res.status(200).send({ err: templateResponse.errorMessage });
+        res.status(400).send(templateResponse);
       }
     } else {
       templateId = req.session.templateId;
@@ -423,6 +427,15 @@ class WorkflowsController {
     });
 
     return template;
+  };
+
+  /**
+   * Download workflow template from assets/[name].json.
+   */
+  static downloadWorkflowTemplate = async (req, res) => {
+    const templateName = req.params.templateName;
+    const templatePath = path.resolve(this.templatesPath, templateName);
+    res.download(templatePath);
   };
 }
 
