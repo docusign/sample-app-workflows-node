@@ -1,16 +1,17 @@
-import { useState } from 'react';
 import Footer from '../../components/Footer/Footer.jsx';
 import Header from '../../components/Header/Header.jsx';
 
 import textContent from '../../assets/text.json';
 import styles from './Hero.module.css';
 import PopupLoginForm from '../../components/LoginForm/LoginForm.jsx';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Hero = () => {
-  const [isPopupOpen, togglePopupState] = useState(false);
+  const isOpened = useSelector(state => state.popup.isOpened);
+  const dispatch = useDispatch();
 
   const togglePopup = () => {
-    togglePopupState(!isPopupOpen);
+    dispatch({ type: isOpened ? 'CLOSE' : 'OPEN' });
   };
 
   return (
@@ -25,7 +26,7 @@ const Hero = () => {
           <button className="btn btn-secondary" onClick={togglePopup}>
             {textContent.hero.tryButton}
           </button>
-          {isPopupOpen ? (
+          {isOpened ? (
             <PopupLoginForm
               togglePopup={togglePopup}
               title={textContent.loader.title}

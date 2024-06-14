@@ -42,6 +42,8 @@
 
 .dropDownMenu {
     background-color: var(--black-main);
+    min-width: 290px;
+    max-width: 100%;
 }
 
 .dropDownMenu h4 {

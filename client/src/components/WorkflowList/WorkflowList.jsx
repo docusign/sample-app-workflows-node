@@ -50,7 +50,7 @@ const WorkflowList = ({ items, interactionType }) => {
         <div className={styles.emptyListContainer}>
           <h1>{'You don\'t have any workflows'}</h1>
           <Link to={ROUTE.HOME}>
-            <button className="btn btn-secondary" type="button">Create a new workflow</button>
+            <button className={styles.defaultButton} type="button">Create a new workflow</button>
           </Link>
         </div>
       }

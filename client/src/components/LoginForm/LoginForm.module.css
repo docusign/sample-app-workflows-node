@@ -1,6 +1,5 @@
 .form {
     text-align: center !important;
-    margin-top: 40px;
 }
 
 .form h3 {
@@ -27,7 +26,7 @@ input[type=radio] {
     width: 24px;
     height: 24px;
     margin-right: 10px;
-    margin-top: 0.25em;
+    margin-top: 0.35rem;
     accent-color: var(--secondary-main);
 }
 
@@ -42,6 +41,7 @@ input[type=radio] {
     font-weight: 500;
     width: 100%;
     align-items: center;
+    margin-top: -0.25rem;
 }
 
 .subLabel {
@@ -50,7 +50,7 @@ input[type=radio] {
     font-weight: 400;
     width: 100%;
     margin-left: 100px;
-    margin-top: -10px;
+    margin-top: -0.75rem;
 
     display: inline-block;
     color: var(--black-extralight);

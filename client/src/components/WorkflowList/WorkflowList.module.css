@@ -89,24 +89,22 @@
     text-align: center;
     font-size: 48px;
     font-weight: 600;
-    font-family: "Poppins", sans-serif;
 }
 
-.emptyListContainer button {
-    margin-top: 1rem;
-    width: 250px;
-    height: 40px;
-    text-align: center;
-    font-size: 16px;
-    font-weight: 500;
-    font-family: "Poppins", sans-serif;
-    color: var(--white-main);
-    background-color: var(--primary-main);
-    border-radius: 2px;
+.defaultButton {
+    margin-top: 1rem !important;
+    width: 250px !important;
+    height: 40px !important;
+    text-align: center !important;
+    font-size: 16px !important;
+    font-weight: 500 !important;
+    color: var(--white-main) !important;
+    background-color: var(--primary-main) !important;
+    border-radius: 2px !important;
 }
 
-.emptyListContainer button:hover {
-    background-color: var(--secondary-main);
+.defaultButton button:hover {
+    background-color: var(--secondary-main) !important;
 }
 
 .emptyListContainer a {

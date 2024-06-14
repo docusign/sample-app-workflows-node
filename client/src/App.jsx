@@ -21,6 +21,8 @@ function App() {
         const res = await api.acg.callbackExecute(code);
         dispatch({ type: 'LOGIN', authType: LoginStatus.ACG, userName: res.data.name, userEmail: res.data.email });
         navigate(ROUTE.HOME);
+        dispatch({ type: 'CLOSE' });
+        dispatch({ type: 'LOADED' });
       }
     };
 

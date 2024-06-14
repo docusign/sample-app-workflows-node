@@ -1,10 +1,15 @@
-import { useState } from 'react';
 import Loader from '../../components/Loader/Loader.jsx';
 import styles from './withPopup.module.css';
+import { useDispatch, useSelector } from 'react-redux';
 
 const withPopup = WrappedComponent => {
   const PopupHOC = props => {
-    const [loading, setLoading] = useState(false);
+    const isLoading = useSelector(state => state.popup.isLoading);
+    const dispatch = useDispatch();
+
+    const setLoading = (isLoading) => {
+      dispatch({ type: isLoading ? 'LOADING' : 'LOADED' });
+    };
 
     return (
       <div className={styles.popup}>
@@ -14,8 +19,8 @@ const withPopup = WrappedComponent => {
               &times;
             </span>
           </button>
-          {loading ? (
-            <Loader visible={loading} title={props.title} paragraph={props.paragraph} />
+          {isLoading ? (
+            <Loader visible={isLoading} title={props.title} paragraph={props.paragraph} />
           ) : (
             <WrappedComponent {...props} setLoading={setLoading} />
           )}
