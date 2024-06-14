@@ -48,8 +48,31 @@ export const api = Object.freeze({
   },
   workflows: {
     createWorkflow: async templateType => {
-      const res = await instance.post('/workflows/create', { templateType: templateType });
-      return res;
+      try {
+        const res = await instance.post('/workflows/create', { templateType: templateType });
+        return res;
+      } catch (error) {
+        if (error.response && error.response.status === 400) {
+          return error.response;
+        }
+        throw error;
+      }
+    },
+    downloadWorkflow: async templateName => {
+      // await instance.get(`/workflows/download/${templateName}`);
+      try {
+        const response = await fetch(`/workflows/download/${templateName}`);
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = templateName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      } catch (error) {
+        console.error('There was an error during donloading:', error);
+      }
     },
   },
 });

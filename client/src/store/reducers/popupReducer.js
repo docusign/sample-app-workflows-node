@@ -2,6 +2,7 @@ const initialState = {
   isOpened: false,
   isLoading: false,
   errorMessage: null,
+  templateName: null,
 };
 
 const authReducer = (state = initialState, action) => {
@@ -34,7 +35,15 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         isOpened: true,
-        errorMessage: action.payload,
+        errorMessage: action.payload.errorMessage,
+        templateName: action.payload.templateName,
+      };
+
+    case 'CLEAR_ERROR':
+      return {
+        ...state,
+        errorMessage: null,
+        templateName: null,
       };
 
     default:
