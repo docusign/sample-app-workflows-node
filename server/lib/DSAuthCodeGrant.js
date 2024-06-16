@@ -17,7 +17,6 @@ const moment = require('moment');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const config = require('../config');
-const { METHOD } = require('../constants');
 
 const baseUriSuffix = '/restapi';
 const tokenReplaceMinGet = 60; // For a form Get, the token must expire at least this number of
@@ -60,7 +59,6 @@ DSAuthCodeGrant.prototype.Error_invalid_grant = 'invalid_grant'; // message when
 DSAuthCodeGrant.prototype.login = function (req, res, next) {
   // Reset
   this.internalLogout(req, res);
-  req.session.authMethod = METHOD.ACG;
   passport.authenticate('docusign')(req, res, next);
 };
 
@@ -152,24 +150,26 @@ DSAuthCodeGrant.prototype.internalLogout = function _internalLogout(req, res) {
  * @function
  */
 DSAuthCodeGrant.prototype.isLoggedIn = function _isLoggedIn(req, res, next) {
-  let isLoggedIn = req.session.isLoggedIn;
+  if (req.session.isLoggedIn === undefined) {
+    req.session.isLoggedIn = false;
+  }
 
   try {
     const decoded = jwt.decode(req.session.passport.user.accessToken);
     if (!decoded) {
-      isLoggedIn = false;
-      return res.status(200).send(isLoggedIn);
+      req.session.isLoggedIn = false;
+      return res.status(200).send(req.session.isLoggedIn);
     }
 
     if (decoded.exp && Date.now() >= decoded.exp * 1000) {
-      isLoggedIn = false;
-      return res.status(200).send(isLoggedIn);
+      req.session.isLoggedIn = false;
+      return res.status(200).send(req.session.isLoggedIn);
     }
 
-    return res.status(200).send(isLoggedIn);
+    return res.status(200).send(req.session.isLoggedIn);
   } catch (error) {
-    isLoggedIn = false;
-    return res.status(200).send(isLoggedIn);
+    req.session.isLoggedIn = false;
+    return res.status(200).send(req.session.isLoggedIn);
   }
 };
 

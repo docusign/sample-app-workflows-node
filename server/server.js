@@ -7,16 +7,18 @@ const session = require('express-session'); // https://github.com/expressjs/sess
 const MemoryStore = require('memorystore')(session); // https://github.com/roccomuso/memorystore
 const passport = require('passport');
 const DSAuthCodeGrant = require('./lib/DSAuthCodeGrant');
-const DsJwtAuth = require('./lib/DSJwtAuth');
+const JwtController = require('./controllers/JWTController');
 const cors = require('cors');
 const chalk = require('chalk');
 const DocusignStrategy = require('passport-docusign');
 const moment = require('moment');
 const config = require('./config');
-const { scopes, BACKEND_ROUTE, METHOD } = require('./constants');
+const { scopes, BACKEND_ROUTE } = require('./constants');
 const authRouter = require('./routes/authRouter');
 const workflowsRouter = require('./routes/workflowsRouter');
+const createPrefixedLogger = require('./utils/logger');
 
+const logger = createPrefixedLogger();
 const maxSessionAge = 1000 * 60 * 60 * 24 * 1; // One day
 
 const app = express()
@@ -36,16 +38,16 @@ const app = express()
   )
   .use(passport.initialize())
   .use(passport.session())
-  // Add an instance of DSAuthCodeGrant to req
+  // Add an instance of dsAuthController to req
   .use((req, res, next) => {
     req.dsAuthCodeGrant = new DSAuthCodeGrant(req);
-    req.dsAuthJwt = new DsJwtAuth(req);
+    req.dsAuthJwt = new JwtController();
 
     switch (true) {
-      case req.session.authMethod === METHOD.JWT || req.url.startsWith(`${BACKEND_ROUTE.AUTH}/jwt`):
+      case req.url.startsWith(`${BACKEND_ROUTE.AUTH}/jwt`):
         req.dsAuth = req.dsAuthJwt;
         break;
-      case req.session.authMethod === METHOD.ACG || req.url.startsWith(`${BACKEND_ROUTE.AUTH}/passport`):
+      case req.url.startsWith(`${BACKEND_ROUTE.AUTH}/passport`):
         req.dsAuth = req.dsAuthCodeGrant;
         break;
       default:
@@ -63,10 +65,10 @@ app.use(BACKEND_ROUTE.WORKFLOWS, workflowsRouter);
 async function start() {
   try {
     app.listen(config.backendPort, () =>
-      console.log(chalk.black.bgBlueBright(`Server started and listening on port ${config.backendPort} ...`))
+      logger.info(chalk.black.bgBlueBright(`Server started and listening on port ${config.backendPort} ...`))
     );
   } catch (e) {
-    console.log(e.message);
+    logger.info(e.message);
     process.exit(1);
   }
 }

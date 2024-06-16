@@ -16,14 +16,8 @@ const authReducer = (state = initialState, action) => {
         userEmail: action.userEmail,
       };
 
-    case 'LOGOUT':
-      return {
-        ...state,
-        isAuthenticated: false,
-        authType: null,
-        userName: null,
-        userEmail: null,
-      };
+    case 'CLEAR_STATE':
+      return { ...initialState };
 
     default:
       return state;

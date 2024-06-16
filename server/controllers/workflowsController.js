@@ -4,7 +4,7 @@ const validator = require('validator');
 const config = require('../config');
 const { createWorkflow, publishWorkflow } = require('../utils/workflowUtils.js');
 const path = require('path');
-const { METHOD, TEMPLATE_TYPE, scopes } = require('../constants');
+const { TEMPLATE_TYPE, scopes } = require('../constants');
 
 const oAuth = docusign.ApiClient.OAuth;
 const restApi = docusign.ApiClient.RestApi;
@@ -25,7 +25,6 @@ class WorkflowsController {
   static mustAuthenticate = '/ds/mustAuthenticate';
   static dsApi = new docusign.ApiClient();
   static scopes = scopes;
-  // static templatesPath = path.resolve(__dirname, '../assets/templates');
   static templatesPath = path.join(path.resolve(), 'assets/templates');
   static i9Template = 'I9Template.json';
   static offerLetterTemplate = 'OfferLetterTemplate.json';
@@ -106,7 +105,7 @@ class WorkflowsController {
       // TODO: Add NDA Template File
       case TEMPLATE_TYPE.NDA:
         break;
-      // TODO: Add OfferLetter Template File
+
       case TEMPLATE_TYPE.OFFER:
         templateFile = this.offerLetterTemplate;
         break;
@@ -116,13 +115,12 @@ class WorkflowsController {
     const templateFileContent = JSON.parse(templateFileBuffer);
 
     const args = {
-      basePath: 'https://demo.docusign.net/restapi',
+      basePath: this.basePath,
       accessToken: req.user.accessToken,
       accountId: req.session.accountId,
       templateType: req.body.templateType,
       docFile: path.resolve(this.templatesPath, templateFile),
       templateName: templateFileContent.name,
-      // templateName: 'Example Template',
     };
 
     this.dsApi.setBasePath(args.basePath);
