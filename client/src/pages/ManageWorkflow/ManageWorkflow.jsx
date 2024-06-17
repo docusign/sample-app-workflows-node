@@ -11,12 +11,14 @@ import { useEffect, useState } from 'react';
 
 const ManageWorkflow = () => {
   const [workflowInstances, setWorkflowInstances] = useState([]);
-  const getWorkflowInstances = () => {
-    setWorkflowInstances(api.workflows.getWorkflowInstances().data);
-  };
 
   useEffect(() => {
-    getWorkflowInstances();
+    const getWorkflowInstances = async () => {
+      const response = await api.workflows.getWorkflowInstances();
+      setWorkflowInstances(response.data);
+    };
+
+    getWorkflowInstances().catch(console.error);
   }, []);
 
   return (

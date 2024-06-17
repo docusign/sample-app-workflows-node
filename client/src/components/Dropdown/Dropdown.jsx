@@ -28,7 +28,6 @@ const Dropdown = props => {
       });
     } else {
       dispatch({ type: 'ADD_WORKFLOW', payload: responseWorkflow.data });
-      dispatch({ type: "ERRORLESS" });
     }
     dispatch({ type: 'LOADED' });
     console.log('FullWorkflow ', responseWorkflow.data);
