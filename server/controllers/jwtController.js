@@ -1,12 +1,3 @@
-const fs = require('fs'); // Used to parse RSA key
-const path = require('path');
-const axios = require('axios');
-const docusign = require('docusign-esign');
-const moment = require('moment'); // Used to set and determine a token's expiration date
-const config = require('../config');
-const { scopes } = require('../constants');
-const createPrefixedLogger = require('../utils/logger');
-
 /**
  * @file
  * This file handles the JWT authentication with DocuSign.
@@ -18,6 +9,15 @@ const createPrefixedLogger = require('../utils/logger');
  * 5. Now you can use the access token and base URI to make API calls.
  * When the access token expires, create a new JWT and request a new access token.
  */
+
+const fs = require('fs'); // Used to parse RSA key
+const path = require('path');
+const axios = require('axios');
+const docusign = require('docusign-esign');
+const moment = require('moment'); // Used to set and determine a token's expiration date
+const config = require('../config');
+const { scopes } = require('../constants');
+const createPrefixedLogger = require('../utils/logger');
 
 const oAuth = docusign.ApiClient.OAuth;
 const restApi = docusign.ApiClient.RestApi;
@@ -87,6 +87,7 @@ class JwtController {
    */
   isLoggedIn(req, res, next) {
     const isTokenValid = this.checkToken(req);
+
     if (!isTokenValid) {
       this.internalLogout(req, res, next);
       res.status(200).send(false);
@@ -102,8 +103,8 @@ class JwtController {
    * @returns {boolean}
    */
   checkToken(req) {
-    const accessToken = req.session.accessToken;
-    const tokenExpires = req.session.tokenExpirationTimestamp;
+    const accessToken = req?.session?.accessToken;
+    const tokenExpires = req?.session?.tokenExpirationTimestamp;
     const noToken = !accessToken || !tokenExpires;
     const currentTime = moment();
     const bufferTime = 1; // One minute buffer time

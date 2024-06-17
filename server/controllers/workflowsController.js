@@ -9,14 +9,6 @@ const { TEMPLATE_TYPE, scopes } = require('../constants');
 const oAuth = docusign.ApiClient.OAuth;
 const restApi = docusign.ApiClient.RestApi;
 
-// JWT flow:
-// 1. Create consent URI and obtain user consent.
-// 2. Construct JWT using the IK and User ID, scope, RSA public and private key.
-// 3. Send POST containing the JWT to DS_AUTH_SERVER to get access token.
-// 4. Using the access token, send a POST to get the user's base URI (account_id + base_uri).
-// 5. Now you can use the access token and base URI to make API calls.
-// When the access token expires, create a new JWT and request a new access token.
-
 class WorkflowsController {
   // Constants
   static minimumBufferMin = 3;
@@ -295,7 +287,7 @@ class WorkflowsController {
       ccName: validator.escape(body.ccName),
       workflowId: req.session.workflowId,
       accessToken: req.user.accessToken,
-      basePath: config.maestroApiURL,
+      basePath: config.maestroApiUrl,
       accountId: req.session.accountId,
     };
     let results = null;
