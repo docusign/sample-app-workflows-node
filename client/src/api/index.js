@@ -47,9 +47,9 @@ export const api = Object.freeze({
     },
   },
   workflows: {
-    cancelWorkflowInstance: async workflow => {
+    cancelWorkflowInstance: async (workflow) => {
       try {
-        const res = await instance.put(`/workflows/${workflow.instanceId}cancel`);
+        const res = await instance.put(`/workflows/${workflow.definitionId}/instances/${workflow.instanceId}/cancel`);
         return res;
       } catch (error) {
         if (error.response && error.response.status === 400) {
@@ -58,7 +58,6 @@ export const api = Object.freeze({
         throw error;
       }
     },
-
     createWorkflowDefinition: async templateType => {
       try {
         const res = await instance.post('/workflows/create', { templateType: templateType });
@@ -83,17 +82,15 @@ export const api = Object.freeze({
         a.click();
         document.body.removeChild(a);
       } catch (error) {
-        console.error('There was an error during donloading:', error);
+        console.error('There was an error during downloading:', error);
       }
     },
-
     getWorkflowInstance: async (workflow) => {
-      const res = await instance.get(`/workflows/instances/${workflow.instanceId}`);
+      const res = await instance.get(`/workflows/${workflow.definitionId}/instances/${workflow.instanceId}`);
       return res;
     },
-
-    getWorkflowInstances: async () => {
-      const res = await instance.get('/workflows/instances');
+    getWorkflowInstances: async (definitionId) => {
+      const res = await instance.get(`/workflows/${definitionId}/instances`);
       return res;
     },
   },

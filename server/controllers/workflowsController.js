@@ -14,7 +14,6 @@ const validator = require('validator');
 const config = require('../config');
 const workflowsUtils = require('../utils/workflowsUtils');
 const path = require('path');
-const createPrefixedLogger = require('../utils/logger');
 const oAuth = docusign.ApiClient.OAuth;
 const restApi = docusign.ApiClient.RestApi;
 
@@ -26,16 +25,12 @@ class WorkflowsController {
   static basePath = restApi.BasePath.DEMO; // https://demo.docusign.net/restapi
   static oAuthBasePath = oAuth.BasePath.DEMO; // account-d.docusign.com
 
-  constructor() {
-    this.logger = createPrefixedLogger(WorkflowsController.name);
-  }
-
   /**
    * Cancels workflow instance and sends a response.
    */
   static cancelWorkflow = async (req, res) => {
     const args = {
-      instanceId: req.session.instanceId,
+      instanceId: req.params.instanceId,
       accessToken: req.user.accessToken,
       basePath: config.maestroApiUrl,
       accountId: req.session.accountId,
@@ -127,8 +122,8 @@ class WorkflowsController {
    */
   static getWorkflowInstance = async (req, res) => {
     const args = {
-      instanceId: req.session.instanceId,
-      definitionId: req.session.workflowDefinitionId,
+      instanceId: req.params.instanceId,
+      definitionId: req.params.definitionId,
       accessToken: req.user.accessToken,
       basePath: config.maestroApiUrl,
       accountId: req.session.accountId,
@@ -159,7 +154,7 @@ class WorkflowsController {
    */
   static getWorkflowInstances = async (req, res) => {
     const args = {
-      definitionId: req.session.workflowDefinitionId,
+      definitionId: req.params.definitionId,
       accessToken: req.user.accessToken,
       basePath: config.maestroApiUrl,
       accountId: req.session.accountId,

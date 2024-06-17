@@ -34,12 +34,12 @@ const WorkflowList = ({ items, interactionType }) => {
                   </button>
                   <div className={`dropdown-menu dropdown-menu-right ${styles.dropdownMenu}`}>
                     <a className={`dropdown-item ${styles.dropdownItem}`} href="#" onClick={() => {
-                      item = api.workflows.getWorkflowInstance(item);
-                      dispatch({ type: 'GET_WORKFLOW' });
+                      let updatedItem = api.workflows.getWorkflowInstance(item);
+                      dispatch({ type: 'UPDATE_WORKFLOW', updatedItem });
                     }}>Update workflow status</a>
                     <a className={`dropdown-item ${styles.dropdownItem}`} href="#" onClick={() => {
                       api.workflows.cancelWorkflowInstance(item);
-                      dispatch({ type: 'CANCEL_WORKFLOW' });
+                      dispatch({ type: 'CANCEL_WORKFLOW', item });
                     }}>Cancel workflow</a>
                   </div>
                 </div>

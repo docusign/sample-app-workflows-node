@@ -1,10 +1,21 @@
+/**
+ * @file
+ * This file handles work with docusign maestro and esign services.
+ * Scenarios implemented:
+ * - Workflow definition creation.
+ * - Workflow definition publishing.
+ * - Workflow definition triggering, which create workflow instance.
+ * - Workflow instance cancellation.
+ * - Workflow instance fetching.
+ */
+
+
 const docusign = require('docusign-maestro');
 const docusignEsign = require('docusign-esign');
 const uuid = require('uuid');
 const path = require('path');
 const { TEMPLATE_TYPE } = require('../constants');
 const fs = require('fs');
-const createPrefixedLogger = require('./logger');
 const oAuth = docusign.ApiClient.OAuth;
 const restApi = docusign.ApiClient.RestApi;
 
@@ -21,10 +32,6 @@ class WorkflowsUtils {
   // For production environment, change "DEMO" to "PRODUCTION"
   static basePath = restApi.BasePath.DEMO; // https://demo.docusign.net/restapi
   static oAuthBasePath = oAuth.BasePath.DEMO; // account-d.docusign.com
-
-  constructor() {
-    this.logger = createPrefixedLogger(WorkflowsUtils.name);
-  }
 
   static cancelWorkflowInstance = async args => {
     this.dsApiClient.setBasePath(this.basePath);
