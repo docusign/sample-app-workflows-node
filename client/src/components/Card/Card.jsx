@@ -1,20 +1,9 @@
-import { useState } from 'react';
 import styles from './Card.module.css';
 import { Link } from 'react-router-dom';
 import Dropdown from '../Dropdown/Dropdown.jsx';
-import { LoginStatus, WorkflowOptions } from '../../constants.js';
-import { useSelector } from 'react-redux';
-import WrappedAcgPrompt from '../Popups/AcgPrompt/AcgPrompt.jsx';
+import { WorkflowOptions } from '../../constants.js';
 
 const Card = props => {
-  const authType = useSelector(state => state.auth.authType);
-  const [isPopupOpen, togglePopupState] = useState(false);
-
-  const togglePopup = e => {
-    e.preventDefault();
-    togglePopupState(!isPopupOpen);
-  };
-
   return (
     <div className={styles.cardBody}>
       <div className={styles.cardContainer}>
@@ -29,16 +18,7 @@ const Card = props => {
           </Link>
         ) : (
           <div>
-            {authType !== LoginStatus.ACG ? (
-              <div>
-                <button className="btn btn-secondary" type="button" onClick={togglePopup}>
-                  Get Started
-                </button>
-                {isPopupOpen ? <WrappedAcgPrompt togglePopup={togglePopup} /> : null}
-              </div>
-            ) : (
-              <Dropdown options={WorkflowOptions} />
-            )}
+            <Dropdown options={WorkflowOptions} />
           </div>
         )}
       </div>

@@ -1,4 +1,4 @@
-import WorkflowCreationPopup from '../Popups/WorkflowCreation/WorkflowCreation.jsx';
+import WorkflowCreationPopup from '../Popups/WorkflowDefinitionCreation/WorkflowDefinitionCreation.jsx';
 import { useState } from 'react';
 import { api } from '../../api';
 
@@ -19,7 +19,7 @@ const Dropdown = props => {
     setSelectedDocument(option.value);
     dispatch({ type: 'OPEN' });
     dispatch({ type: 'LOADING' });
-    const responseWorkflow = await api.workflows.createWorkflow(option.type);
+    const responseWorkflow = await api.workflows.createWorkflowDefinition(option.type);
 
     if (responseWorkflow.status === 400) {
       dispatch({

@@ -12,16 +12,26 @@ const workflowsReducer = (state = initialState, action) => {
         workflows: [...state.workflows, action.payload],
       };
 
-    case 'GET_WORKFLOW':
-      return {
-        ...state,
-        workflows: [...state.workflows, action.payload],
-      };
-
     case 'CANCEL_WORKFLOW':
       return {
         ...state,
-        workflows: [...state.workflows, action.payload],
+        workflows: state.workflows.map(
+          item =>
+            item.instanceId === action.payload.instanceId
+              ? action.payload
+              : item,
+        ),
+      };
+
+    case 'UPDATE_WORKFLOW':
+      return {
+        ...state,
+        workflows: state.workflows.map(
+          item =>
+            item.instanceId === action.payload.instanceId
+              ? action.payload
+              : item,
+        ),
       };
 
     case 'CLEAR_STATE':

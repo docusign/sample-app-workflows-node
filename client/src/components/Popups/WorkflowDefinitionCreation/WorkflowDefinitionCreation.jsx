@@ -1,19 +1,23 @@
-import { useSelector } from 'react-redux';
 import withPopup from '../../../hocs/withPopup/withPopup.jsx';
-import imgError from '../../../assets/img/workflow-trigger.svg';
-import imgSuccess from '../../../assets/img/success.svg';
 import { Link } from 'react-router-dom';
-import styles from './WorkflowCreation.module.css';
 import { ROUTE } from '../../../constants.js';
 import { api } from '../../../api';
+import { useSelector } from 'react-redux';
+import imgError from '../../../assets/img/workflow-trigger.svg';
+import imgSuccess from '../../../assets/img/success.svg';
+import styles from './WorkflowDefinitionCreation.module.css';
 
-const WorkflowCreation = ({ message, togglePopup }) => {
+const WorkflowDefinitionCreation = ({ message, togglePopup }) => {
   const workflowCreated = useSelector(state => state.workflows.workflows[state.workflows.workflows.length - 1]);
   const errorMessage = useSelector(state => state.popup.errorMessage);
   const templateName = useSelector(state => state.popup.templateName);
 
+  const handleDownloadPrerequisites = async () => {
+    await api.workflows.downloadWorkflowPrerequisites(templateName);
+  };
+
   const handleDownloadTemplate = async () => {
-    await api.workflows.downloadWorkflow(templateName);
+    await api.workflows.downloadWorkflowTemplate(templateName);
   };
 
   return (
@@ -41,11 +45,11 @@ const WorkflowCreation = ({ message, togglePopup }) => {
           >
             <button onClick={togglePopup}>Publish the workflow</button>
           </Link>
-        </div>
-      )}
+        </div>)
+      }
     </div>
   );
 };
 
-const WorkflowCreationPopup = withPopup(WorkflowCreation);
+const WorkflowCreationPopup = withPopup(WorkflowDefinitionCreation);
 export default WorkflowCreationPopup;

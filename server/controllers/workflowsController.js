@@ -1,61 +1,36 @@
-const fs = require('fs');
+/**
+ * @file
+ * This file handles the Workflow scenarios.
+ * Scenarios implemented:
+ * - Workflow definition creation.
+ * - Workflow definition publishing.
+ * - Workflow definition triggering, which create workflow instance.
+ * - Workflow instance cancellation.
+ * - Workflow instance fetching.
+ */
+
 const docusign = require('docusign-esign');
 const validator = require('validator');
 const config = require('../config');
-const { createWorkflow, publishWorkflow } = require('../utils/workflowUtils.js');
+const workflowsUtils = require('../utils/workflowsUtils');
 const path = require('path');
-const { TEMPLATE_TYPE, scopes } = require('../constants');
-
 const oAuth = docusign.ApiClient.OAuth;
 const restApi = docusign.ApiClient.RestApi;
 
 class WorkflowsController {
   // Constants
-  static exampleNumber = 1;
   static mustAuthenticate = '/ds/mustAuthenticate';
-  static dsApi = new docusign.ApiClient();
-  static scopes = scopes;
-  static templatesPath = path.join(path.resolve(), 'assets/templates');
-  static i9Template = 'I9Template.json';
-  static offerLetterTemplate = 'OfferLetterTemplate.json';
 
   // For production environment, change "DEMO" to "PRODUCTION"
   static basePath = restApi.BasePath.DEMO; // https://demo.docusign.net/restapi
   static oAuthBasePath = oAuth.BasePath.DEMO; // account-d.docusign.com
 
   /**
-   * Cancels workflow instance and returns a response.
-   */
-  static cancelWorkflowInstance = async args => {
-    //ds-snippet-start:Maestro2Step2
-    this.dsApi.setBasePath(args.basePath);
-    this.dsApi.addDefaultHeader('Authorization', `Bearer ${args.accessToken}`);
-    //ds-snippet-end:Maestro2Step2
-
-    //ds-snippet-start:Maestro2Step3
-    const workflowInstanceManagementApi = new docusign.WorkflowInstanceManagementApi(this.dsApi);
-    //ds-snippet-end:Maestro2Step3
-
-    return await workflowInstanceManagementApi.cancelWorkflowInstance(args.accountId, args.instanceId);
-  };
-
-  /**
    * Cancels workflow instance and sends a response.
    */
   static cancelWorkflow = async (req, res) => {
-    // Step 1. Check the token
-    // At this point we should have a good token. But we
-    // double-check here to enable a better UX to the user.
-    const isTokenOK = req.dsAuth.checkToken(req);
-    if (!isTokenOK) {
-      req.flash('info', 'Sorry, you need to re-authenticate.');
-      // Save the current operation, so it will be resumed after authentication
-      return res.redirect(this.mustAuthenticate);
-    }
-
-    // Step 2. Call the worker method
     const args = {
-      instanceId: req.session.instanceId,
+      instanceId: req.params.instanceId,
       accessToken: req.user.accessToken,
       basePath: config.maestroApiUrl,
       accountId: req.session.accountId,
@@ -63,7 +38,7 @@ class WorkflowsController {
     let results = null;
 
     try {
-      results = await this.cancelWorkflowInstance(args);
+      results = await workflowsUtils.cancelWorkflowInstance(args);
     } catch (error) {
       const errorCode = error?.response?.statusCode;
       const errorMessage = error?.response?.body?.message;
@@ -82,67 +57,19 @@ class WorkflowsController {
   };
 
   /**
-   * Creates workflow template.
-   */
-  static createTemplate = async req => {
-    let templateFile = null;
-
-    switch (req.body.templateType) {
-      case TEMPLATE_TYPE.I9:
-        templateFile = this.i9Template;
-        break;
-      // TODO: Add NDA Template File
-      case TEMPLATE_TYPE.NDA:
-        break;
-
-      case TEMPLATE_TYPE.OFFER:
-        templateFile = this.offerLetterTemplate;
-        break;
-    }
-
-    const templateFileBuffer = fs.readFileSync(path.resolve(this.templatesPath, templateFile), 'utf8');
-    const templateFileContent = JSON.parse(templateFileBuffer);
-
-    const args = {
-      basePath: this.basePath,
-      accessToken: req.user.accessToken,
-      accountId: req.session.accountId,
-      templateType: req.body.templateType,
-      docFile: path.resolve(this.templatesPath, templateFile),
-      templateName: templateFileContent.name,
-    };
-
-    this.dsApi.setBasePath(args.basePath);
-    this.dsApi.addDefaultHeader('Authorization', `Bearer ${args.accessToken}`);
-    let templatesApi = new docusign.TemplatesApi(this.dsApi);
-    // Step 1. See if the template already exists
-    // Exceptions will be caught by the calling function
-
-    const results = await templatesApi.listTemplates(args.accountId, {
-      searchText: args.templateName,
-    });
-
-    if (!results?.resultSetSize || Number(results.resultSetSize) <= 0) {
-      return {
-        message: 'Template for this workflow is missing, make sure that you uploaded it on your account',
-        templateName: this.i9Template,
-      };
-    }
-
-    return {
-      templateId: results.envelopeTemplates[0].templateId,
-      templateName: results.envelopeTemplates[0].name,
-      createdNewTemplate: false,
-    };
-  };
-
-  /**
-   * Cancels workflow instance and sends a response.
+   * Creates workflow instance and sends a response.
    */
   static createWorkflow = async (req, res) => {
     let templateId;
     if (!req.session.templateId) {
-      const templateResponse = await this.createTemplate(req);
+      const createTemplateArgs = {
+        basePath: this.basePath,
+        accessToken: req.user.accessToken,
+        accountId: req.session.accountId,
+        templateType: req.body.templateType,
+      };
+
+      const templateResponse = await workflowsUtils.getTemplate(createTemplateArgs);
       if (templateResponse.templateId) {
         templateId = templateResponse.templateId;
       } else {
@@ -163,7 +90,7 @@ class WorkflowsController {
       let results = null;
 
       try {
-        const workflow = await createWorkflow(args);
+        const workflow = await workflowsUtils.createWorkflow(args);
         // const consentUrl = await publishWorkflow(args, req.session.workflowId);
         const workflowResponse = {
           ...workflow.workflowDefinition,
@@ -191,61 +118,66 @@ class WorkflowsController {
   };
 
   /**
-   * Gets workflow definition.
+   * Gets workflow instance and returns it.
    */
-  static getWorkflowDefinition = async args => {
-    //ds-snippet-start:Maestro1Step2
-    this.dsApi.setBasePath(args.basePath);
-    this.dsApi.addDefaultHeader('Authorization', `Bearer ${args.accessToken}`);
-    //ds-snippet-end:Maestro1Step2
+  static getWorkflowInstance = async (req, res) => {
+    const args = {
+      instanceId: req.params.instanceId,
+      definitionId: req.params.definitionId,
+      accessToken: req.user.accessToken,
+      basePath: config.maestroApiUrl,
+      accountId: req.session.accountId,
+    };
+    let results = null;
 
-    //ds-snippet-start:Maestro1Step3
-    const workflowManagementApi = new docusign.WorkflowManagementApi(this.dsApi);
-    return await workflowManagementApi.getWorkflowDefinition(args.accountId, args.workflowId);
+    try {
+      results = await workflowsUtils.getWorkflowInstance(args);
+    } catch (error) {
+      const errorCode = error?.response?.statusCode;
+      const errorMessage = error?.response?.body?.message;
+      let errorInfo;
+
+      // use custom error message if Maestro is not enabled for the account
+      if (errorCode === 403) {
+        errorInfo = 'Contact Support to enable this Feature';
+      }
+
+      res.status(403).send({ err: error, errorCode, errorMessage, errorInfo });
+    }
+    if (results) {
+      res.status(200).send(results);
+    }
   };
 
   /**
-   * Gets workflow definitions.
+   * Gets workflow instances and returns it.
    */
-  static getWorkflowDefinitions = async args => {
-    this.dsApi.setBasePath(args.basePath);
-    this.dsApi.addDefaultHeader('Authorization', `Bearer ${args.accessToken}`);
+  static getWorkflowInstances = async (req, res) => {
+    const args = {
+      definitionId: req.params.definitionId,
+      accessToken: req.user.accessToken,
+      basePath: config.maestroApiUrl,
+      accountId: req.session.accountId,
+    };
+    let results = null;
 
-    const workflowManagementApi = new docusign.WorkflowManagementApi(this.dsApi);
-    return await workflowManagementApi.getWorkflowDefinitions(args.accountId, {
-      status: 'active',
-    });
-  };
+    try {
+      results = await workflowsUtils.getWorkflowInstances(args);
+    } catch (error) {
+      const errorCode = error?.response?.statusCode;
+      const errorMessage = error?.response?.body?.message;
+      let errorInfo;
 
-  /**
-   * Triggers a workflow instance and returns a response.
-   */
-  static triggerWorkflowInstance = async (workflow, args) => {
-    this.dsApi.setBasePath(args.basePath);
-    this.dsApi.addDefaultHeader('Authorization', `Bearer ${args.accessToken}`);
+      // use custom error message if Maestro is not enabled for the account
+      if (errorCode === 403) {
+        errorInfo = 'Contact Support to enable this Feature';
+      }
 
-    const workflowTriggerApi = new docusign.WorkflowTriggerApi(this.dsApi);
-
-    const mtid = args.mtid;
-    const mtsec = args.mtsec;
-    //ds-snippet-end:Maestro1Step3
-
-    //ds-snippet-start:Maestro1Step4
-    const triggerPayload = docusign.TriggerPayload.constructFromObject({
-      instanceName: args.instanceName,
-      participant: {},
-      payload: {
-        signerEmail: args.signerEmail,
-        signerName: args.signerName,
-        ccEmail: args.ccEmail,
-        ccName: args.ccName,
-      },
-      metadata: {},
-    });
-    //ds-snippet-end:Maestro1Step4
-
-    //ds-snippet-start:Maestro1Step5
-    return await workflowTriggerApi.triggerWorkflow(triggerPayload, args.accountId, { mtid, mtsec });
+      res.status(403).send({ err: error, errorCode, errorMessage, errorInfo });
+    }
+    if (results) {
+      res.status(200).send(results);
+    }
   };
 
   /**
@@ -278,8 +210,8 @@ class WorkflowsController {
     let results = null;
 
     try {
-      const workflow = await this.getWorkflowDefinition(args);
-      results = await this.triggerWorkflow(workflow, args);
+      const workflow = await workflowsUtils.getWorkflowDefinition(args);
+      results = await workflowsUtils.triggerWorkflowInstance(workflow, args);
     } catch (error) {
       const errorCode = error?.response?.statusCode;
       const errorMessage = error?.response?.body?.message;
@@ -296,112 +228,6 @@ class WorkflowsController {
     if (results) {
       res.status(200).send(results);
     }
-  };
-
-  static makeTemplate = args => {
-    const docPdfBytes = fs.readFileSync(args.docFile);
-    const docB64 = Buffer.from(docPdfBytes).toString('base64');
-
-    // add the documents
-    const doc = new docusign.Document.constructFromObject({
-      documentBase64: docB64,
-      name: 'Lorem Ipsum',
-      fileExtension: 'pdf',
-      documentId: '1',
-    });
-
-    // Create fields
-    const signHere = docusign.SignHere.constructFromObject({
-      documentId: '1',
-      tabLabel: 'Signature',
-      anchorString: '/SignHere/',
-      anchorUnits: 'pixels',
-      anchorXOffset: '20',
-      anchorYOffset: '10',
-    });
-    const check = docusign.Checkbox.constructFromObject({
-      documentId: '1',
-      tabLabel: 'Yes',
-      anchorString: '/SMS/',
-      anchorUnits: 'pixels',
-      anchorXOffset: '20',
-      anchorYOffset: '10',
-    });
-    const text1 = docusign.Text.constructFromObject({
-      documentId: '1',
-      tabLabel: 'FullName',
-      anchorString: '/FullName/',
-      anchorUnits: 'pixels',
-      anchorXOffset: '20',
-      anchorYOffset: '10',
-    });
-    const text2 = docusign.Text.constructFromObject({
-      documentId: '1',
-      tabLabel: 'PhoneNumber',
-      anchorString: '/PhoneNumber/',
-      anchorUnits: 'pixels',
-      anchorXOffset: '20',
-      anchorYOffset: '10',
-    });
-    const text3 = docusign.Text.constructFromObject({
-      documentId: '1',
-      tabLabel: 'Company',
-      anchorString: '/Company/',
-      anchorUnits: 'pixels',
-      anchorXOffset: '20',
-      anchorYOffset: '10',
-    });
-    const text4 = docusign.Text.constructFromObject({
-      documentId: '1',
-      tabLabel: 'JobTitle',
-      anchorString: '/JobTitle/',
-      anchorUnits: 'pixels',
-      anchorXOffset: '20',
-      anchorYOffset: '10',
-    });
-    const dateSigned = docusign.DateSigned.constructFromObject({
-      documentId: '1',
-      tabLabel: 'DateSigned',
-      anchorString: '/Date/',
-      anchorUnits: 'pixels',
-      anchorXOffset: '20',
-      anchorYOffset: '10',
-    });
-
-    // Tabs are set per recipient / signer
-    const signerTabs = docusign.Tabs.constructFromObject({
-      checkboxTabs: [check],
-      signHereTabs: [signHere],
-      textTabs: [text1, text2, text3, text4],
-      dateSigned: [dateSigned],
-    });
-
-    // create a signer recipient
-    const signer = docusign.Signer.constructFromObject({
-      roleName: 'signer',
-      recipientId: '1',
-      routingOrder: '1',
-      tabs: signerTabs,
-    });
-
-    // Add the recipients to the env object
-    const recipients = docusign.Recipients.constructFromObject({
-      signers: [signer],
-    });
-
-    // create the overall template definition
-    const template = new docusign.EnvelopeTemplate.constructFromObject({
-      // The order in the docs array determines the order in the env
-      documents: [doc],
-      emailSubject: 'Please sign this document',
-      description: 'Example template created via the API',
-      name: args.templateName,
-      shared: 'false',
-      recipients: recipients,
-      status: 'created',
-    });
-
-    return template;
   };
 
   /**

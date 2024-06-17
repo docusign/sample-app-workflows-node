@@ -7,9 +7,12 @@ import img1 from '../../assets/img/workflow-create.svg';
 import img2 from '../../assets/img/workflow-trigger.svg';
 import img3 from '../../assets/img/workflow-manage.svg';
 import withAuth from '../../hocs/withAuth/withAuth.jsx';
-import { ROUTE } from '../../constants.js';
+import { LoginStatus, ROUTE } from '../../constants.js';
+import { useSelector } from 'react-redux';
 
 const Home = () => {
+  const authType = useSelector(state => state.auth.authType);
+
   return (
     <div className="page-box">
       <Header />
@@ -18,12 +21,13 @@ const Home = () => {
         <p> {textContent.hero.paragraph} </p>
       </div>
       <div className={styles.cardContainer}>
-        <Card
-          img={img1}
-          dropDown={true}
-          title={'Create a workflow'}
-          description={"Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"}
-        />
+        {authType === LoginStatus.ACG ?
+          <Card
+            img={img1}
+            dropDown={true}
+            title={'Create a workflow'}
+            description={'Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s'}
+          /> : null}
         <Card
           img={img2}
           dropDown={false}
