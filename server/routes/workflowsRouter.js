@@ -3,11 +3,13 @@ const workflowsController = require('../controllers/workflowsController');
 
 const router = Router();
 
-router.get('/', workflowsController.getWorkflowDefinitions);
-router.get('/:id', workflowsController.getWorkflowDefinition);
-router.put('/:id/trigger', workflowsController.triggerWorkflow);
-router.put('/:id/cancel', workflowsController.cancelWorkflow);
+router.get('/instances', workflowsController.getWorkflowInstances);
+router.get('/instances/:instanceId', workflowsController.getWorkflowInstance);
+router.put('/instances/:instanceId/trigger', workflowsController.triggerWorkflow);
+router.put('/instances/:instanceId/cancel', workflowsController.cancelWorkflow);
+
 router.post('/create', workflowsController.createWorkflow);
+//router.get('/:definitionId', workflowsController.getWorkflowDefinition);
 router.get('/download/:templateName', workflowsController.downloadWorkflowTemplate);
 
 module.exports = router;

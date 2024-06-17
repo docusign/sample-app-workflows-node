@@ -47,7 +47,19 @@ export const api = Object.freeze({
     },
   },
   workflows: {
-    createWorkflow: async templateType => {
+    cancelWorkflowInstance: async workflow => {
+      try {
+        const res = await instance.put(`/workflows/${workflow.instanceId}cancel`);
+        return res;
+      } catch (error) {
+        if (error.response && error.response.status === 400) {
+          return error.response;
+        }
+        throw error;
+      }
+    },
+
+    createWorkflowDefinition: async templateType => {
       try {
         const res = await instance.post('/workflows/create', { templateType: templateType });
         return res;
@@ -58,7 +70,7 @@ export const api = Object.freeze({
         throw error;
       }
     },
-    downloadWorkflow: async templateName => {
+    downloadWorkflowTemplate: async templateName => {
       // await instance.get(`/workflows/download/${templateName}`);
       try {
         const response = await fetch(`/workflows/download/${templateName}`);
@@ -73,6 +85,16 @@ export const api = Object.freeze({
       } catch (error) {
         console.error('There was an error during donloading:', error);
       }
+    },
+
+    getWorkflowInstance: async (workflow) => {
+      const res = await instance.get(`/workflows/instances/${workflow.instanceId}`);
+      return res;
+    },
+
+    getWorkflowInstances: async () => {
+      const res = await instance.get('/workflows/instances');
+      return res;
     },
   },
 });

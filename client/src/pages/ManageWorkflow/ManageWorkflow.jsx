@@ -6,17 +6,25 @@ import WorkflowList from '../../components/WorkflowList/WorkflowList.jsx';
 import WorkflowDescription from '../../components/WorkflowDescription/WorkflowDescription.jsx';
 import ManageBehindTheScenes from '../../components/WorkflowDescription/BehindTheScenes/ManageBehindTheScenes.jsx';
 import { WorkflowItemsInteractionType } from '../../constants.js';
-import { useSelector } from 'react-redux';
+import { api } from '../../api/index.js';
+import { useEffect, useState } from 'react';
 
 const ManageWorkflow = () => {
-  const workflows = useSelector((state) => state.workflows.workflows);
+  const [workflowInstances, setWorkflowInstances] = useState([]);
+  const getWorkflowInstances = () => {
+    setWorkflowInstances(api.workflows.getWorkflowInstances().data);
+  };
+
+  useEffect(() => {
+    getWorkflowInstances();
+  }, []);
 
   return (
     <div className="page-box">
       <Header />
       <div className={styles.contentContainer}>
         <WorkflowDescription title={"Manage workflows"} behindTheScenesComponent={<ManageBehindTheScenes />} />
-        <WorkflowList items={workflows} interactionType={WorkflowItemsInteractionType.MANAGE} />
+        <WorkflowList items={workflowInstances} interactionType={WorkflowItemsInteractionType.MANAGE} />
       </div>
       <Footer withContent={false} />
     </div>

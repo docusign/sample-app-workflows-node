@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 
 import dropdown from '../../assets/img/dropdown.svg';
 import styles from './WorkflowList.module.css';
+import { api } from '../../api/index.js';
 
 const WorkflowList = ({ items, interactionType }) => {
   const dispatch = useDispatch();
@@ -33,11 +34,11 @@ const WorkflowList = ({ items, interactionType }) => {
                   </button>
                   <div className={`dropdown-menu dropdown-menu-right ${styles.dropdownMenu}`}>
                     <a className={`dropdown-item ${styles.dropdownItem}`} href="#" onClick={() => {
-                      //TODO: Add Update Workflow implementation call to update item selected
+                      item = api.workflows.getWorkflowInstance(item);
                       dispatch({ type: 'GET_WORKFLOW' });
                     }}>Update workflow status</a>
                     <a className={`dropdown-item ${styles.dropdownItem}`} href="#" onClick={() => {
-                      //TODO: Add Cancel Workflow implementation call to cancel item selected
+                      api.workflows.cancelWorkflowInstance(item);
                       dispatch({ type: 'CANCEL_WORKFLOW' });
                     }}>Cancel workflow</a>
                   </div>

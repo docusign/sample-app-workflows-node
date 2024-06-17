@@ -5,13 +5,16 @@ const Loader = ({ visible, title, paragraph }) => {
     visible && (
       <div className={styles.wrapper}>
         <span className={styles.loader}></span>
-        <div>
-          <h2 className={styles.Header}>{title}</h2>
-          <div className={styles.Text}>{paragraph}</div>
-        </div>
+        {title ?
+          <div>
+            <h2 className={styles.Header}>{title}</h2>
+            <div className={styles.Text}>{paragraph}</div>
+          </div>
+          : null
+        }
       </div>
     )
   );
-}
+};
 
 export default Loader;
