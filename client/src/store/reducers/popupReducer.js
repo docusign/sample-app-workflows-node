@@ -5,7 +5,7 @@ const initialState = {
   templateName: null,
 };
 
-const authReducer = (state = initialState, { type, payload }) => {
+const popupReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case 'OPEN':
       return { ...state, isOpened: true };
@@ -38,4 +38,4 @@ const authReducer = (state = initialState, { type, payload }) => {
   }
 };
 
-export default authReducer;
+export default popupReducer;

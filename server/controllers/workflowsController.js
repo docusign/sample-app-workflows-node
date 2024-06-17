@@ -11,9 +11,7 @@ const restApi = docusign.ApiClient.RestApi;
 
 class WorkflowsController {
   // Constants
-  static minimumBufferMin = 3;
   static exampleNumber = 1;
-  static eg = `mseg00${this.exampleNumber}`; // This example reference.
   static mustAuthenticate = '/ds/mustAuthenticate';
   static dsApi = new docusign.ApiClient();
   static scopes = scopes;
@@ -48,11 +46,10 @@ class WorkflowsController {
     // Step 1. Check the token
     // At this point we should have a good token. But we
     // double-check here to enable a better UX to the user.
-    const isTokenOK = req.dsAuth.checkToken(this.minimumBufferMin);
+    const isTokenOK = req.dsAuth.checkToken(req);
     if (!isTokenOK) {
       req.flash('info', 'Sorry, you need to re-authenticate.');
       // Save the current operation, so it will be resumed after authentication
-      req.dsAuth.setEg(req, this.eg);
       return res.redirect(this.mustAuthenticate);
     }
 
@@ -118,25 +115,14 @@ class WorkflowsController {
     this.dsApi.setBasePath(args.basePath);
     this.dsApi.addDefaultHeader('Authorization', `Bearer ${args.accessToken}`);
     let templatesApi = new docusign.TemplatesApi(this.dsApi);
-    let results = null;
-    let templateId = null; // the template that exists or will be created.
-    let resultsTemplateName = null;
-    let createdNewTemplate = null;
     // Step 1. See if the template already exists
     // Exceptions will be caught by the calling function
 
-    // results = await templatesApi.listTemplates(args.accountId, function (error, templateList, response) {
-    //   console.log('first');
-    // });
-    results = await templatesApi.listTemplates(args.accountId, {
+    const results = await templatesApi.listTemplates(args.accountId, {
       searchText: args.templateName,
     });
 
-    if (results.resultSetSize && Number(results.resultSetSize) > 0) {
-      templateId = results.envelopeTemplates[0].templateId;
-      resultsTemplateName = results.envelopeTemplates[0].name;
-      createdNewTemplate = false;
-    } else {
+    if (!results?.resultSetSize || Number(results.resultSetSize) <= 0) {
       return {
         message: 'Template for this workflow is missing, make sure that you uploaded it on your account',
         templateName: this.i9Template,
@@ -144,9 +130,9 @@ class WorkflowsController {
     }
 
     return {
-      templateId: templateId,
-      templateName: resultsTemplateName,
-      createdNewTemplate: createdNewTemplate,
+      templateId: results.envelopeTemplates[0].templateId,
+      templateName: results.envelopeTemplates[0].name,
+      createdNewTemplate: false,
     };
   };
 
@@ -269,11 +255,10 @@ class WorkflowsController {
     // Step 1. Check the token
     // At this point we should have a good token. But we
     // double-check here to enable a better UX to the user.
-    const isTokenOK = req.dsAuth.checkToken(this.minimumBufferMin);
+    const isTokenOK = req.dsAuth.checkToken(req);
     if (!isTokenOK) {
       req.flash('info', 'Sorry, you need to re-authenticate.');
       // Save the current operation, so it will be resumed after authentication
-      req.dsAuth.setEg(req, this.eg);
       return res.redirect(this.mustAuthenticate);
     }
 
