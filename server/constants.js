@@ -3,11 +3,6 @@ const BACKEND_ROUTE = {
   WORKFLOWS: '/api/workflows',
 };
 
-const METHOD = {
-  JWT: 'jwt-auth',
-  ACG: 'grand-auth',
-};
-
 const TEMPLATE_TYPE = {
   I9: '1-9 document',
   OFFER: 'Offer letter',
@@ -22,6 +17,5 @@ const scopes = [...MAESTRO_SCOPES, ...WEBFORMS_SCOPES];
 module.exports = {
   scopes,
   BACKEND_ROUTE,
-  METHOD,
   TEMPLATE_TYPE,
 };

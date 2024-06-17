@@ -4,28 +4,17 @@ const validator = require('validator');
 const config = require('../config');
 const { createWorkflow, publishWorkflow } = require('../utils/workflowUtils.js');
 const path = require('path');
-const { METHOD, TEMPLATE_TYPE, scopes } = require('../constants');
+const { TEMPLATE_TYPE, scopes } = require('../constants');
 
 const oAuth = docusign.ApiClient.OAuth;
 const restApi = docusign.ApiClient.RestApi;
 
-// JWT flow:
-// 1. Create consent URI and obtain user consent.
-// 2. Construct JWT using the IK and User ID, scope, RSA public and private key.
-// 3. Send POST containing the JWT to DS_AUTH_SERVER to get access token.
-// 4. Using the access token, send a POST to get the user's base URI (account_id + base_uri).
-// 5. Now you can use the access token and base URI to make API calls.
-// When the access token expires, create a new JWT and request a new access token.
-
 class WorkflowsController {
   // Constants
-  static minimumBufferMin = 3;
   static exampleNumber = 1;
-  static eg = `mseg00${this.exampleNumber}`; // This example reference.
   static mustAuthenticate = '/ds/mustAuthenticate';
   static dsApi = new docusign.ApiClient();
   static scopes = scopes;
-  // static templatesPath = path.resolve(__dirname, '../assets/templates');
   static templatesPath = path.join(path.resolve(), 'assets/templates');
   static i9Template = 'I9Template.json';
   static offerLetterTemplate = 'OfferLetterTemplate.json';
@@ -57,11 +46,10 @@ class WorkflowsController {
     // Step 1. Check the token
     // At this point we should have a good token. But we
     // double-check here to enable a better UX to the user.
-    const isTokenOK = req.dsAuth.checkToken(this.minimumBufferMin);
+    const isTokenOK = req.dsAuth.checkToken(req);
     if (!isTokenOK) {
       req.flash('info', 'Sorry, you need to re-authenticate.');
       // Save the current operation, so it will be resumed after authentication
-      req.dsAuth.setEg(req, this.eg);
       return res.redirect(this.mustAuthenticate);
     }
 
@@ -106,7 +94,7 @@ class WorkflowsController {
       // TODO: Add NDA Template File
       case TEMPLATE_TYPE.NDA:
         break;
-      // TODO: Add OfferLetter Template File
+
       case TEMPLATE_TYPE.OFFER:
         templateFile = this.offerLetterTemplate;
         break;
@@ -116,37 +104,25 @@ class WorkflowsController {
     const templateFileContent = JSON.parse(templateFileBuffer);
 
     const args = {
-      basePath: 'https://demo.docusign.net/restapi',
+      basePath: this.basePath,
       accessToken: req.user.accessToken,
       accountId: req.session.accountId,
       templateType: req.body.templateType,
       docFile: path.resolve(this.templatesPath, templateFile),
       templateName: templateFileContent.name,
-      // templateName: 'Example Template',
     };
 
     this.dsApi.setBasePath(args.basePath);
     this.dsApi.addDefaultHeader('Authorization', `Bearer ${args.accessToken}`);
     let templatesApi = new docusign.TemplatesApi(this.dsApi);
-    let results = null;
-    let templateId = null; // the template that exists or will be created.
-    let resultsTemplateName = null;
-    let createdNewTemplate = null;
     // Step 1. See if the template already exists
     // Exceptions will be caught by the calling function
 
-    // results = await templatesApi.listTemplates(args.accountId, function (error, templateList, response) {
-    //   console.log('first');
-    // });
-    results = await templatesApi.listTemplates(args.accountId, {
+    const results = await templatesApi.listTemplates(args.accountId, {
       searchText: args.templateName,
     });
 
-    if (results.resultSetSize && Number(results.resultSetSize) > 0) {
-      templateId = results.envelopeTemplates[0].templateId;
-      resultsTemplateName = results.envelopeTemplates[0].name;
-      createdNewTemplate = false;
-    } else {
+    if (!results?.resultSetSize || Number(results.resultSetSize) <= 0) {
       return {
         message: 'Template for this workflow is missing, make sure that you uploaded it on your account',
         templateName: this.i9Template,
@@ -154,9 +130,9 @@ class WorkflowsController {
     }
 
     return {
-      templateId: templateId,
-      templateName: resultsTemplateName,
-      createdNewTemplate: createdNewTemplate,
+      templateId: results.envelopeTemplates[0].templateId,
+      templateName: results.envelopeTemplates[0].name,
+      createdNewTemplate: false,
     };
   };
 
@@ -279,11 +255,10 @@ class WorkflowsController {
     // Step 1. Check the token
     // At this point we should have a good token. But we
     // double-check here to enable a better UX to the user.
-    const isTokenOK = req.dsAuth.checkToken(this.minimumBufferMin);
+    const isTokenOK = req.dsAuth.checkToken(req);
     if (!isTokenOK) {
       req.flash('info', 'Sorry, you need to re-authenticate.');
       // Save the current operation, so it will be resumed after authentication
-      req.dsAuth.setEg(req, this.eg);
       return res.redirect(this.mustAuthenticate);
     }
 
@@ -297,7 +272,7 @@ class WorkflowsController {
       ccName: validator.escape(body.ccName),
       workflowId: req.session.workflowId,
       accessToken: req.user.accessToken,
-      basePath: config.maestroApiURL,
+      basePath: config.maestroApiUrl,
       accountId: req.session.accountId,
     };
     let results = null;

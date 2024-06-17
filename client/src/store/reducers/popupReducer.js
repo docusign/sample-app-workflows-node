@@ -5,50 +5,37 @@ const initialState = {
   templateName: null,
 };
 
-const authReducer = (state = initialState, action) => {
-  switch (action.type) {
+const popupReducer = (state = initialState, { type, payload }) => {
+  switch (type) {
     case 'OPEN':
-      return {
-        ...state,
-        isOpened: true,
-      };
+      return { ...state, isOpened: true };
 
     case 'CLOSE':
-      return {
-        ...state,
-        isOpened: false,
-      };
+      return { ...state, isOpened: false };
 
     case 'LOADING':
-      return {
-        ...state,
-        isLoading: true,
-      };
+      return { ...state, isLoading: true };
 
     case 'LOADED':
-      return {
-        ...state,
-        isLoading: false,
-      };
+      return { ...state, isLoading: false };
 
     case 'ERROR':
       return {
         ...state,
         isOpened: true,
-        errorMessage: action.payload.errorMessage,
-        templateName: action.payload.templateName,
+        errorMessage: payload.errorMessage,
+        templateName: payload.templateName,
       };
 
     case 'CLEAR_ERROR':
-      return {
-        ...state,
-        errorMessage: null,
-        templateName: null,
-      };
+      return { ...state, errorMessage: null, templateName: null };
+
+    case 'CLEAR_STATE':
+      return { ...initialState };
 
     default:
       return state;
   }
 };
 
-export default authReducer;
+export default popupReducer;

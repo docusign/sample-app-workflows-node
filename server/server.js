@@ -6,17 +6,19 @@ const bodyParser = require('body-parser');
 const session = require('express-session'); // https://github.com/expressjs/session
 const MemoryStore = require('memorystore')(session); // https://github.com/roccomuso/memorystore
 const passport = require('passport');
-const DSAuthCodeGrant = require('./lib/DSAuthCodeGrant');
-const DsJwtAuth = require('./lib/DSJwtAuth');
+const JwtController = require('./controllers/jwtController');
+const ACGController = require('./controllers/acgController');
 const cors = require('cors');
 const chalk = require('chalk');
 const DocusignStrategy = require('passport-docusign');
 const moment = require('moment');
 const config = require('./config');
-const { scopes, BACKEND_ROUTE, METHOD } = require('./constants');
+const { scopes, BACKEND_ROUTE } = require('./constants');
 const authRouter = require('./routes/authRouter');
 const workflowsRouter = require('./routes/workflowsRouter');
+const createPrefixedLogger = require('./utils/logger');
 
+const logger = createPrefixedLogger();
 const maxSessionAge = 1000 * 60 * 60 * 24 * 1; // One day
 
 const app = express()
@@ -36,16 +38,16 @@ const app = express()
   )
   .use(passport.initialize())
   .use(passport.session())
-  // Add an instance of DSAuthCodeGrant to req
+  // Add an instance of dsAuthController to req
   .use((req, res, next) => {
-    req.dsAuthCodeGrant = new DSAuthCodeGrant(req);
-    req.dsAuthJwt = new DsJwtAuth(req);
+    req.dsAuthCodeGrant = new ACGController();
+    req.dsAuthJwt = new JwtController();
 
     switch (true) {
-      case req.session.authMethod === METHOD.JWT || req.url.startsWith(`${BACKEND_ROUTE.AUTH}/jwt`):
+      case req.url.startsWith(`${BACKEND_ROUTE.AUTH}/jwt`):
         req.dsAuth = req.dsAuthJwt;
         break;
-      case req.session.authMethod === METHOD.ACG || req.url.startsWith(`${BACKEND_ROUTE.AUTH}/passport`):
+      case req.url.startsWith(`${BACKEND_ROUTE.AUTH}/passport`):
         req.dsAuth = req.dsAuthCodeGrant;
         break;
       default:
@@ -63,10 +65,10 @@ app.use(BACKEND_ROUTE.WORKFLOWS, workflowsRouter);
 async function start() {
   try {
     app.listen(config.backendPort, () =>
-      console.log(chalk.black.bgBlueBright(`Server started and listening on port ${config.backendPort} ...`))
+      logger.info(chalk.black.bgBlueBright(`Server started and listening on port ${config.backendPort} ...`))
     );
   } catch (e) {
-    console.log(e.message);
+    logger.info(e.message);
     process.exit(1);
   }
 }
@@ -103,12 +105,12 @@ const docusignStrategy = new DocusignStrategy(
     // See https://github.com/jaredhanson/passport-oauth2/pull/84
     //
     // Here we're just assigning the tokens to the account object
-    // We store the data in DSAuthCodeGrant.getDefaultAccountInfo
+    // We store the data in the session in ACGController.getAndSaveDefaultAccountInfo
     const user = profile;
     user.accessToken = accessToken;
-    user.refreshToken = refreshToken;
+    user.refreshToken = refreshToken; // not used in this app, but still save it for production perposes
     user.expiresIn = params.expires_in;
-    user.tokenExpirationTimestamp = moment().add(user.expiresIn, 's'); // The dateTime when the access token will expire
+    user.tokenExpirationTimestamp = moment().add(user.expiresIn, 'seconds');
     return done(null, user);
   }
 );

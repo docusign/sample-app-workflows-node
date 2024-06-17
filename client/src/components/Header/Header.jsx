@@ -9,8 +9,8 @@ import { LoginStatus, ROUTE } from '../../constants.js';
 import { api } from '../../api';
 
 const Header = () => {
-  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
   const dispatch = useDispatch();
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
   const userName = useSelector(state => state.auth.userName);
   const userEmail = useSelector(state => state.auth.userEmail);
   const authType = useSelector(state => state.auth.authType);
@@ -23,7 +23,8 @@ const Header = () => {
     if (authType === LoginStatus.JWT) {
       await api.jwt.logout();
     }
-    dispatch({ type: 'LOGOUT' });
+
+    dispatch({ type: 'CLEAR_STATE' });
   };
 
   return (

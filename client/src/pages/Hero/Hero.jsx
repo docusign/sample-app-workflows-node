@@ -1,17 +1,33 @@
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import Footer from '../../components/Footer/Footer.jsx';
 import Header from '../../components/Header/Header.jsx';
-
 import textContent from '../../assets/text.json';
 import styles from './Hero.module.css';
 import PopupLoginForm from '../../components/LoginForm/LoginForm.jsx';
-import { useDispatch, useSelector } from 'react-redux';
+import { LoginStatus, ROUTE } from '../../constants.js';
+import { api } from '../../api';
 
 const Hero = () => {
   const isOpened = useSelector(state => state.popup.isOpened);
+  const authType = useSelector(state => state.auth.authType);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const togglePopup = () => {
-    dispatch({ type: isOpened ? 'CLOSE' : 'OPEN' });
+  const togglePopup = async () => {
+    if (!authType) {
+      dispatch({ type: isOpened ? 'CLOSE' : 'OPEN' });
+      return;
+    }
+
+    if (authType === LoginStatus.ACG) {
+      const isLoggedIn = await api.acg.loginStatus();
+      isLoggedIn && navigate(ROUTE.HOME);
+    }
+    if (authType === LoginStatus.JWT) {
+      const isLoggedIn = await api.jwt.loginStatus();
+      isLoggedIn && navigate(ROUTE.HOME);
+    }
   };
 
   return (

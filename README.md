@@ -26,7 +26,7 @@ Before you can run this sample app on your local machine, you must first create 
 
 - A free Docusign developer account.
 - Integration key and corresponding RSA key pair from the integration you created above.
-- [Node.js](https://nodejs.org/) v18+
+- [Node.js](https://nodejs.org/) v20+
 - [VS Code](https://code.visualstudio.com/)
 - [Docker](https://docs.docker.com/get-docker/)
 

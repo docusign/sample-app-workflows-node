@@ -13,12 +13,12 @@ const withAuth = WrappedComponent => {
     useEffect(() => {
       const checkLoginStatus = async () => {
         if (authType === LoginStatus.ACG) {
-          const response = await api.acg.loginStatus();
-          !response && dispatch({ type: 'LOGOUT' });
+          const isLoggedIn = await api.acg.loginStatus();
+          !isLoggedIn && dispatch({ type: 'CLEAR_STATE' });
         }
         if (authType === LoginStatus.JWT) {
-          const response = await api.jwt.loginStatus();
-          !response && dispatch({ type: 'LOGOUT' });
+          const isLoggedIn = await api.jwt.loginStatus();
+          !isLoggedIn && dispatch({ type: 'CLEAR_STATE' });
         }
       };
 
