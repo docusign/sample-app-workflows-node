@@ -9,22 +9,23 @@
  * - Workflow instance fetching.
  */
 
-
+const fs = require('fs');
+const path = require('path');
+const uuid = require('uuid');
 const docusign = require('docusign-maestro');
 const docusignEsign = require('docusign-esign');
-const uuid = require('uuid');
-const path = require('path');
 const { TEMPLATE_TYPE } = require('../constants');
-const fs = require('fs');
+
 const oAuth = docusign.ApiClient.OAuth;
 const restApi = docusign.ApiClient.RestApi;
 
-class WorkflowsUtils {
+class WorkflowsService {
   // Constants
   static templatesPath = path.join(path.resolve(), 'assets/templates');
   static i9Template = 'I9Template.json';
   static offerLetterTemplate = 'OfferLetterTemplate.json';
-  static ndaTemplate = 'ndaTemplate.json';
+  static workflowName = 'Example workflow - send invite to signer'; // Should be dynamic in future
+  static ndaTemplate = 'ndaTemplate.json'; // TODO: Add NDA Template File
   static dsApiClient = new docusign.ApiClient();
   static workflowManagementApi = new docusign.WorkflowManagementApi(this.dsApiClient);
   static workflowInstanceManagementApi = new docusign.WorkflowInstanceManagementApi(this.dsApiClient);
@@ -47,8 +48,9 @@ class WorkflowsUtils {
       case TEMPLATE_TYPE.I9:
         templateFile = this.i9Template;
         break;
-      // TODO: Add NDA Template File
+
       case TEMPLATE_TYPE.NDA:
+        templateFile = this.ndaTemplate;
         break;
 
       case TEMPLATE_TYPE.OFFER:
@@ -59,18 +61,12 @@ class WorkflowsUtils {
     const templateFileBuffer = fs.readFileSync(path.resolve(this.templatesPath, templateFile), 'utf8');
     const templateFileContent = JSON.parse(templateFileBuffer);
 
-    args = {
-      ...args,
-      docFile: path.resolve(this.templatesPath, templateFile),
-      templateName: templateFileContent.name,
-    };
-
     this.dsApiClient.setBasePath(args.basePath);
     this.dsApiClient.addDefaultHeader('Authorization', `Bearer ${args.accessToken}`);
     let templatesApi = new docusignEsign.TemplatesApi(this.dsApiClient);
 
     const results = await templatesApi.listTemplates(args.accountId, {
-      searchText: args.templateName,
+      searchText: templateFileContent.name,
     });
 
     if (!results?.resultSetSize || Number(results.resultSetSize) <= 0) {
@@ -642,7 +638,7 @@ class WorkflowsUtils {
     };
 
     const workflowDefinition = docusign.WorkflowDefinition.constructFromObject({
-      workflowName: 'Example workflow - send invite to signer',
+      workflowName: this.workflowName,
       workflowDescription: '',
       accountId: args.accountId,
       participants: participants,
@@ -707,12 +703,10 @@ class WorkflowsUtils {
         workflowId
       );
     } catch (error) {
-      const isConsentRequired = error?.response?.body?.message?.toLowerCase() === 'consent required';
-      if (isConsentRequired) {
-        return error.response.body.consentUrl;
-      } else {
-        throw error;
-      }
+      const isConsentRequired = error?.response?.data?.error === 'consent_required';
+      if (isConsentRequired) return error.response.data.consentUrl;
+
+      throw error;
     }
   };
 
@@ -741,4 +735,4 @@ class WorkflowsUtils {
   };
 }
 
-module.exports = WorkflowsUtils;
+module.exports = WorkflowsService;

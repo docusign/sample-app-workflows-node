@@ -9,18 +9,16 @@
  * - Workflow instance fetching.
  */
 
-const docusign = require('docusign-esign');
-const validator = require('validator');
-const config = require('../config');
-const workflowsUtils = require('../utils/workflowsUtils');
 const path = require('path');
+const validator = require('validator');
+const docusign = require('docusign-esign');
+const config = require('../config');
+const WorkflowsService = require('../services/workflowsService');
+
 const oAuth = docusign.ApiClient.OAuth;
 const restApi = docusign.ApiClient.RestApi;
 
 class WorkflowsController {
-  // Constants
-  static mustAuthenticate = '/ds/mustAuthenticate';
-
   // For production environment, change "DEMO" to "PRODUCTION"
   static basePath = restApi.BasePath.DEMO; // https://demo.docusign.net/restapi
   static oAuthBasePath = oAuth.BasePath.DEMO; // account-d.docusign.com
@@ -29,30 +27,16 @@ class WorkflowsController {
    * Cancels workflow instance and sends a response.
    */
   static cancelWorkflow = async (req, res) => {
-    const args = {
-      instanceId: req.params.instanceId,
-      accessToken: req.user.accessToken,
-      basePath: config.maestroApiUrl,
-      accountId: req.session.accountId,
-    };
-    let results = null;
-
     try {
-      results = await workflowsUtils.cancelWorkflowInstance(args);
-    } catch (error) {
-      const errorCode = error?.response?.statusCode;
-      const errorMessage = error?.response?.body?.message;
-      let errorInfo;
-
-      // use custom error message if Maestro is not enabled for the account
-      if (errorCode === 403) {
-        errorInfo = 'Contact Support to enable this Feature';
-      }
-
-      res.status(403).send({ err: error, errorCode, errorMessage, errorInfo });
-    }
-    if (results) {
+      const results = await WorkflowsService.cancelWorkflowInstance({
+        instanceId: req?.params?.instanceId,
+        accessToken: req?.user?.accessToken,
+        basePath: config.maestroApiUrl,
+        accountId: req?.session?.accountId,
+      });
       res.status(200).send(results);
+    } catch (error) {
+      this.handleForbiddenResponse(error, res);
     }
   };
 
@@ -60,60 +44,37 @@ class WorkflowsController {
    * Creates workflow instance and sends a response.
    */
   static createWorkflow = async (req, res) => {
-    let templateId;
     if (!req.session.templateId) {
-      const createTemplateArgs = {
+      const templateResponse = await WorkflowsService.getTemplate({
         basePath: this.basePath,
-        accessToken: req.user.accessToken,
-        accountId: req.session.accountId,
-        templateType: req.body.templateType,
-      };
+        accessToken: req?.user?.accessToken,
+        accountId: req?.session?.accountId,
+        templateType: req?.body?.templateType,
+      });
 
-      const templateResponse = await workflowsUtils.getTemplate(createTemplateArgs);
-      if (templateResponse.templateId) {
-        templateId = templateResponse.templateId;
-      } else {
+      if (!templateResponse.templateId) {
         res.status(400).send(templateResponse);
-      }
-    } else {
-      templateId = req.session.templateId;
-    }
-
-    if (templateId) {
-      // Step 2. Call the worker method
-      const args = {
-        templateId: templateId,
-        accessToken: req.user.accessToken,
-        basePath: config.maestroApiUrl,
-        accountId: req.session.accountId,
-      };
-      let results = null;
-
-      try {
-        const workflow = await workflowsUtils.createWorkflow(args);
-        // const consentUrl = await publishWorkflow(args, req.session.workflowId);
-        const workflowResponse = {
-          ...workflow.workflowDefinition,
-          workflowDefinitionId: workflow.workflowDefinitionId,
-        };
-        res.json(workflowResponse);
-      } catch (error) {
-        const errorCode = error?.response?.statusCode;
-        const errorMessage = error?.response?.body?.message;
-        let errorInfo;
-
-        // use custom error message if Maestro is not enabled for the account
-        if (errorCode === 403) {
-          errorInfo = 'Contact Support to enable this Feature';
-        }
-
-        res.status(403).send({ err: error, errorCode, errorMessage, errorInfo });
         return;
       }
 
-      if (results) {
-        res.status(200).send(results);
-      }
+      req.session.templateId = templateResponse.templateId;
+    }
+
+    try {
+      const workflow = await WorkflowsService.createWorkflow({
+        templateId: req?.session?.templateId,
+        accessToken: req?.user?.accessToken,
+        basePath: config.maestroApiUrl,
+        accountId: req?.session?.accountId,
+      });
+
+      const workflowResponse = {
+        ...workflow.workflowDefinition,
+        workflowDefinitionId: workflow.workflowDefinitionId,
+      };
+      res.json(workflowResponse);
+    } catch (error) {
+      this.handleForbiddenResponse(error, res);
     }
   };
 
@@ -121,31 +82,17 @@ class WorkflowsController {
    * Gets workflow instance and returns it.
    */
   static getWorkflowInstance = async (req, res) => {
-    const args = {
-      instanceId: req.params.instanceId,
-      definitionId: req.params.definitionId,
-      accessToken: req.user.accessToken,
-      basePath: config.maestroApiUrl,
-      accountId: req.session.accountId,
-    };
-    let results = null;
-
     try {
-      results = await workflowsUtils.getWorkflowInstance(args);
-    } catch (error) {
-      const errorCode = error?.response?.statusCode;
-      const errorMessage = error?.response?.body?.message;
-      let errorInfo;
-
-      // use custom error message if Maestro is not enabled for the account
-      if (errorCode === 403) {
-        errorInfo = 'Contact Support to enable this Feature';
-      }
-
-      res.status(403).send({ err: error, errorCode, errorMessage, errorInfo });
-    }
-    if (results) {
+      const results = await WorkflowsService.getWorkflowInstance({
+        instanceId: req?.params?.instanceId,
+        definitionId: req?.params?.definitionId,
+        accessToken: req?.user?.accessToken,
+        basePath: config.maestroApiUrl,
+        accountId: req?.session?.accountId,
+      });
       res.status(200).send(results);
+    } catch (error) {
+      this.handleForbiddenResponse(error, res);
     }
   };
 
@@ -153,80 +100,52 @@ class WorkflowsController {
    * Gets workflow instances and returns it.
    */
   static getWorkflowInstances = async (req, res) => {
-    const args = {
-      definitionId: req.params.definitionId,
-      accessToken: req.user.accessToken,
-      basePath: config.maestroApiUrl,
-      accountId: req.session.accountId,
-    };
-    let results = null;
-
     try {
-      results = await workflowsUtils.getWorkflowInstances(args);
-    } catch (error) {
-      const errorCode = error?.response?.statusCode;
-      const errorMessage = error?.response?.body?.message;
-      let errorInfo;
+      const results = await WorkflowsService.getWorkflowInstances({
+        definitionId: req?.params?.definitionId,
+        accessToken: req?.user?.accessToken,
+        basePath: config.maestroApiUrl,
+        accountId: req?.session?.accountId,
+      });
 
-      // use custom error message if Maestro is not enabled for the account
-      if (errorCode === 403) {
-        errorInfo = 'Contact Support to enable this Feature';
-      }
-
-      res.status(403).send({ err: error, errorCode, errorMessage, errorInfo });
-    }
-    if (results) {
       res.status(200).send(results);
+    } catch (error) {
+      this.handleForbiddenResponse(error, res);
     }
   };
 
   /**
    * Triggers a workflow instance and sends a response.
    */
-  static triggerWorkflow = async (req, res) => {
+  static triggerWorkflow = async (req, res, next) => {
     // Step 1. Check the token
-    // At this point we should have a good token. But we
-    // double-check here to enable a better UX to the user.
     const isTokenOK = req.dsAuth.checkToken(req);
     if (!isTokenOK) {
-      req.flash('info', 'Sorry, you need to re-authenticate.');
-      // Save the current operation, so it will be resumed after authentication
-      return res.redirect(this.mustAuthenticate);
+      req.dsAuth.internalLogout(req, res, next);
+      res.status(401).send();
+      return;
     }
 
     // Step 2. Call the worker method
     const { body } = req;
     const args = {
-      instanceName: validator.escape(body.instanceName),
-      signerEmail: validator.escape(body.signerEmail),
-      signerName: validator.escape(body.signerName),
-      ccEmail: validator.escape(body.ccEmail),
-      ccName: validator.escape(body.ccName),
-      workflowId: req.session.workflowId,
-      accessToken: req.user.accessToken,
+      instanceName: validator.escape(body?.instanceName),
+      signerEmail: validator.escape(body?.signerEmail),
+      signerName: validator.escape(body?.signerName),
+      ccEmail: validator.escape(body?.ccEmail),
+      ccName: validator.escape(body?.ccName),
+      workflowId: req?.session?.workflowId,
+      accessToken: req?.user?.accessToken,
       basePath: config.maestroApiUrl,
-      accountId: req.session.accountId,
+      accountId: req?.session?.accountId,
     };
-    let results = null;
 
     try {
-      const workflow = await workflowsUtils.getWorkflowDefinition(args);
-      results = await workflowsUtils.triggerWorkflowInstance(workflow, args);
-    } catch (error) {
-      const errorCode = error?.response?.statusCode;
-      const errorMessage = error?.response?.body?.message;
-      let errorInfo;
-
-      // use custom error message if Maestro is not enabled for the account
-      if (errorCode === 403) {
-        errorInfo = 'Contact Support to enable this Feature';
-      }
-
-      res.status(403).send({ err: error, errorCode, errorMessage, errorInfo });
-    }
-
-    if (results) {
+      const workflow = await WorkflowsService.getWorkflowDefinition(args);
+      const results = await WorkflowsService.triggerWorkflowInstance(workflow, args);
       res.status(200).send(results);
+    } catch (error) {
+      this.handleForbiddenResponse(error, res);
     }
   };
 
@@ -238,6 +157,16 @@ class WorkflowsController {
     const templatePath = path.resolve(this.templatesPath, templateName);
     res.download(templatePath);
   };
+
+  static handleForbiddenResponse(error, res) {
+    const errorCode = error?.response?.statusCode;
+    const errorMessage = error?.response?.body?.message;
+
+    // use custom error message if Maestro is not enabled for the account
+    const errorInfo = errorCode === 403 ? 'Contact Support to enable this Feature' : null;
+
+    res.status(403).send({ err: error, errorCode, errorMessage, errorInfo });
+  }
 }
 
 module.exports = WorkflowsController;
