@@ -67,7 +67,7 @@ class WorkflowsController {
         basePath: config.maestroApiUrl,
         accountId: req?.session?.accountId,
       });
-      // const consentUrl = await publishWorkflow(args, req.session.workflowId);
+
       const workflowResponse = {
         ...workflow.workflowDefinition,
         workflowDefinitionId: workflow.workflowDefinitionId,
