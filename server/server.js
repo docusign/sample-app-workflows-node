@@ -42,6 +42,8 @@ const app = express()
   .use((req, res, next) => {
     req.dsAuthCodeGrant = new ACGController();
     req.dsAuthJwt = new JwtController();
+    req.logger = logger;
+    req.logger.info(`[${req.originalUrl}]`);
 
     switch (true) {
       case req.url.startsWith(`${BACKEND_ROUTE.AUTH}/jwt`):

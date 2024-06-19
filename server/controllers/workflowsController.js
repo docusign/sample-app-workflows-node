@@ -14,6 +14,7 @@ const validator = require('validator');
 const docusign = require('docusign-esign');
 const config = require('../config');
 const WorkflowsService = require('../services/workflowsService');
+const createPrefixedLogger = require('../utils/logger');
 
 const oAuth = docusign.ApiClient.OAuth;
 const restApi = docusign.ApiClient.RestApi;
@@ -22,23 +23,7 @@ class WorkflowsController {
   // For production environment, change "DEMO" to "PRODUCTION"
   static basePath = restApi.BasePath.DEMO; // https://demo.docusign.net/restapi
   static oAuthBasePath = oAuth.BasePath.DEMO; // account-d.docusign.com
-
-  /**
-   * Cancels workflow instance and sends a response.
-   */
-  static cancelWorkflow = async (req, res) => {
-    try {
-      const results = await WorkflowsService.cancelWorkflowInstance({
-        instanceId: req?.params?.instanceId,
-        accessToken: req?.user?.accessToken,
-        basePath: config.maestroApiUrl,
-        accountId: req?.session?.accountId,
-      });
-      res.status(200).send(results);
-    } catch (error) {
-      this.handleForbiddenResponse(error, res);
-    }
-  };
+  static logger = createPrefixedLogger(WorkflowsController.name);
 
   /**
    * Creates workflow instance and sends a response.
@@ -47,12 +32,13 @@ class WorkflowsController {
     if (!req.session.templateId) {
       const templateResponse = await WorkflowsService.getTemplate({
         basePath: this.basePath,
-        accessToken: req?.user?.accessToken,
-        accountId: req?.session?.accountId,
+        accessToken: req.user.accessToken,
+        accountId: req.session.accountId,
         templateType: req?.body?.templateType,
       });
 
       if (!templateResponse.templateId) {
+        this.logger.info("createWorkflow: templateResponse doesn't have templateId, returns 400 status");
         res.status(400).send(templateResponse);
         return;
       }
@@ -62,10 +48,11 @@ class WorkflowsController {
 
     try {
       const workflow = await WorkflowsService.createWorkflow({
-        templateId: req?.session?.templateId,
-        accessToken: req?.user?.accessToken,
+        templateId: req.session.templateId,
+        accessToken: req.user.accessToken,
         basePath: config.maestroApiUrl,
-        accountId: req?.session?.accountId,
+        accountId: req.session.accountId,
+        templateType: req?.body?.templateType,
       });
 
       const workflowResponse = {
@@ -79,6 +66,66 @@ class WorkflowsController {
   };
 
   /**
+   * Cancels workflow instance and sends a response.
+   */
+  static cancelWorkflow = async (req, res) => {
+    try {
+      const results = await WorkflowsService.cancelWorkflowInstance({
+        instanceId: req?.params?.instanceId,
+        accessToken: req.user.accessToken,
+        basePath: config.maestroApiUrl,
+        accountId: req.session.accountId,
+      });
+      res.status(200).send(results);
+    } catch (error) {
+      this.handleForbiddenResponse(error, res);
+    }
+  };
+
+  /**
+   * Publish workflow by id.
+   */
+  static publishWorkflow = async (req, res) => {
+    const workflowId = req?.body?.workflowId;
+
+    try {
+      let result = await WorkflowsService.publishWorkflow(
+        {
+          basePath: config.maestroApiUrl,
+          accessToken: req.user.accessToken,
+          accountId: req.session.accountId,
+        },
+        workflowId
+      );
+
+      res.status(200).send(result);
+    } catch (error) {
+      if (error?.errorMessage === 'Consent required') {
+        res.status(210).send(error.consentUrl);
+        return;
+      }
+
+      this.handleForbiddenResponse(error, res);
+    }
+  };
+
+  /**
+   * Gets workflow definitions and returns it.
+   */
+  static getWorkflowDefinitions = async (req, res) => {
+    try {
+      const results = await WorkflowsService.getWorkflowDefinitions({
+        accessToken: req.user.accessToken,
+        basePath: config.maestroApiUrl,
+        accountId: req.session.accountId,
+      });
+      res.status(200).send(results);
+    } catch (error) {
+      this.handleForbiddenResponse(error, res);
+    }
+  };
+
+  /**
    * Gets workflow instance and returns it.
    */
   static getWorkflowInstance = async (req, res) => {
@@ -86,9 +133,9 @@ class WorkflowsController {
       const results = await WorkflowsService.getWorkflowInstance({
         instanceId: req?.params?.instanceId,
         definitionId: req?.params?.definitionId,
-        accessToken: req?.user?.accessToken,
+        accessToken: req.user.accessToken,
         basePath: config.maestroApiUrl,
-        accountId: req?.session?.accountId,
+        accountId: req.session.accountId,
       });
       res.status(200).send(results);
     } catch (error) {
@@ -103,9 +150,9 @@ class WorkflowsController {
     try {
       const results = await WorkflowsService.getWorkflowInstances({
         definitionId: req?.params?.definitionId,
-        accessToken: req?.user?.accessToken,
+        accessToken: req.user.accessToken,
         basePath: config.maestroApiUrl,
-        accountId: req?.session?.accountId,
+        accountId: req.session.accountId,
       });
 
       res.status(200).send(results);
@@ -117,16 +164,7 @@ class WorkflowsController {
   /**
    * Triggers a workflow instance and sends a response.
    */
-  static triggerWorkflow = async (req, res, next) => {
-    // Step 1. Check the token
-    const isTokenOK = req.dsAuth.checkToken(req);
-    if (!isTokenOK) {
-      req.dsAuth.internalLogout(req, res, next);
-      res.status(401).send();
-      return;
-    }
-
-    // Step 2. Call the worker method
+  static triggerWorkflow = async (req, res) => {
     const { body } = req;
     const args = {
       instanceName: validator.escape(body?.instanceName),
@@ -134,10 +172,10 @@ class WorkflowsController {
       signerName: validator.escape(body?.signerName),
       ccEmail: validator.escape(body?.ccEmail),
       ccName: validator.escape(body?.ccName),
-      workflowId: req?.session?.workflowId,
-      accessToken: req?.user?.accessToken,
+      workflowId: req.session.workflowId,
+      accessToken: req.user.accessToken,
       basePath: config.maestroApiUrl,
-      accountId: req?.session?.accountId,
+      accountId: req.session.accountId,
     };
 
     try {
@@ -159,6 +197,8 @@ class WorkflowsController {
   };
 
   static handleForbiddenResponse(error, res) {
+    this.logger.error(`handleForbiddenResponse: ${error}`);
+
     const errorCode = error?.response?.statusCode;
     const errorMessage = error?.response?.body?.message;
 

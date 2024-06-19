@@ -16,7 +16,7 @@ const Hero = () => {
 
   const togglePopup = async () => {
     if (!authType) {
-      dispatch({ type: isOpened ? 'CLOSE' : 'OPEN' });
+      dispatch({ type: isOpened ? 'CLOSE_POPUP' : 'OPEN_POPUP' });
       return;
     }
 

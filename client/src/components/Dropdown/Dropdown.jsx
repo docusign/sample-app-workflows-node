@@ -1,36 +1,36 @@
 import WorkflowCreationPopup from '../Popups/WorkflowDefinitionCreation/WorkflowDefinitionCreation.jsx';
 import { useState } from 'react';
 import { api } from '../../api';
+import { TEMPLATE_TYPE } from '../../constants.js';
 
 import styles from './Dropdown.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 
 const Dropdown = props => {
-  const [selectedDocument, setSelectedDocument] = useState('Create 1-9 document');
+  const [selectedDocument, setSelectedDocument] = useState(`Create ${TEMPLATE_TYPE.I9}`);
   const dispatch = useDispatch();
   const isOpened = useSelector(state => state.popup.isOpened);
 
   const togglePopup = () => {
-    dispatch({ type: isOpened ? 'CLOSE' : 'OPEN' });
-    dispatch({ type: 'CLEAR_ERROR' });
+    dispatch({ type: isOpened ? 'CLOSE_POPUP' : 'OPEN_POPUP' });
+    dispatch({ type: 'CLEAR_ERROR_POPUP' });
+    dispatch({ type: 'CLEAR_WORKFLOW' });
   };
 
   const handleCreateWorkflow = async option => {
     setSelectedDocument(option.value);
-    dispatch({ type: 'OPEN' });
-    dispatch({ type: 'LOADING' });
-    const responseWorkflow = await api.workflows.createWorkflowDefinition(option.type);
+    dispatch({ type: 'OPEN_POPUP' });
+    dispatch({ type: 'LOADING_POPUP' });
+    const { status, data } = await api.workflows.createWorkflowDefinition(option.type);
 
-    if (responseWorkflow.status === 400) {
-      dispatch({
-        type: 'ERROR',
-        payload: { errorMessage: responseWorkflow.data.message, templateName: responseWorkflow.data.templateName },
-      });
-    } else {
-      dispatch({ type: 'ADD_WORKFLOW', payload: responseWorkflow.data });
+    if (status === 400) {
+      dispatch({ type: 'SET_ERROR_POPUP', payload: { errorMessage: data.message, templateName: data.templateName } });
+      dispatch({ type: 'LOADED_POPUP' });
+      return;
     }
-    dispatch({ type: 'LOADED' });
-    console.log('FullWorkflow ', responseWorkflow.data);
+
+    dispatch({ type: 'ADD_WORKFLOW', payload: data });
+    dispatch({ type: 'LOADED_POPUP' });
   };
 
   return (

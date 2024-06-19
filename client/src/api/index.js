@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { store } from '../store/store';
 
 const apiUrl = process.env.BACKEND_API;
 
@@ -6,6 +7,16 @@ const instance = axios.create({
   baseURL: `${apiUrl}/api`,
   withCredentials: true,
 });
+
+instance.interceptors.response.use(
+  response => response,
+  err => {
+    if (err?.response?.status === 401) {
+      store.dispatch({ type: 'CLEAR_STATE' });
+    }
+    throw err;
+  }
+);
 
 export const api = Object.freeze({
   jwt: {
@@ -47,17 +58,6 @@ export const api = Object.freeze({
     },
   },
   workflows: {
-    cancelWorkflowInstance: async (workflow) => {
-      try {
-        const res = await instance.put(`/workflows/${workflow.definitionId}/instances/${workflow.instanceId}/cancel`);
-        return res;
-      } catch (error) {
-        if (error.response && error.response.status === 400) {
-          return error.response;
-        }
-        throw error;
-      }
-    },
     createWorkflowDefinition: async templateType => {
       try {
         const res = await instance.post('/workflows/create', { templateType: templateType });
@@ -69,8 +69,47 @@ export const api = Object.freeze({
         throw error;
       }
     },
+    cancelWorkflowInstance: async workflow => {
+      try {
+        const res = await instance.put(`/workflows/${workflow.definitionId}/instances/${workflow.instanceId}/cancel`);
+        return res;
+      } catch (error) {
+        if (error.response && error.response.status === 400) {
+          return error.response;
+        }
+        throw error;
+      }
+    },
+    publishWorkflow: async workflowId => {
+      const res = await instance.post('/workflows/publish', { workflowId });
+
+      if (res.status === 210) {
+        try {
+          window.open(res.data, 'newTab', 'width=800,height=600');
+          await new Promise(r => setTimeout(r, 3000));
+
+          const published = await instance.post('/workflows/publish', { workflowId });
+          return published;
+        } catch (error) {
+          console.log(error);
+        }
+      }
+
+      return res;
+    },
+    getWorkflowDefinitions: async () => {
+      const res = await instance.get(`/workflows/definitions`);
+      return res;
+    },
+    getWorkflowInstance: async workflow => {
+      const res = await instance.get(`/workflows/${workflow.definitionId}/instances/${workflow.instanceId}`);
+      return res;
+    },
+    getWorkflowInstances: async definitionId => {
+      const res = await instance.get(`/workflows/${definitionId}/instances`);
+      return res;
+    },
     downloadWorkflowTemplate: async templateName => {
-      // await instance.get(`/workflows/download/${templateName}`);
       try {
         const response = await fetch(`/workflows/download/${templateName}`);
         const blob = await response.blob();
@@ -84,14 +123,6 @@ export const api = Object.freeze({
       } catch (error) {
         console.error('There was an error during downloading:', error);
       }
-    },
-    getWorkflowInstance: async (workflow) => {
-      const res = await instance.get(`/workflows/${workflow.definitionId}/instances/${workflow.instanceId}`);
-      return res;
-    },
-    getWorkflowInstances: async (definitionId) => {
-      const res = await instance.get(`/workflows/${definitionId}/instances`);
-      return res;
     },
   },
 });

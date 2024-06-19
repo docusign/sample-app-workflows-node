@@ -24,7 +24,7 @@ class WorkflowsService {
   static templatesPath = path.join(path.resolve(), 'assets/templates');
   static i9Template = 'I9Template.json';
   static offerLetterTemplate = 'OfferLetterTemplate.json';
-  static workflowName = 'Example workflow - send invite to signer'; // Should be dynamic in future
+  static workflowSuffix = 'send invite to signer';
   static ndaTemplate = 'ndaTemplate.json'; // TODO: Add NDA Template File
   static dsApiClient = new docusign.ApiClient();
   static workflowManagementApi = new docusign.WorkflowManagementApi(this.dsApiClient);
@@ -83,7 +83,7 @@ class WorkflowsService {
     };
   };
 
-  static createWorkflow = async args => {
+  static createWorkflow = async ({ templateId, accessToken, basePath, accountId, templateType }) => {
     const signerId = uuid.v4();
     const ccId = uuid.v4();
     const triggerId = 'wfTrigger';
@@ -261,7 +261,7 @@ class WorkflowsService {
         documents: [
           {
             type: 'FromDSTemplate',
-            eSignTemplateId: args.templateId,
+            eSignTemplateId: templateId,
           },
         ],
         emailSubject: 'Please sign this document',
@@ -638,9 +638,9 @@ class WorkflowsService {
     };
 
     const workflowDefinition = docusign.WorkflowDefinition.constructFromObject({
-      workflowName: this.workflowName,
+      workflowName: `${templateType} - ${this.workflowSuffix}`,
       workflowDescription: '',
-      accountId: args.accountId,
+      accountId: accountId,
       participants: participants,
       trigger: trigger,
       variables: variables,
@@ -649,11 +649,11 @@ class WorkflowsService {
     workflowDefinition.documentVersion = '1.0.0';
     workflowDefinition.schemaVersion = '1.0.0';
 
-    this.dsApiClient.setBasePath(args.basePath);
-    this.dsApiClient.addDefaultHeader('Authorization', `Bearer ${args.accessToken}`);
+    this.dsApiClient.setBasePath(basePath);
+    this.dsApiClient.addDefaultHeader('Authorization', `Bearer ${accessToken}`);
 
     const workflowManagementApi = new docusign.WorkflowManagementApi(this.dsApiClient);
-    const workflow = await workflowManagementApi.createWorkflowDefinition({ workflowDefinition }, args.accountId);
+    const workflow = await workflowManagementApi.createWorkflowDefinition({ workflowDefinition }, accountId);
 
     return workflow;
   };
@@ -669,9 +669,10 @@ class WorkflowsService {
     this.dsApiClient.setBasePath(args.basePath);
     this.dsApiClient.addDefaultHeader('Authorization', `Bearer ${args.accessToken}`);
 
-    return await this.workflowManagementApi.getWorkflowDefinitions(args.accountId, {
+    const definitions = await this.workflowManagementApi.getWorkflowDefinitions(args.accountId, {
       status: 'active',
     });
+    return definitions;
   };
 
   static getWorkflowInstance = async args => {
@@ -697,14 +698,21 @@ class WorkflowsService {
     this.dsApiClient.addDefaultHeader('Authorization', `Bearer ${args.accessToken}`);
 
     try {
-      await this.workflowManagementApi.publishOrUnPublishWorkflowDefinition(
+      const publishedWorkflow = await this.workflowManagementApi.publishOrUnPublishWorkflowDefinition(
         new docusign.DeployRequest(),
         args.accountId,
         workflowId
       );
+      return publishedWorkflow;
     } catch (error) {
-      const isConsentRequired = error?.response?.data?.error === 'consent_required';
-      if (isConsentRequired) return error.response.data.consentUrl;
+      const isConsentRequired = error?.response?.body?.message === 'Consent required';
+
+      if (isConsentRequired) {
+        throw {
+          errorMessage: 'Consent required',
+          consentUrl: error.response.body.consentUrl,
+        };
+      }
 
       throw error;
     }
