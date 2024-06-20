@@ -16,7 +16,7 @@ const axios = require('axios');
 const docusign = require('docusign-esign');
 const moment = require('moment'); // Used to set and determine a token's expiration date
 const config = require('../config');
-const { scopes } = require('../constants');
+const { scopes, METHOD } = require('../constants');
 const createPrefixedLogger = require('../utils/logger');
 
 const oAuth = docusign.ApiClient.OAuth;
@@ -46,6 +46,7 @@ class JwtController {
     // logged in or was redirected to the consent URL and then redirected back to the
     // app. Only set the user to logged out if an unknown error occurred during the
     // login process.
+    req.session.authMethod = METHOD.JWT;
     const isTokenValid = this.checkToken(req);
 
     try {

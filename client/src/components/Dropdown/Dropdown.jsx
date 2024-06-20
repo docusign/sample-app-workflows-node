@@ -1,13 +1,11 @@
-import WorkflowCreationPopup from '../Popups/WorkflowDefinitionCreation/WorkflowDefinitionCreation.jsx';
 import { useState } from 'react';
-import { api } from '../../api';
-import { TEMPLATE_TYPE } from '../../constants.js';
-
-import styles from './Dropdown.module.css';
 import { useDispatch, useSelector } from 'react-redux';
+import styles from './Dropdown.module.css';
+import WorkflowCreationPopup from '../Popups/WorkflowDefinitionCreation/WorkflowDefinitionCreation.jsx';
+import { api } from '../../api';
 
-const Dropdown = props => {
-  const [selectedDocument, setSelectedDocument] = useState(`Create ${TEMPLATE_TYPE.I9}`);
+const Dropdown = ({ options }) => {
+  const [selectedDocument, setSelectedDocument] = useState(options[0].value);
   const dispatch = useDispatch();
   const isOpened = useSelector(state => state.popup.isOpened);
 
@@ -17,11 +15,11 @@ const Dropdown = props => {
     dispatch({ type: 'CLEAR_WORKFLOW' });
   };
 
-  const handleCreateWorkflow = async option => {
-    setSelectedDocument(option.value);
+  const handleCreateWorkflow = async ({ value, type }) => {
+    setSelectedDocument(value);
     dispatch({ type: 'OPEN_POPUP' });
     dispatch({ type: 'LOADING_POPUP' });
-    const { status, data } = await api.workflows.createWorkflowDefinition(option.type);
+    const { status, data } = await api.workflows.createWorkflowDefinition(type);
 
     if (status === 400) {
       dispatch({ type: 'SET_ERROR_POPUP', payload: { errorMessage: data.message, templateName: data.templateName } });
@@ -46,7 +44,7 @@ const Dropdown = props => {
         Get Started
       </button>
       <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        {props.options.map(option => (
+        {options.map(option => (
           <a
             key={option.value}
             className={`dropdown-item ${styles.dropdownItem}`}
@@ -59,7 +57,7 @@ const Dropdown = props => {
       {isOpened ? (
         <WorkflowCreationPopup
           togglePopup={togglePopup}
-          message={props.options.find(option => option.value === selectedDocument).message}
+          message={options.find(option => option.value === selectedDocument).message}
         />
       ) : null}
     </div>

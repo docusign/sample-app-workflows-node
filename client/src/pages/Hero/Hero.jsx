@@ -1,18 +1,18 @@
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import styles from './Hero.module.css';
 import Footer from '../../components/Footer/Footer.jsx';
 import Header from '../../components/Header/Header.jsx';
 import textContent from '../../assets/text.json';
-import styles from './Hero.module.css';
 import PopupLoginForm from '../../components/LoginForm/LoginForm.jsx';
 import { LoginStatus, ROUTE } from '../../constants.js';
 import { api } from '../../api';
 
 const Hero = () => {
-  const isOpened = useSelector(state => state.popup.isOpened);
-  const authType = useSelector(state => state.auth.authType);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const isOpened = useSelector(state => state.popup.isOpened);
+  const authType = useSelector(state => state.auth.authType);
 
   const togglePopup = async () => {
     if (!authType) {
@@ -42,13 +42,13 @@ const Hero = () => {
           <button className="btn btn-secondary" onClick={togglePopup}>
             {textContent.hero.tryButton}
           </button>
-          {isOpened ? (
+          {isOpened && (
             <PopupLoginForm
               togglePopup={togglePopup}
               title={textContent.loader.title}
               paragraph={textContent.loader.paragraph}
             />
-          ) : null}
+          )}
         </div>
       </div>
       <Footer />

@@ -1,6 +1,6 @@
-import Loader from '../../components/Loader/Loader.jsx';
-import styles from './withPopup.module.css';
 import { useDispatch, useSelector } from 'react-redux';
+import styles from './withPopup.module.css';
+import Loader from '../../components/Loader/Loader.jsx';
 
 const withPopup = WrappedComponent => {
   const PopupHOC = props => {
@@ -14,13 +14,14 @@ const withPopup = WrappedComponent => {
     return (
       <div className={styles.popup}>
         <div className={styles.inner}>
-          {isLoading ? null : (
+          {!isLoading && (
             <button className={styles.close} onClick={props.togglePopup} type="button" aria-label="Close">
               <span className={styles.closeLabel} aria-hidden="true">
                 &times;
               </span>
             </button>
           )}
+
           {isLoading ? (
             <Loader visible={isLoading} title={props.title} paragraph={props.paragraph} />
           ) : (

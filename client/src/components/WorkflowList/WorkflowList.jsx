@@ -1,11 +1,10 @@
-import WorkflowStatusPill from '../WorkflowStatusPill/WorkflowStatusPill.jsx';
 import { Link } from 'react-router-dom';
-import { ROUTE, WorkflowItemsInteractionType } from '../../constants.js';
 import { useDispatch } from 'react-redux';
-
-import dropdown from '../../assets/img/dropdown.svg';
 import styles from './WorkflowList.module.css';
-import { api } from '../../api/index.js';
+import WorkflowStatusPill from '../WorkflowStatusPill/WorkflowStatusPill.jsx';
+import dropdown from '../../assets/img/dropdown.svg';
+import { ROUTE, WorkflowItemsInteractionType } from '../../constants.js';
+import { api } from '../../api';
 
 const WorkflowList = ({ items, interactionType }) => {
   const dispatch = useDispatch();
@@ -41,7 +40,8 @@ const WorkflowList = ({ items, interactionType }) => {
             <h4>{item.name}</h4>
           </div>
           <p>{item.type}</p>
-          {interactionType === WorkflowItemsInteractionType.TRIGGER ? (
+
+          {interactionType === WorkflowItemsInteractionType.TRIGGER && (
             <button
               onClick={() => {
                 //TODO: Inject backend implementation for triggering workflow
@@ -49,7 +49,9 @@ const WorkflowList = ({ items, interactionType }) => {
             >
               Trigger workflow
             </button>
-          ) : (
+          )}
+
+          {interactionType === WorkflowItemsInteractionType.MANAGE && (
             <div className="dropdown">
               <button
                 className={styles.dropdownButton}

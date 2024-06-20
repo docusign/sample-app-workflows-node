@@ -1,7 +1,7 @@
-import { useSelector, useDispatch } from 'react-redux';
-import { Navigate } from 'react-router-dom';
-import { LoginStatus, ROUTE } from '../../constants.js';
 import { useEffect } from 'react';
+import { Navigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { LoginStatus, ROUTE } from '../../constants.js';
 import { api } from '../../api';
 
 const withAuth = WrappedComponent => {

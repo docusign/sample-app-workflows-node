@@ -1,9 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux';
+import styles from './WorkflowDefinitionCreation.module.css';
 import withPopup from '../../../hocs/withPopup/withPopup.jsx';
-import { api } from '../../../api';
 import imgError from '../../../assets/img/workflow-trigger.svg';
 import imgSuccess from '../../../assets/img/success.svg';
-import styles from './WorkflowDefinitionCreation.module.css';
+import { api } from '../../../api';
 
 const WorkflowDefinitionCreation = ({ message }) => {
   const dispatch = useDispatch();

@@ -1,11 +1,10 @@
 import { useState } from 'react';
-import { api } from '../../api';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import withPopup from '../../hocs/withPopup/withPopup.jsx';
-
-import { LoginStatus, ROUTE } from '../../constants.js';
 import styles from './LoginForm.module.css';
+import withPopup from '../../hocs/withPopup/withPopup.jsx';
+import { LoginStatus, ROUTE } from '../../constants.js';
+import { api } from '../../api';
 
 const LoginForm = ({ togglePopup, setLoading }) => {
   const [authType, setAuthType] = useState(LoginStatus.ACG);
@@ -19,7 +18,7 @@ const LoginForm = ({ togglePopup, setLoading }) => {
     try {
       if (authType === LoginStatus.JWT) {
         const res = await api.jwt.login();
-        dispatch({ type: 'LOGIN', authType, userName: res.data.name, userEmail: res.data.email });
+        dispatch({ type: 'LOGIN', payload: { authType, userName: res.data.name, userEmail: res.data.email } });
         navigate(ROUTE.HOME);
         dispatch({ type: 'CLOSE_POPUP' });
         dispatch({ type: 'LOADED_POPUP' });

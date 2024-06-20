@@ -14,6 +14,7 @@ const moment = require('moment');
 const passport = require('passport');
 const config = require('../config');
 const createPrefixedLogger = require('../utils/logger');
+const { METHOD } = require('../constants');
 
 class ACGController {
   constructor() {
@@ -22,6 +23,7 @@ class ACGController {
 
   login(req, res, next) {
     this.internalLogout(req);
+    req.session.authMethod = METHOD.ACG;
     passport.authenticate('docusign')(req, res, next);
   }
 

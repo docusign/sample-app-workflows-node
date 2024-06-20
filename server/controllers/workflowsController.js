@@ -115,7 +115,7 @@ class WorkflowsController {
   static getWorkflowDefinitions = async (req, res) => {
     try {
       const results = await WorkflowsService.getWorkflowDefinitions({
-        accessToken: req.user.accessToken,
+        accessToken: req?.user?.accessToken || req?.session?.accessToken,
         basePath: config.maestroApiUrl,
         accountId: req.session.accountId,
       });

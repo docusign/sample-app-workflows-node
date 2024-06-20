@@ -7,7 +7,7 @@ import withAuth from '../../hocs/withAuth/withAuth.jsx';
 import WorkflowList from '../../components/WorkflowList/WorkflowList.jsx';
 import WorkflowDescription from '../../components/WorkflowDescription/WorkflowDescription.jsx';
 import TriggerBehindTheScenes from '../../components/WorkflowDescription/BehindTheScenes/TriggerBehindTheScenes.jsx';
-import { TEMPLATE_TYPE, WorkflowItemsInteractionType, WorkflowStatus } from '../../constants.js';
+import { TemplateType, WorkflowItemsInteractionType, WorkflowStatus } from '../../constants.js';
 import { api } from '../../api';
 
 const TriggerWorkflow = () => {
@@ -19,12 +19,12 @@ const TriggerWorkflow = () => {
       const response = await api.workflows.getWorkflowDefinitions();
 
       const definitions = response.data.value.map(definition => {
-        const templateKeys = Object.keys(TEMPLATE_TYPE);
-        const foundKey = templateKeys.find(key => definition.name.startsWith(TEMPLATE_TYPE[key]));
+        const templateKeys = Object.keys(TemplateType);
+        const foundKey = templateKeys.find(key => definition.name.startsWith(TemplateType[key]));
 
         return {
-          name: `WF ${TEMPLATE_TYPE[foundKey]}`,
-          type: TEMPLATE_TYPE[foundKey] || 'ExampleType',
+          name: `WF ${TemplateType[foundKey] ?? 'ExampleName'}`,
+          type: TemplateType[foundKey] || 'ExampleType',
           status: WorkflowStatus.InProgress,
         };
       });
@@ -39,7 +39,7 @@ const TriggerWorkflow = () => {
     <div className="page-box">
       <Header />
       <div className={styles.contentContainer}>
-        <WorkflowDescription title={'Trigger a workflow'} behindTheScenesComponent={<TriggerBehindTheScenes />} />
+        <WorkflowDescription title="Trigger a workflow" behindTheScenesComponent={<TriggerBehindTheScenes />} />
         <WorkflowList items={workflowDefinitions} interactionType={WorkflowItemsInteractionType.TRIGGER} />
       </div>
       <Footer withContent={false} />

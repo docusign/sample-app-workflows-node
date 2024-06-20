@@ -121,7 +121,7 @@ export const api = Object.freeze({
         a.click();
         document.body.removeChild(a);
       } catch (error) {
-        console.error('There was an error during downloading:', error);
+        console.log(error);
       }
     },
   },
