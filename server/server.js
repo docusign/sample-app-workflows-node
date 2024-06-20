@@ -13,7 +13,7 @@ const chalk = require('chalk');
 const DocusignStrategy = require('passport-docusign');
 const moment = require('moment');
 const config = require('./config');
-const { scopes, BACKEND_ROUTE } = require('./constants');
+const { scopes, BACKEND_ROUTE, METHOD } = require('./constants');
 const authRouter = require('./routes/authRouter');
 const workflowsRouter = require('./routes/workflowsRouter');
 const createPrefixedLogger = require('./utils/logger');
@@ -42,12 +42,14 @@ const app = express()
   .use((req, res, next) => {
     req.dsAuthCodeGrant = new ACGController();
     req.dsAuthJwt = new JwtController();
+    req.logger = logger;
+    req.logger.info(`[${req.originalUrl}]`);
 
     switch (true) {
-      case req.url.startsWith(`${BACKEND_ROUTE.AUTH}/jwt`):
+      case req.session.authMethod === METHOD.JWT || req.url.startsWith(`${BACKEND_ROUTE.AUTH}/jwt`):
         req.dsAuth = req.dsAuthJwt;
         break;
-      case req.url.startsWith(`${BACKEND_ROUTE.AUTH}/passport`):
+      case req.session.authMethod === METHOD.ACG || req.url.startsWith(`${BACKEND_ROUTE.AUTH}/passport`):
         req.dsAuth = req.dsAuthCodeGrant;
         break;
       default:

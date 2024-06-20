@@ -9,6 +9,11 @@ const TEMPLATE_TYPE = {
   NDA: 'NDA document',
 };
 
+const METHOD = {
+  JWT: 'jwt-auth',
+  ACG: 'grand-auth',
+};
+
 const MAESTRO_SCOPES = ['signature', 'aow_manage', 'impersonation'];
 const WEBFORMS_SCOPES = ['webforms_read', 'webforms_instance_read', 'webforms_instance_write'];
 
@@ -18,4 +23,5 @@ module.exports = {
   scopes,
   BACKEND_ROUTE,
   TEMPLATE_TYPE,
+  METHOD,
 };

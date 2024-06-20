@@ -11,24 +11,36 @@ export const LoginStatus = {
 };
 
 export const WorkflowItemsInteractionType = {
-  TRIGGER: "Trigger",
-  MANAGE: "Manage"
-}
+  TRIGGER: 'Trigger',
+  MANAGE: 'Manage',
+};
 
 export const WorkflowStatus = {
-  Failed: "Failed",
-  InProgress: "In-progress",
-  Completed: "Completed",
+  Failed: 'Failed',
+  InProgress: 'In-progress',
+  Completed: 'Completed',
+};
+
+export const TemplateType = {
+  I9: '1-9 document',
+  OFFER: 'Offer letter',
+  NDA: 'NDA document',
 };
 
 export const WorkflowOptions = [
-  { value: 'Create 1-9 document', type: "1-9 document", message: "You've successfully created a 1-9 workflow" },
-  { value: 'Create offer letter', type: "Offer letter", message: "You've successfully created Offer letter workflow" },
-  { value: 'Create NDA document', type: "NDA document", message: "You've successfully created NDA workflow" },
-];
-
-export const JWTWorkflowTypes = [
-  { name: "WF name long name", type: "1-9 document", status: WorkflowStatus.InProgress },
-  { name: "WF name long name", type: "Offer letter", status: WorkflowStatus.Failed },
-  { name: "WF name long name", type: "NDA document", status: WorkflowStatus.Completed }
+  {
+    value: `Create ${TemplateType.I9}`,
+    type: TemplateType.I9,
+    message: "You've successfully created a 1-9 workflow",
+  },
+  {
+    value: `Create ${TemplateType.OFFER}`,
+    type: TemplateType.OFFER,
+    message: "You've successfully created Offer letter workflow",
+  },
+  {
+    value: `Create ${TemplateType.NDA}`,
+    type: TemplateType.NDA,
+    message: "You've successfully created NDA workflow",
+  },
 ];

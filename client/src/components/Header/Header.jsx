@@ -1,9 +1,8 @@
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-
+import styles from './Header.module.css';
 import logo from '../../assets/img/logo.svg';
 import source from '../../assets/img/github-source.svg';
-import styles from './Header.module.css';
 import textContent from '../../assets/text.json';
 import { LoginStatus, ROUTE } from '../../constants.js';
 import { api } from '../../api';

@@ -7,19 +7,19 @@ const initialState = {
 
 const popupReducer = (state = initialState, { type, payload }) => {
   switch (type) {
-    case 'OPEN':
+    case 'OPEN_POPUP':
       return { ...state, isOpened: true };
 
-    case 'CLOSE':
+    case 'CLOSE_POPUP':
       return { ...state, isOpened: false };
 
-    case 'LOADING':
+    case 'LOADING_POPUP':
       return { ...state, isLoading: true };
 
-    case 'LOADED':
+    case 'LOADED_POPUP':
       return { ...state, isLoading: false };
 
-    case 'ERROR':
+    case 'SET_ERROR_POPUP':
       return {
         ...state,
         isOpened: true,
@@ -27,7 +27,7 @@ const popupReducer = (state = initialState, { type, payload }) => {
         templateName: payload.templateName,
       };
 
-    case 'CLEAR_ERROR':
+    case 'CLEAR_ERROR_POPUP':
       return { ...state, errorMessage: null, templateName: null };
 
     case 'CLEAR_STATE':
