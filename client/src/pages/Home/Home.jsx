@@ -27,6 +27,7 @@ const Home = () => {
             dropDown={true}
             title={'Create a workflow'}
             description={"Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"}
+            moreInfo={true}
           />
         )}
 

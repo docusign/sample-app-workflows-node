@@ -51,6 +51,7 @@
     max-height: 63.5vh;
     overflow:scroll;
     -webkit-overflow-scrolling: touch;
+    overflow-x: hidden;
 }
 
 .headerRow {
@@ -139,9 +140,15 @@
     flex-direction: column;
     justify-items: center;
     align-items: center;
-    padding-top: 10%;
-    padding-left: 30%;
-    width: 70%;
+    padding-top: 15rem;
+    padding-left: 5rem;
+    width: 80%;
+}
+
+.loaderContainer {
+    position: static;
+    padding-top: 15rem;
+    padding-right: 30rem;
 }
 
 .emptyListContainer h1 {

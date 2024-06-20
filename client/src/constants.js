@@ -46,3 +46,21 @@ export const WorkflowOptions = [
     message: "You've successfully created NDA workflow",
   },
 ];
+
+export const JwtWorkflowDefinitions = [
+  {
+    instanceState: `In Progress`,
+    type: TemplateType.I9,
+    name: "1-9 workflow",
+  },
+  {
+    instanceState: `In Progress`,
+    type: TemplateType.OFFER,
+    name: "Offer letter workflow",
+  },
+  {
+    instanceState: `In Progress`,
+    type: TemplateType.NDA,
+    name: "NDA workflow",
+  },
+];

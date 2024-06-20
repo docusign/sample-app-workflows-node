@@ -2,8 +2,20 @@ import { Link } from 'react-router-dom';
 import styles from './Card.module.css';
 import Dropdown from '../Dropdown/Dropdown.jsx';
 import { WorkflowOptions } from '../../constants.js';
+import { useDispatch, useSelector } from 'react-redux';
+import CreateWorkflowMoreinfoPopup from '../Popups/CreateWorkflowMoreInfo/CreateWorkflowMoreInfo.jsx';
+import { useState } from 'react';
 
 const Card = props => {
+  const [isBtsOpened, setBtsOpened] = useState(false);
+  const dispatch = useDispatch();
+  const isOpened = useSelector(state => state.popup.isOpened);
+
+  const togglePopup = async () => {
+    setBtsOpened(!isBtsOpened);
+    dispatch({ type: isOpened ? 'CLOSE_POPUP' : 'OPEN_POPUP' });
+  };
+
   return (
     <div className={styles.cardBody}>
       <div className={styles.cardContainer}>
@@ -18,7 +30,11 @@ const Card = props => {
           </Link>
         ) : (
           <div>
-            <Dropdown options={WorkflowOptions} />
+            <div className={styles.buttonGroup}>
+              {props.moreInfo ? <button className={styles.moreInfo} onClick={togglePopup}>More Info</button> : null}
+              <Dropdown options={WorkflowOptions} />
+            </div>
+            {isBtsOpened && (<CreateWorkflowMoreinfoPopup togglePopup={togglePopup}/>)}
           </div>
         )}
       </div>

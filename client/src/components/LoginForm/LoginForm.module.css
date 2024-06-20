@@ -35,7 +35,7 @@ input[type=radio] {
     flex-direction: row;
     justify-content: start;
     padding-top: 12px;
-    padding-left: 16px;
+    margin-left: 2rem;
     line-height: 20px;
     font-size: 14px;
     font-weight: 500;
@@ -51,7 +51,7 @@ input[type=radio] {
     width: 100%;
     margin-left: 6.25rem;
     padding-right: 2rem;
-    margin-top: -0.75rem;
+    margin-top: -0.25rem;
 
     display: inline-block;
     color: var(--black-extralight);
