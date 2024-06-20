@@ -6,16 +6,21 @@ import withAuth from '../../hocs/withAuth/withAuth.jsx';
 import WorkflowList from '../../components/WorkflowList/WorkflowList.jsx';
 import WorkflowDescription from '../../components/WorkflowDescription/WorkflowDescription.jsx';
 import ManageBehindTheScenes from '../../components/WorkflowDescription/BehindTheScenes/ManageBehindTheScenes.jsx';
-import { WorkflowItemsInteractionType } from '../../constants.js';
+import { ROUTE, WorkflowItemsInteractionType } from '../../constants.js';
 import { api } from '../../api/index.js';
+import { useDispatch } from 'react-redux';
 
 const ManageWorkflow = () => {
+  const dispatch = useDispatch();
   const [workflowInstances, setWorkflowInstances] = useState([]);
 
   useEffect(() => {
     const getWorkflowInstances = async () => {
       const response = await api.workflows.getWorkflowInstances();
-      setWorkflowInstances(response.data);
+      if (response.data && response.data.length > 0 && response.data !== workflowInstances) {
+        dispatch({ type: 'ADD_WORKFLOW', payload: response.data });
+        setWorkflowInstances(response.data);
+      }
     };
 
     getWorkflowInstances().catch(console.error);
@@ -25,7 +30,8 @@ const ManageWorkflow = () => {
     <div className="page-box">
       <Header />
       <div className={styles.contentContainer}>
-        <WorkflowDescription title={'Manage workflows'} behindTheScenesComponent={<ManageBehindTheScenes />} />
+        <WorkflowDescription title={'Manage workflows'} behindTheScenesComponent={<ManageBehindTheScenes />}
+                             backRoute={ROUTE.HOME} />
         <WorkflowList items={workflowInstances} interactionType={WorkflowItemsInteractionType.MANAGE} />
       </div>
       <Footer withContent={false} />

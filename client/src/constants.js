@@ -3,6 +3,7 @@ export const ROUTE = {
   HOME: '/home',
   TRIGGER: '/trigger-workflow',
   MANAGE: '/manage-workflow',
+  TRIGGERFORM: '/trigger-workflow/form'
 };
 
 export const LoginStatus = {
@@ -17,8 +18,9 @@ export const WorkflowItemsInteractionType = {
 
 export const WorkflowStatus = {
   Failed: 'Failed',
-  InProgress: 'In-progress',
+  InProgress: 'In Progress',
   Completed: 'Completed',
+  NotRun: 'Not Run',
 };
 
 export const TemplateType = {

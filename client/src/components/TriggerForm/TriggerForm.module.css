@@ -1,0 +1,77 @@
+.formContainer {
+    margin-top: 6.25rem;
+    min-height: 67vh;
+    height: 100%;
+    margin-right: 10rem;
+    width: 50%;
+    min-width: 500px;
+    background-color: var(--white-main);
+    border-radius: 8px;
+    box-shadow: 0 4px 16px 0 #0800143D !important;
+    display: flex;
+    flex-direction: column;
+}
+
+.formContainer h2 {
+    color: var(--primary-dark);
+    font-size: 24px;
+    line-height: 28px;
+    font-weight: 600;
+    width: 100%;
+    margin: 3rem 0 1.5rem 3rem;
+}
+
+.formContainer h3 {
+    color: var(--black-main);
+    font-size: 18px;
+    line-height: 24px;
+    font-weight: 500;
+    width: 100%;
+    margin: 1.5rem 0 0 3rem;
+}
+
+.divider {
+    border-bottom: 1px solid var(--grey-main);
+    width: 85%;
+    align-self: center;
+}
+
+.triggerForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.triggerForm input, label {
+    display:block;
+    margin: 0 0 0 3rem;
+}
+
+.triggerForm label {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+}
+.triggerForm input {
+    height: 40px;
+    width: 80%;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    border-radius: 2px;
+    border-style: solid;
+    border-color: var(--black-extraextralight);
+}
+
+.triggerForm button {
+    width: 120px;
+    height: 40px;
+    border-radius: 2px;
+    color: var(--white-main);
+    background-color: var(--primary-main);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    align-self: end;
+    margin-right: 2.5rem;
+}

@@ -71,7 +71,7 @@ export const api = Object.freeze({
     },
     cancelWorkflowInstance: async workflow => {
       try {
-        const res = await instance.put(`/workflows/${workflow.definitionId}/instances/${workflow.instanceId}/cancel`);
+        const res = await instance.put(`/workflows/${workflow.definitionId}/instances/${workflow.dacId}/cancel`);
         return res;
       } catch (error) {
         if (error.response && error.response.status === 400) {
@@ -102,7 +102,7 @@ export const api = Object.freeze({
       return res;
     },
     getWorkflowInstance: async workflow => {
-      const res = await instance.get(`/workflows/${workflow.definitionId}/instances/${workflow.instanceId}`);
+      const res = await instance.get(`/workflows/${workflow.definitionId}/instances/${workflow.dacId}`);
       return res;
     },
     getWorkflowInstances: async definitionId => {

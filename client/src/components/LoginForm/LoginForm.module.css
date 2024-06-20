@@ -7,13 +7,13 @@
     line-height: 24px !important;
     font-size: 16px !important;
     font-weight: 600 !important;
-    margin-top: 36px;
-    margin-left: 48px;
+    margin-top: 1.5rem;
+    margin-left: 1.75rem;
 }
 
 .radioButtonWrapper {
-    height: 60px !important;
-    width: 268px !important;
+    height: 92px !important;
+    width: 290px !important;
     border: 1px solid var(--black-extraextralight);
     background-color: var(--grey-main);
     display: flex;
@@ -49,7 +49,8 @@ input[type=radio] {
     font-size: 12px;
     font-weight: 400;
     width: 100%;
-    margin-left: 100px;
+    margin-left: 6.25rem;
+    padding-right: 2rem;
     margin-top: -0.75rem;
 
     display: inline-block;
@@ -58,11 +59,11 @@ input[type=radio] {
 }
 
 .authVariants {
-    margin-left: 48px;
     gap: 24px;
     width: 100%;
     display: flex;
-    justify-items: center;
+    flex-direction: row;
+    justify-content: center;
 }
 
 .formButtons {

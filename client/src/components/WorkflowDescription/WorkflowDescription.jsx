@@ -1,11 +1,10 @@
 import { Link } from 'react-router-dom';
 import styles from './WorkflowDescription.module.css';
-import { ROUTE } from '../../constants.js';
 
-const WorkflowDescription = ({ title, behindTheScenesComponent }) => {
+const WorkflowDescription = ({ title, behindTheScenesComponent, backRoute }) => {
   return (
     <div className={styles.descriptionContainer}>
-      <Link to={ROUTE.HOME}>
+      <Link to={backRoute}>
         <button className={styles.backButton}>&#129028; Back</button>
       </Link>
       <h2>{title}</h2>

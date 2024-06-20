@@ -1,6 +1,6 @@
 .listGroup {
     width: 100%;
-    padding-top: 6rem;
+    padding-top: 6.25rem;
     margin-left: 34px;
     max-height: 62vh;
 }
@@ -16,6 +16,7 @@
 }
 
 .listGroup h4 {
+    min-width: 145px;
     padding: 0;
     margin: 0;
     font-size: 16px;
@@ -44,6 +45,64 @@
     color: var(--black-main);
     background-color: var(--grey-main);
     border: 1px solid var(--black-extralight);
+}
+
+.list {
+    max-height: 63.5vh;
+    overflow:scroll;
+    -webkit-overflow-scrolling: touch;
+}
+
+.headerRow {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding-left: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.headerRow div {
+    display: flex;
+    flex-direction: row;
+    gap: 0.4rem;
+}
+
+.headerRow p {
+    line-height: 16px;
+    font-size: 10px;
+    font-weight: 400;
+    width: 88px !important;
+}
+
+.typeHeader {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-right: 8.75rem;
+}
+
+.headerAction {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: end;
+}
+
+.headerAction button {
+    margin-top: -3.75rem;
+    width: 250px !important;
+    height: 40px !important;
+    text-align: center !important;
+    font-size: 16px !important;
+    font-weight: 500 !important;
+    color: var(--white-main) !important;
+    background-color: var(--primary-main) !important;
+    border-radius: 2px !important;;
+}
+
+.headerAction button:hover {
+    background-color: var(--secondary-main) !important;
 }
 
 .dropdownButton {
@@ -100,7 +159,7 @@
     font-weight: 500 !important;
     color: var(--white-main) !important;
     background-color: var(--primary-main) !important;
-    border-radius: 2px !important;
+    border-radius: 2px !important;;
 }
 
 .defaultButton button:hover {

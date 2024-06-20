@@ -15,6 +15,7 @@
 
 
     --primary-main: #BA2CEC;
+    --primary-dark: #5F067E;
     --secondary-main: #8154FF;
     --white-main: #FFFFFF;
     --black-main: #080014;
@@ -29,6 +30,7 @@
     --grey-light: #FAFAFA;
     --error-main: #FF475D;
     --red-light: #FFDADF;
+    --red-extralight: #FFDAD0;
 
     --black-background-transparent: #08001480;
 }

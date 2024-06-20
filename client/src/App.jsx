@@ -7,6 +7,7 @@ import ManageWorkflowAuthenticated from './pages/ManageWorkflow/ManageWorkflow.j
 import TriggerWorkflowAuthenticated from './pages/TriggerWorkflow/TriggerWorkflow.jsx';
 import { LoginStatus, ROUTE } from './constants.js';
 import { api } from './api';
+import TriggerWorkflowFormAuthenticated from './pages/TriggerWorkflowForm/TriggerWorkflowForm.jsx';
 
 function App() {
   const location = useLocation();
@@ -38,6 +39,7 @@ function App() {
       <Route path={ROUTE.HOME} element={<HomeAuthenticated />} />
       <Route path={ROUTE.TRIGGER} element={<TriggerWorkflowAuthenticated />} />
       <Route path={ROUTE.MANAGE} element={<ManageWorkflowAuthenticated />} />
+      <Route path={ROUTE.TRIGGERFORM} element={<TriggerWorkflowFormAuthenticated />} />
     </Routes>
   );
 }
