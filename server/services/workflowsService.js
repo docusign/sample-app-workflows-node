@@ -681,7 +681,7 @@ class WorkflowsService {
 
     return await this.workflowInstanceManagementApi.getWorkflowInstance(
       args.accountId,
-      args.workflowDefinitionId,
+      args.definitionId,
       args.instanceId
     );
   };
@@ -690,7 +690,7 @@ class WorkflowsService {
     this.dsApiClient.setBasePath(args.basePath);
     this.dsApiClient.addDefaultHeader('Authorization', `Bearer ${args.accessToken}`);
 
-    return await this.workflowInstanceManagementApi.getWorkflowInstances(args.accountId, args.workflowDefinitionId);
+    return await this.workflowInstanceManagementApi.getWorkflowInstances(args.accountId, args.definitionId);
   };
 
   static publishWorkflow = async (args, workflowId) => {

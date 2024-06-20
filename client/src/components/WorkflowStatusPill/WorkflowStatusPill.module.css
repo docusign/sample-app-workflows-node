@@ -17,7 +17,17 @@
     color: var(--error-main);
 }
 
-.In-progress {
+.InProgress {
     background-color: var(--blue-light);
     color: var(--blue-main);
+}
+
+.Canceled {
+    background-color: var(--grey-light);
+    color: var(--black-main);
+}
+
+.NotRun {
+    background-color: var(--blue-light);
+    color: var(--grey-main);
 }

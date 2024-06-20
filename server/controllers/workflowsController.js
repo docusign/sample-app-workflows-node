@@ -149,7 +149,7 @@ class WorkflowsController {
   static getWorkflowInstances = async (req, res) => {
     try {
       const results = await WorkflowsService.getWorkflowInstances({
-        definitionId: req?.params?.definitionId,
+        definitionId: req.params.definitionId,
         accessToken: req.user.accessToken,
         basePath: config.maestroApiUrl,
         accountId: req.session.accountId,

@@ -54,7 +54,8 @@ const LoginForm = ({ togglePopup, setLoading }) => {
               />
               {LoginStatus.ACG}
             </label>
-            <label className={styles.subLabel}>Web Apps</label>
+            <label className={styles.subLabel}>This authentication type provides functionality of creating, triggering
+              and managing workflows.</label>
           </div>
           <div className={styles.radioButtonWrapper}>
             <label className={styles.label}>
@@ -67,7 +68,7 @@ const LoginForm = ({ togglePopup, setLoading }) => {
               />
               {LoginStatus.JWT}
             </label>
-            <label className={styles.subLabel}>System integrations</label>
+            <label className={styles.subLabel}>This authentication type provides functionality of only triggering and managing workflows.</label>
           </div>
         </div>
         <div className={styles.formButtons}>
