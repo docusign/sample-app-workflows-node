@@ -33,6 +33,7 @@ export const api = Object.freeze({
     },
     logout: async () => {
       await instance.get('/auth/jwt/logout');
+      localStorage.clear();
     },
     loginStatus: async () => {
       const res = await instance.get('/auth/jwt/login-status');
@@ -47,6 +48,7 @@ export const api = Object.freeze({
     },
     logout: async () => {
       await instance.get('/auth/passport/logout');
+      localStorage.clear();
     },
     callbackExecute: async code => {
       const res = await instance.get(`/auth/passport/callback?code=${code}`);
@@ -58,6 +60,7 @@ export const api = Object.freeze({
     },
   },
   workflows: {
+    // YES
     createWorkflowDefinition: async templateType => {
       try {
         const res = await instance.post('/workflows/create', { templateType: templateType });
@@ -80,6 +83,7 @@ export const api = Object.freeze({
         throw error;
       }
     },
+    // YES
     publishWorkflow: async workflowId => {
       const res = await instance.post('/workflows/publish', { workflowId });
 
@@ -97,6 +101,12 @@ export const api = Object.freeze({
 
       return res;
     },
+    // YES
+    triggerWorkflow: async (workflowId, body) => {
+      const res = await instance.put(`/workflows/${workflowId}/trigger`, body);
+      return res;
+    },
+    // YES
     getWorkflowDefinitions: async () => {
       const res = await instance.get(`/workflows/definitions`);
       return res;
@@ -109,6 +119,7 @@ export const api = Object.freeze({
       const res = await instance.get(`/workflows/${definitionId}/instances`);
       return res;
     },
+    // YES
     downloadWorkflowTemplate: async templateName => {
       try {
         const response = await fetch(`/workflows/download/${templateName}`);

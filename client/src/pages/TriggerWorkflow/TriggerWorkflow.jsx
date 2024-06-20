@@ -16,27 +16,34 @@ const TriggerWorkflow = () => {
 
   useEffect(() => {
     const getWorkflowDefinitions = async () => {
-      const definitionsresponse = await api.workflows.getWorkflowDefinitions();
+      const definitionsResponse = await api.workflows.getWorkflowDefinitions();
 
-      let definitions = definitionsresponse.data.value.map(definition => {
+      let definitions = definitionsResponse.data.value.map(definition => {
         const templateKeys = Object.keys(TemplateType);
         const foundKey = templateKeys.find(key => definition.name.startsWith(TemplateType[key]));
 
         return {
           id: definition.id,
-          name: `WF ${TemplateType[foundKey] ?? 'ExampleName'}`,
+          name: `WF ${TemplateType[foundKey] || 'ExampleName'}`,
           type: TemplateType[foundKey] || 'ExampleType',
+          definitionId: definition.id,
         };
       });
 
-      definitions = await Promise.all(definitions.map(async definition => {
-        const instancesResponse = await api.workflows.getWorkflowInstances(definition.id);
-        let definitionInstances = instancesResponse.data;
-        return {
-          ...definition,
-          instanceState: definitionInstances ? definitionInstances[definitionInstances.length - 1].instanceState : WorkflowStatus.NotRun,
-        };
-      }));
+      definitions = await Promise.all(
+        definitions.map(async definition => {
+          const instancesResponse = await api.workflows.getWorkflowInstances(definition.id);
+
+          let definitionInstances = instancesResponse.data;
+          return {
+            ...definition,
+            instanceState:
+              definitionInstances.length > 0
+                ? definitionInstances[definitionInstances.length - 1].instanceState
+                : WorkflowStatus.NotRun,
+          };
+        })
+      );
 
       dispatch({ type: 'UPDATE_WORKFLOW', payload: { workflowDefinitions: definitions } });
     };
@@ -44,15 +51,20 @@ const TriggerWorkflow = () => {
     getWorkflowDefinitions();
   }, [dispatch]);
 
-  return (<div className="page-box">
-    <Header />
-    <div className={styles.contentContainer}>
-      <WorkflowDescription title="Trigger a workflow" behindTheScenesComponent={<TriggerBehindTheScenes />}
-                           backRoute={ROUTE.HOME} />
-      <WorkflowList items={workflowDefinitions} interactionType={WorkflowItemsInteractionType.TRIGGER} />
+  return (
+    <div className="page-box">
+      <Header />
+      <div className={styles.contentContainer}>
+        <WorkflowDescription
+          title="Trigger a workflow"
+          behindTheScenesComponent={<TriggerBehindTheScenes />}
+          backRoute={ROUTE.HOME}
+        />
+        <WorkflowList items={workflowDefinitions} interactionType={WorkflowItemsInteractionType.TRIGGER} />
+      </div>
+      <Footer withContent={false} />
     </div>
-    <Footer withContent={false} />
-  </div>);
+  );
 };
 
 const TriggerWorkflowAuthenticated = withAuth(TriggerWorkflow);

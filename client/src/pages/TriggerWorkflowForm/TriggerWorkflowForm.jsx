@@ -1,3 +1,4 @@
+import { useParams } from 'react-router-dom';
 import Header from '../../components/Header/Header.jsx';
 import Footer from '../../components/Footer/Footer.jsx';
 import withAuth from '../../hocs/withAuth/withAuth.jsx';
@@ -8,15 +9,22 @@ import { ROUTE } from '../../constants.js';
 import TriggerForm from '../../components/TriggerForm/TriggerForm.jsx';
 
 const TriggerWorkflowForm = () => {
-  return (<div className="page-box">
-    <Header />
-    <div className={styles.contentContainer}>
-      <WorkflowDescription title="Trigger a workflow" behindTheScenesComponent={<TriggerBehindTheScenes />}
-                           backRoute={ROUTE.TRIGGER} />
-      <TriggerForm />
+  const { definitionId } = useParams();
+
+  return (
+    <div className="page-box">
+      <Header />
+      <div className={styles.contentContainer}>
+        <WorkflowDescription
+          title="Trigger a workflow"
+          behindTheScenesComponent={<TriggerBehindTheScenes />}
+          backRoute={ROUTE.TRIGGER}
+        />
+        <TriggerForm definitionId={definitionId} />
+      </div>
+      <Footer withContent={false} />
     </div>
-    <Footer withContent={false} />
-  </div>);
+  );
 };
 
 const TriggerWorkflowFormAuthenticated = withAuth(TriggerWorkflowForm);

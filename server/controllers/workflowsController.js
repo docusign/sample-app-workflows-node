@@ -10,11 +10,12 @@
  */
 
 const path = require('path');
-const validator = require('validator');
+const validator = require('validator'); // Package to prevent XSS. This is not express-validator
 const docusign = require('docusign-esign');
 const config = require('../config');
 const WorkflowsService = require('../services/workflowsService');
 const createPrefixedLogger = require('../utils/logger');
+const { getParameterValueFromUrl } = require('../utils/utils');
 
 const oAuth = docusign.ApiClient.OAuth;
 const restApi = docusign.ApiClient.RestApi;
@@ -172,15 +173,20 @@ class WorkflowsController {
       signerName: validator.escape(body?.signerName),
       ccEmail: validator.escape(body?.ccEmail),
       ccName: validator.escape(body?.ccName),
-      workflowId: req.session.workflowId,
+      workflowId: req.params.definitionId,
       accessToken: req.user.accessToken,
       basePath: config.maestroApiUrl,
       accountId: req.session.accountId,
+      mtid: undefined,
+      mtsec: undefined,
     };
 
     try {
       const workflow = await WorkflowsService.getWorkflowDefinition(args);
-      const results = await WorkflowsService.triggerWorkflowInstance(workflow, args);
+      args.mtid = getParameterValueFromUrl(workflow.triggerUrl, 'mtid');
+      args.mtsec = getParameterValueFromUrl(workflow.triggerUrl, 'mtsec');
+
+      const results = await WorkflowsService.triggerWorkflowInstance(args);
       res.status(200).send(results);
     } catch (error) {
       this.handleForbiddenResponse(error, res);

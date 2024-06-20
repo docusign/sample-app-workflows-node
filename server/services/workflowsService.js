@@ -718,7 +718,7 @@ class WorkflowsService {
     }
   };
 
-  static triggerWorkflowInstance = async (workflow, args) => {
+  static triggerWorkflowInstance = async args => {
     this.dsApiClient.setBasePath(args.basePath);
     this.dsApiClient.addDefaultHeader('Authorization', `Bearer ${args.accessToken}`);
 

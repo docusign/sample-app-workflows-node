@@ -14,11 +14,11 @@ const withAuth = WrappedComponent => {
       const checkLoginStatus = async () => {
         if (authType === LoginStatus.ACG) {
           const isLoggedIn = await api.acg.loginStatus();
-          !isLoggedIn && dispatch({ type: 'CLEAR_STATE' });
+          !isLoggedIn && dispatch({ type: 'CLEAR_STATE' }) && localStorage.clear();
         }
         if (authType === LoginStatus.JWT) {
           const isLoggedIn = await api.jwt.loginStatus();
-          !isLoggedIn && dispatch({ type: 'CLEAR_STATE' });
+          !isLoggedIn && dispatch({ type: 'CLEAR_STATE' }) && localStorage.clear();
         }
       };
 

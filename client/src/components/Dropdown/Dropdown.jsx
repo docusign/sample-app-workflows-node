@@ -54,12 +54,13 @@ const Dropdown = ({ options }) => {
           </a>
         ))}
       </div>
-      {isOpened ? (
+
+      {isOpened && (
         <WorkflowCreationPopup
           togglePopup={togglePopup}
           message={options.find(option => option.value === selectedDocument).message}
         />
-      ) : null}
+      )}
     </div>
   );
 };

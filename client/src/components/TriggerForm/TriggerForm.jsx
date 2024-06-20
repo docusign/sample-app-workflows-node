@@ -1,7 +1,8 @@
-import styles from './TriggerForm.module.css';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import styles from './TriggerForm.module.css';
 import WorkflowTriggerResultPopup from '../Popups/WorkflowTriggerResult/WorkflowTriggerResult.jsx';
+import { api } from '../../api';
 
 const TriggerForm = ({ definitionId }) => {
   const dispatch = useDispatch();
@@ -11,67 +12,80 @@ const TriggerForm = ({ definitionId }) => {
   const [signerEmail, setSignerEmail] = useState('');
   const [ccName, setCcName] = useState('');
   const [ccEmail, setCcEmail] = useState('');
+  const [isDataSending, setDataSending] = useState(false);
+  const [workflowInstanceUrl, setWorkflowInstanceUrl] = useState('');
 
-  const togglePopup = async () => {
-    dispatch({ type: isOpened ? 'CLOSE_POPUP' : 'OPEN_POPUP' });
-  };
-
-  const handleSubmit = (event) => {
-    // TODO: Add trigger workflow with data
+  const handleSubmit = async event => {
     event.preventDefault();
-    togglePopup();
 
-    // Here you can handle form submission, e.g., send data to server or perform validation
-    console.log({
-      instanceName, signerName, signerEmail, ccName, ccEmail,
-    });
-    // Clear form fields after submission
+    const body = {
+      instanceName,
+      signerEmail,
+      signerName,
+      ccEmail,
+      ccName,
+    };
+
+    // const body = {
+    //   instanceName: 'Contract for Rent 2024',
+    //   signerEmail: 'anotherman@signer.com',
+    //   signerName: 'Bob Swager',
+    //   ccEmail: 'myemail@issuer.com',
+    //   ccName: 'My Name (John Doe)',
+    // };
+
+    setDataSending(true);
+    const response = await api.workflows.triggerWorkflow(definitionId, body);
+    setWorkflowInstanceUrl(response.data.workflowInstanceUrl);
+    setDataSending(false);
+
     setInstanceName('');
     setSignerName('');
     setSignerEmail('');
     setCcName('');
     setCcEmail('');
+    dispatch({ type: isOpened ? 'CLOSE_POPUP' : 'OPEN_POPUP' });
   };
 
-  return (<div className={styles.formContainer}>
-    <h2>Fill in details</h2>
-    <div className={styles.divider} />
-    <form className={styles.triggerForm} onSubmit={handleSubmit}>
-      <h3>Participant Information</h3>
-      <div>
-        <label>Instance Name *</label>
-        <input type="text" value={instanceName} onChange={(e) => setInstanceName(e.target.value)} required={true} />
-      </div>
-
-      <div>
-        <label>Signer Name *</label>
-        <input type="text" value={signerName} onChange={(e) => setSignerName(e.target.value)} required={true} />
-      </div>
-
-      <div>
-        <label>Signer Email *</label>
-        <input type="text" value={signerEmail} onChange={(e) => setSignerEmail(e.target.value)} required={true} />
-      </div>
-
-      <div>
-        <label>CC Name *</label>
-        <input type="text" value={ccName} onChange={(e) => setCcName(e.target.value)} required={true} />
-      </div>
-
-      <div>
-        <label>CC Email *</label>
-        <input type="text" value={ccEmail} onChange={(e) => setCcEmail(e.target.value)} required={true} />
-      </div>
-
+  return (
+    <div className={styles.formContainer}>
+      <h2>Fill in details</h2>
       <div className={styles.divider} />
-      <button type="submit">Continue</button>
-    </form>
-    {isOpened && (
-      <WorkflowTriggerResultPopup
-        togglePopup={togglePopup}
-      />
-    )}
-  </div>);
+      <form className={styles.triggerForm} onSubmit={handleSubmit}>
+        <h3>Participant Information</h3>
+        <div>
+          <label>Instance Name *</label>
+          <input type="text" value={instanceName} onChange={e => setInstanceName(e.target.value)} required={true} />
+        </div>
+
+        <div>
+          <label>Signer Name *</label>
+          <input type="text" value={signerName} onChange={e => setSignerName(e.target.value)} required={true} />
+        </div>
+
+        <div>
+          <label>Signer Email *</label>
+          <input type="text" value={signerEmail} onChange={e => setSignerEmail(e.target.value)} required={true} />
+        </div>
+
+        <div>
+          <label>CC Name *</label>
+          <input type="text" value={ccName} onChange={e => setCcName(e.target.value)} required={true} />
+        </div>
+
+        <div>
+          <label>CC Email *</label>
+          <input type="text" value={ccEmail} onChange={e => setCcEmail(e.target.value)} required={true} />
+        </div>
+
+        <div className={styles.divider} />
+        <button type="submit" disabled={isDataSending}>
+          Continue
+        </button>
+      </form>
+      {isOpened && <WorkflowTriggerResultPopup workflowInstanceUrl={workflowInstanceUrl} />}
+    </div>
+  );
 };
 
 export default TriggerForm;

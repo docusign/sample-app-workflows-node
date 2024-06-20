@@ -39,7 +39,7 @@ function App() {
       <Route path={ROUTE.HOME} element={<HomeAuthenticated />} />
       <Route path={ROUTE.TRIGGER} element={<TriggerWorkflowAuthenticated />} />
       <Route path={ROUTE.MANAGE} element={<ManageWorkflowAuthenticated />} />
-      <Route path={ROUTE.TRIGGERFORM} element={<TriggerWorkflowFormAuthenticated />} />
+      <Route path={`${ROUTE.TRIGGERFORM}/:definitionId`} element={<TriggerWorkflowFormAuthenticated />} />
     </Routes>
   );
 }
