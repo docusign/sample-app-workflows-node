@@ -16,9 +16,9 @@ const TriggerWorkflow = () => {
 
   useEffect(() => {
     const getWorkflowDefinitions = async () => {
-      let response = await api.workflows.getWorkflowDefinitions();
+      const definitionsresponse = await api.workflows.getWorkflowDefinitions();
 
-      let definitions = response.data.value.map(definition => {
+      let definitions = definitionsresponse.data.value.map(definition => {
         const templateKeys = Object.keys(TemplateType);
         const foundKey = templateKeys.find(key => definition.name.startsWith(TemplateType[key]));
 
@@ -30,8 +30,8 @@ const TriggerWorkflow = () => {
       });
 
       definitions = await Promise.all(definitions.map(async definition => {
-        response = await api.workflows.getWorkflowInstances(definition.id);
-        let definitionInstances = response.data;
+        const instancesResponse = await api.workflows.getWorkflowInstances(definition.id);
+        let definitionInstances = instancesResponse.data;
         return {
           ...definition,
           instanceState: definitionInstances ? definitionInstances[definitionInstances.length - 1].instanceState : WorkflowStatus.NotRun,
