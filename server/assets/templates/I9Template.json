@@ -8,21 +8,19 @@
   "created": "2024-06-05T09:35:47.4630000Z",
   "lastModified": "2024-06-05T09:35:48.0430000Z",
   "lastModifiedBy": {
-    "userName": "Bohdan Marchuk",
-    "userId": "a82cb90c-8437-403e-b14d-0357292ebe59",
+    "userName": "John Doe",
+    "userId": "43128baf-1a7a-4b9f-826a-6a1c63fff7e2",
     "email": "bohdan.marchuk@sigma.software",
-    "uri": "/users/a82cb90c-8437-403e-b14d-0357292ebe59"
+    "uri": "/users/43128baf-1a7a-4b9f-826a-6a1c63fff7e2"
   },
   "lastUsed": "2024-06-05T09:35:47.5230000Z",
   "owner": {
-    "userName": "Bohdan Marchuk",
-    "userId": "a82cb90c-8437-403e-b14d-0357292ebe59",
+    "userName": "John Doe",
+    "userId": "43128baf-1a7a-4b9f-826a-6a1c63fff7e2",
     "email": "bohdan.marchuk@sigma.software"
   },
   "pageCount": "3",
-  "folderIds": [
-    "4b47ebcc-882d-43c7-8ef8-a603eca51c43"
-  ],
+  "folderIds": ["4b47ebcc-882d-43c7-8ef8-a603eca51c43"],
   "autoMatch": "true",
   "autoMatchSpecifiedByUser": "false",
   "documents": [

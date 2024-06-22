@@ -103,8 +103,12 @@ export const api = Object.freeze({
     },
     // YES
     triggerWorkflow: async (workflowId, body) => {
-      const res = await instance.put(`/workflows/${workflowId}/trigger`, body);
-      return res;
+      try {
+        const res = await instance.put(`/workflows/${workflowId}/trigger`, body);
+        return res;
+      } catch (error) {
+        console.log(error);
+      }
     },
     // YES
     getWorkflowDefinitions: async () => {
@@ -115,6 +119,7 @@ export const api = Object.freeze({
       const res = await instance.get(`/workflows/${workflow.definitionId}/instances/${workflow.dacId}`);
       return res;
     },
+    // YES
     getWorkflowInstances: async definitionId => {
       const res = await instance.get(`/workflows/${definitionId}/instances`);
       return res;

@@ -11,8 +11,8 @@ const WorkflowList = ({ items, interactionType }) => {
   const navigate = useNavigate();
 
   const handleGetWorkflow = async item => {
-    const updatedItem = await api.workflows.getWorkflowInstance(item);
-    dispatch({ type: 'UPDATE_WORKFLOW', updatedItem });
+    const updatedItems = await api.workflows.getWorkflowInstance(item);
+    dispatch({ type: 'UPDATE_WORKFLOW_DEFINITIONS', updatedItems });
   };
 
   const handleCancelWorkflow = async item => {
@@ -58,8 +58,8 @@ const WorkflowList = ({ items, interactionType }) => {
         )}
 
         <div className={styles.list}>
-          {items.map(item => (
-            <a key={item.name} className="list-group-item list-group-item-action">
+          {items.map((item, idx) => (
+            <div key={`${item.name}${idx}`} className="list-group-item list-group-item-action">
               <div style={{ display: 'flex', flexDirection: 'row', gap: '16px' }}>
                 <WorkflowStatusPill status={item.instanceState} />
                 <h4>{WorkflowItemsInteractionType.TRIGGER ? item.name : item.instanceName}</h4>
@@ -80,7 +80,7 @@ const WorkflowList = ({ items, interactionType }) => {
                     aria-haspopup="true"
                     aria-expanded="false"
                   >
-                    <img src={dropdown} alt={'More actions'} />
+                    <img src={dropdown} alt="More actions" />
                   </button>
                   <div className={`dropdown-menu dropdown-menu-right ${styles.dropdownMenu}`}>
                     <a className={`dropdown-item ${styles.dropdownItem}`} onClick={() => handleGetWorkflow(item)}>
@@ -92,7 +92,7 @@ const WorkflowList = ({ items, interactionType }) => {
                   </div>
                 </div>
               )}
-            </a>
+            </div>
           ))}
         </div>
       </div>

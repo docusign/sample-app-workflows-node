@@ -1,181 +1,193 @@
 .listGroup {
-    width: 100%;
-    padding-top: 6.25rem;
-    margin-left: 34px;
-    max-height: 62vh;
+  width: 100%;
+  padding-top: 6.25rem;
+  margin-left: 34px;
+  max-height: 62vh;
 }
 
 .listGroup a {
-    width: 100%;
-    height: 60px;
-    display: flex;
-    flex-direction: row;
-    border-radius: 1px !important;
-    justify-content: space-between;
-    align-items: center;
+  width: 100%;
+  height: 60px;
+  display: flex;
+  flex-direction: row;
+  border-radius: 1px !important;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .listGroup h4 {
-    min-width: 145px;
-    padding: 0;
-    margin: 0;
-    font-size: 16px;
-    font-weight: 400;
-    color: var(--black-main);
+  min-width: 145px;
+  padding: 0;
+  margin: 0;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--black-main);
 }
 
 .listGroup p {
-    text-align: start !important;
-    width: 110px !important;
-    padding: 0;
-    margin: 0;
-    font-size: 12px;
-    font-weight: 400;
-    color: var(--black-extralight);
+  text-align: start !important;
+  width: 110px !important;
+  padding: 0;
+  margin: 0;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--black-extralight);
 }
 
 .listGroup button {
-    padding: 0;
-    margin: 0;
-    height: 36px;
-    width: 150px;
-    border-radius: 2px;
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--black-main);
-    background-color: var(--grey-main);
-    border: 1px solid var(--black-extralight);
+  padding: 0;
+  margin: 0;
+  height: 36px;
+  width: 150px;
+  border-radius: 2px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--black-main);
+  background-color: var(--grey-main);
+  border: 1px solid var(--black-extralight);
 }
 
 .list {
-    max-height: 63.5vh;
-    overflow:scroll;
-    -webkit-overflow-scrolling: touch;
-    overflow-x: hidden;
+  max-height: 63.5vh;
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+  overflow-x: hidden;
+}
+
+.list > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 17px 20px;
 }
 
 .headerRow {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    padding-left: 1.25rem;
-    margin-bottom: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  padding-left: 1.25rem;
+  margin-bottom: 0.5rem;
 }
 
 .headerRow div {
-    display: flex;
-    flex-direction: row;
-    gap: 0.4rem;
+  display: flex;
+  flex-direction: row;
+  gap: 0.4rem;
 }
 
 .headerRow p {
-    line-height: 16px;
-    font-size: 10px;
-    font-weight: 400;
-    width: 88px !important;
+  line-height: 16px;
+  font-size: 10px;
+  font-weight: 400;
+  width: 88px !important;
 }
 
 .typeHeader {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    margin-right: 8.75rem;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-right: 8.75rem;
 }
 
 .headerAction {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    justify-content: end;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: end;
 }
 
 .headerAction button {
-    margin-top: -3.75rem;
-    width: 250px !important;
-    height: 40px !important;
-    text-align: center !important;
-    font-size: 16px !important;
-    font-weight: 500 !important;
-    color: var(--white-main) !important;
-    background-color: var(--primary-main) !important;
-    border-radius: 2px !important;;
+  margin-top: -3.75rem;
+  width: 250px !important;
+  height: 40px !important;
+  text-align: center !important;
+  font-size: 16px !important;
+  font-weight: 500 !important;
+  color: var(--white-main) !important;
+  background-color: var(--primary-main) !important;
+  border-radius: 2px !important;
 }
 
 .headerAction button:hover {
-    background-color: var(--secondary-main) !important;
+  background-color: var(--secondary-main) !important;
 }
 
 .dropdownButton {
-    padding: 0;
-    margin: 0;
-    height: 24px !important;
-    width: 24px !important;
-    color: var(--black-main);
-    background-color: transparent !important;
-    border: none !important;
+  padding: 0;
+  margin: 0;
+  height: 24px !important;
+  width: 24px !important;
+  color: var(--black-main);
+  background-color: transparent !important;
+  border: none !important;
 }
 
 .dropdownMenu {
-    min-height: 100%;
-    min-width: 100%;
-    box-shadow: 0 4px 16px 0 #0800143D !important;
+  min-height: 100%;
+  min-width: 100%;
+  box-shadow: 0 4px 16px 0 #0800143d !important;
+  border: 1px solid red;
+}
+
+.dropdownMenu > a {
+  cursor: pointer;
 }
 
 .dropdownItem {
-    height: 100%;
-    width: 100%;
-    max-height: 32px;
-    font-size: 16px;
-    font-weight: 400;
-    background-color: var(--white-main);
+  height: 100%;
+  width: 100%;
+  max-height: 32px;
+  font-size: 16px;
+  font-weight: 400;
+  background-color: var(--white-main);
 }
 
 .dropdownItem:active {
-    background-color: var(--primary-main);
+  background-color: var(--primary-main);
 }
 
 .emptyListContainer {
-    display: flex;
-    flex-direction: column;
-    justify-items: center;
-    align-items: center;
-    padding-top: 15rem;
-    padding-left: 5rem;
-    width: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  align-items: center;
+  padding-top: 15rem;
+  padding-left: 5rem;
+  width: 80%;
 }
 
 .loaderContainer {
-    position: static;
-    padding-top: 15rem;
-    padding-right: 30rem;
+  position: static;
+  padding-top: 15rem;
+  padding-right: 30rem;
 }
 
 .emptyListContainer h1 {
-    text-align: center;
-    font-size: 48px;
-    font-weight: 600;
+  text-align: center;
+  font-size: 48px;
+  font-weight: 600;
 }
 
 .defaultButton {
-    margin-top: 1rem !important;
-    width: 250px !important;
-    height: 40px !important;
-    text-align: center !important;
-    font-size: 16px !important;
-    font-weight: 500 !important;
-    color: var(--white-main) !important;
-    background-color: var(--primary-main) !important;
-    border-radius: 2px !important;;
+  margin-top: 1rem !important;
+  width: 250px !important;
+  height: 40px !important;
+  text-align: center !important;
+  font-size: 16px !important;
+  font-weight: 500 !important;
+  color: var(--white-main) !important;
+  background-color: var(--primary-main) !important;
+  border-radius: 2px !important;
 }
 
 .defaultButton button:hover {
-    background-color: var(--secondary-main) !important;
+  background-color: var(--secondary-main) !important;
 }
 
 .emptyListContainer a {
-    width: 250px;
-    height: 40px;
-    text-align: center;
-    text-decoration: none;
+  width: 250px;
+  height: 40px;
+  text-align: center;
+  text-decoration: none;
 }

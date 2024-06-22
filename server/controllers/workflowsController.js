@@ -56,11 +56,7 @@ class WorkflowsController {
         templateType: req?.body?.templateType,
       });
 
-      const workflowResponse = {
-        ...workflow.workflowDefinition,
-        workflowDefinitionId: workflow.workflowDefinitionId,
-      };
-      res.json(workflowResponse);
+      res.json({ workflowDefinitionId: workflow.workflowDefinitionId });
     } catch (error) {
       this.handleForbiddenResponse(error, res);
     }

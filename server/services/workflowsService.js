@@ -72,7 +72,7 @@ class WorkflowsService {
     if (!results?.resultSetSize || Number(results.resultSetSize) <= 0) {
       return {
         message: 'Template for this workflow is missing, make sure that you uploaded it on your account',
-        templateName: this.i9Template,
+        templateName: templateFile,
       };
     }
 

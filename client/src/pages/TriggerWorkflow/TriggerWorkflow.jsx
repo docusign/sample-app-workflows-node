@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './TriggerWorkflow.module.css';
 import Header from '../../components/Header/Header.jsx';
@@ -12,13 +13,14 @@ import { api } from '../../api';
 
 const TriggerWorkflow = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
   const workflowDefinitions = useSelector(state => state.workflows.workflowDefinitions);
 
   useEffect(() => {
     const getWorkflowDefinitions = async () => {
       const definitionsResponse = await api.workflows.getWorkflowDefinitions();
 
-      let definitions = definitionsResponse.data.value.map(definition => {
+      const definitions = definitionsResponse.data.value.map(definition => {
         const templateKeys = Object.keys(TemplateType);
         const foundKey = templateKeys.find(key => definition.name.startsWith(TemplateType[key]));
 
@@ -30,26 +32,24 @@ const TriggerWorkflow = () => {
         };
       });
 
-      definitions = await Promise.all(
+      const definitionsWithState = await Promise.all(
         definitions.map(async definition => {
-          const instancesResponse = await api.workflows.getWorkflowInstances(definition.id);
+          const { data } = await api.workflows.getWorkflowInstances(definition.id);
+          const relevantInstanceState = data.length > 0 ? data[data.length - 1].instanceState : WorkflowStatus.NotRun;
 
-          let definitionInstances = instancesResponse.data;
           return {
             ...definition,
-            instanceState:
-              definitionInstances.length > 0
-                ? definitionInstances[definitionInstances.length - 1].instanceState
-                : WorkflowStatus.NotRun,
+            instanceState: relevantInstanceState,
           };
         })
       );
 
-      dispatch({ type: 'UPDATE_WORKFLOW', payload: { workflowDefinitions: definitions } });
+      // Set workflow definitions with their statuses downloaded from docusign server
+      dispatch({ type: 'UPDATE_WORKFLOW_DEFINITIONS', payload: { workflowDefinitions: definitionsWithState } });
     };
 
     getWorkflowDefinitions();
-  }, [dispatch]);
+  }, [dispatch, location.pathname]);
 
   return (
     <div className="page-box">

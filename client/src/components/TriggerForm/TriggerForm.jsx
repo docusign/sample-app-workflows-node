@@ -7,6 +7,7 @@ import { api } from '../../api';
 const TriggerForm = ({ definitionId }) => {
   const dispatch = useDispatch();
   const isOpened = useSelector(state => state.popup.isOpened);
+  const workflowDefinitions = useSelector(state => state.workflows.workflowDefinitions);
   const [instanceName, setInstanceName] = useState('');
   const [signerName, setSignerName] = useState('');
   const [signerEmail, setSignerEmail] = useState('');
@@ -18,25 +19,47 @@ const TriggerForm = ({ definitionId }) => {
   const handleSubmit = async event => {
     event.preventDefault();
 
-    const body = {
-      instanceName,
-      signerEmail,
-      signerName,
-      ccEmail,
-      ccName,
-    };
-
     // const body = {
-    //   instanceName: 'Contract for Rent 2024',
-    //   signerEmail: 'anotherman@signer.com',
-    //   signerName: 'Bob Swager',
-    //   ccEmail: 'myemail@issuer.com',
-    //   ccName: 'My Name (John Doe)',
+    //   instanceName,
+    //   signerEmail,
+    //   signerName,
+    //   ccEmail,
+    //   ccName,
     // };
 
+    const body = {
+      instanceName: 'Contract for Rent 2024',
+      signerEmail: 'anotherman@signer.com',
+      signerName: 'Bob Swager',
+      ccEmail: 'myemail@issuer.com',
+      ccName: 'My Name (John Doe)',
+    };
+
     setDataSending(true);
-    const response = await api.workflows.triggerWorkflow(definitionId, body);
-    setWorkflowInstanceUrl(response.data.workflowInstanceUrl);
+    const { data } = await api.workflows.triggerWorkflow(definitionId, body);
+    setWorkflowInstanceUrl(data.workflowInstanceUrl);
+
+    // Update workflowDefinitions. ...workflow creates new workflow-object to avoid mutation in redux
+    const updatedWorkflowDefinitions = workflowDefinitions.map(workflow => {
+      if (workflow.definitionId === definitionId) {
+        return {
+          ...workflow,
+          instanceId: data.instanceId,
+          isTriggered: true,
+        };
+      } else {
+        return {
+          ...workflow,
+          instanceId: undefined,
+          isTriggered: false,
+        };
+      }
+    });
+
+    dispatch({
+      type: 'UPDATE_WORKFLOW_DEFINITIONS',
+      payload: { workflowDefinitions: updatedWorkflowDefinitions },
+    });
     setDataSending(false);
 
     setInstanceName('');
