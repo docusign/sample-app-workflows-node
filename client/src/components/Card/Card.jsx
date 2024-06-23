@@ -1,10 +1,10 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './Card.module.css';
 import Dropdown from '../Dropdown/Dropdown.jsx';
 import { WorkflowOptions } from '../../constants.js';
-import { useDispatch, useSelector } from 'react-redux';
 import CreateWorkflowMoreinfoPopup from '../Popups/CreateWorkflowMoreInfo/CreateWorkflowMoreInfo.jsx';
-import { useState } from 'react';
 
 const Card = props => {
   const [isBtsOpened, setBtsOpened] = useState(false);
@@ -31,10 +31,14 @@ const Card = props => {
         ) : (
           <div>
             <div className={styles.buttonGroup}>
-              {props.moreInfo ? <button className={styles.moreInfo} onClick={togglePopup}>More Info</button> : null}
+              {props.moreInfo && (
+                <button className={styles.moreInfo} onClick={togglePopup}>
+                  More Info
+                </button>
+              )}
               <Dropdown options={WorkflowOptions} />
             </div>
-            {isBtsOpened && (<CreateWorkflowMoreinfoPopup togglePopup={togglePopup}/>)}
+            {isBtsOpened && <CreateWorkflowMoreinfoPopup togglePopup={togglePopup} />}
           </div>
         )}
       </div>

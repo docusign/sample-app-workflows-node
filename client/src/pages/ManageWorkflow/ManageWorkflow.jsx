@@ -14,25 +14,25 @@ import { api } from '../../api';
 const ManageWorkflow = () => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const workflowDefinitions = useSelector(state => state.workflows.workflowDefinitions);
-  const triggeredWorkflowDefinitions = workflowDefinitions.filter(d => d.isTriggered);
+  const workflows = useSelector(state => state.workflows.workflows);
+  const triggeredWorkflowDefinitions = workflows.filter(w => w.isTriggered);
 
   useEffect(() => {
     const updateWorkflowStatuses = async () => {
-      const definitionsWithUpdatedState = await Promise.all(
-        workflowDefinitions.map(async definition => {
-          const { data } = await api.workflows.getWorkflowInstances(definition.definitionId);
+      const workflowsWithUpdatedState = await Promise.all(
+        workflows.map(async workflow => {
+          const { data } = await api.workflows.getWorkflowInstances(workflow.id);
           const relevantInstanceState = data.length > 0 ? data[data.length - 1].instanceState : WorkflowStatus.NotRun;
 
           return {
-            ...definition,
+            ...workflow,
             instanceState: relevantInstanceState,
           };
         })
       );
 
       // Update workflow statuses
-      dispatch({ type: 'UPDATE_WORKFLOW_DEFINITIONS', payload: { workflowDefinitions: definitionsWithUpdatedState } });
+      dispatch({ type: 'UPDATE_WORKFLOWS', payload: { workflows: workflowsWithUpdatedState } });
     };
 
     updateWorkflowStatuses();

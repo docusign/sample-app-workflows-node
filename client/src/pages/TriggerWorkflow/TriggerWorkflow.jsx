@@ -14,13 +14,18 @@ import { api } from '../../api';
 const TriggerWorkflow = () => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const workflowDefinitions = useSelector(state => state.workflows.workflowDefinitions);
+  const workflows = useSelector(state => state.workflows.workflows);
 
   useEffect(() => {
     const getWorkflowDefinitions = async () => {
       const definitionsResponse = await api.workflows.getWorkflowDefinitions();
 
-      const definitions = definitionsResponse.data.value.map(definition => {
+      const workflowDefinitions = definitionsResponse.data.value.map(definition => {
+        if (workflows.length) {
+          const foundWorkflow = workflows.find(workflow => workflow.id === definition.id);
+          if (foundWorkflow) return foundWorkflow;
+        }
+
         const templateKeys = Object.keys(TemplateType);
         const foundKey = templateKeys.find(key => definition.name.startsWith(TemplateType[key]));
 
@@ -28,12 +33,11 @@ const TriggerWorkflow = () => {
           id: definition.id,
           name: `WF ${TemplateType[foundKey] || 'ExampleName'}`,
           type: TemplateType[foundKey] || 'ExampleType',
-          definitionId: definition.id,
         };
       });
 
-      const definitionsWithState = await Promise.all(
-        definitions.map(async definition => {
+      const workflowsWithState = await Promise.all(
+        workflowDefinitions.map(async definition => {
           const { data } = await api.workflows.getWorkflowInstances(definition.id);
           const relevantInstanceState = data.length > 0 ? data[data.length - 1].instanceState : WorkflowStatus.NotRun;
 
@@ -45,10 +49,11 @@ const TriggerWorkflow = () => {
       );
 
       // Set workflow definitions with their statuses downloaded from docusign server
-      dispatch({ type: 'UPDATE_WORKFLOW_DEFINITIONS', payload: { workflowDefinitions: definitionsWithState } });
+      dispatch({ type: 'UPDATE_WORKFLOWS', payload: { workflows: workflowsWithState } });
     };
 
     getWorkflowDefinitions();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, location.pathname]);
 
   return (
@@ -60,7 +65,7 @@ const TriggerWorkflow = () => {
           behindTheScenesComponent={<TriggerBehindTheScenes />}
           backRoute={ROUTE.HOME}
         />
-        <WorkflowList items={workflowDefinitions} interactionType={WorkflowItemsInteractionType.TRIGGER} />
+        <WorkflowList items={workflows} interactionType={WorkflowItemsInteractionType.TRIGGER} />
       </div>
       <Footer withContent={false} />
     </div>

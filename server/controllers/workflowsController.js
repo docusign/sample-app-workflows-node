@@ -67,13 +67,13 @@ class WorkflowsController {
    */
   static cancelWorkflow = async (req, res) => {
     try {
-      const results = await WorkflowsService.cancelWorkflowInstance({
+      const result = await WorkflowsService.cancelWorkflowInstance({
         instanceId: req?.params?.instanceId,
-        accessToken: req.user.accessToken,
+        accessToken: req?.user?.accessToken || req?.session?.accessToken,
         basePath: config.maestroApiUrl,
         accountId: req.session.accountId,
       });
-      res.status(200).send(results);
+      res.status(200).send(result);
     } catch (error) {
       this.handleForbiddenResponse(error, res);
     }
@@ -127,14 +127,14 @@ class WorkflowsController {
    */
   static getWorkflowInstance = async (req, res) => {
     try {
-      const results = await WorkflowsService.getWorkflowInstance({
+      const result = await WorkflowsService.getWorkflowInstance({
         instanceId: req?.params?.instanceId,
         definitionId: req?.params?.definitionId,
-        accessToken: req.user.accessToken,
+        accessToken: req?.user?.accessToken || req?.session?.accessToken,
         basePath: config.maestroApiUrl,
         accountId: req.session.accountId,
       });
-      res.status(200).send(results);
+      res.status(200).send(result);
     } catch (error) {
       this.handleForbiddenResponse(error, res);
     }
@@ -147,7 +147,7 @@ class WorkflowsController {
     try {
       const results = await WorkflowsService.getWorkflowInstances({
         definitionId: req.params.definitionId,
-        accessToken: req.user.accessToken,
+        accessToken: req?.user?.accessToken || req?.session?.accessToken,
         basePath: config.maestroApiUrl,
         accountId: req.session.accountId,
       });
@@ -170,7 +170,7 @@ class WorkflowsController {
       ccEmail: validator.escape(body?.ccEmail),
       ccName: validator.escape(body?.ccName),
       workflowId: req.params.definitionId,
-      accessToken: req.user.accessToken,
+      accessToken: req?.user?.accessToken || req?.session?.accessToken,
       basePath: config.maestroApiUrl,
       accountId: req.session.accountId,
       mtid: undefined,
@@ -182,8 +182,8 @@ class WorkflowsController {
       args.mtid = getParameterValueFromUrl(workflow.triggerUrl, 'mtid');
       args.mtsec = getParameterValueFromUrl(workflow.triggerUrl, 'mtsec');
 
-      const results = await WorkflowsService.triggerWorkflowInstance(args);
-      res.status(200).send(results);
+      const result = await WorkflowsService.triggerWorkflowInstance(args);
+      res.status(200).send(result);
     } catch (error) {
       this.handleForbiddenResponse(error, res);
     }

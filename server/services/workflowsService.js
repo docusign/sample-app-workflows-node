@@ -25,7 +25,7 @@ class WorkflowsService {
   static i9Template = 'I9Template.json';
   static offerLetterTemplate = 'OfferLetterTemplate.json';
   static workflowSuffix = 'send invite to signer';
-  static ndaTemplate = 'ndaTemplate.json'; // TODO: Add NDA Template File
+  static ndaTemplate = 'ndaTemplate.json';
   static dsApiClient = new docusign.ApiClient();
   static workflowManagementApi = new docusign.WorkflowManagementApi(this.dsApiClient);
   static workflowInstanceManagementApi = new docusign.WorkflowInstanceManagementApi(this.dsApiClient);

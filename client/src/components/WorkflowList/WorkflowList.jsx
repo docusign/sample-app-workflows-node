@@ -1,23 +1,40 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './WorkflowList.module.css';
 import WorkflowStatusPill from '../WorkflowStatusPill/WorkflowStatusPill.jsx';
-import dropdown from '../../assets/img/dropdown.svg';
+import dropdownSvg from '../../assets/img/dropdown.svg';
 import { ROUTE, WorkflowItemsInteractionType } from '../../constants.js';
 import { api } from '../../api';
 
 const WorkflowList = ({ items, interactionType }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const workflows = useSelector(state => state.workflows.workflows);
 
-  const handleGetWorkflow = async item => {
-    const updatedItems = await api.workflows.getWorkflowInstance(item);
-    dispatch({ type: 'UPDATE_WORKFLOW_DEFINITIONS', updatedItems });
+  const handleUpdateWorkflowStatus = async workflow => {
+    const { data: workflowInstance } = await api.workflows.getWorkflowInstance(workflow);
+    if (workflowInstance.instanceState === workflow.instanceState) return;
+
+    const updatedWorkflows = workflows.map(workflowDefinition => {
+      if (workflowDefinition.id === workflow.id) {
+        return { ...workflowDefinition, instanceState: workflowInstance.instanceState };
+      }
+      return { ...workflowDefinition };
+    });
+
+    dispatch({ type: 'UPDATE_WORKFLOWS', payload: { workflows: updatedWorkflows } });
   };
 
-  const handleCancelWorkflow = async item => {
-    await api.workflows.cancelWorkflowInstance(item);
-    dispatch({ type: 'CANCEL_WORKFLOW', item });
+  const handleCancelWorkflow = async workflow => {
+    const { status } = await api.workflows.cancelWorkflowInstance(workflow);
+    if (status !== 200) return;
+
+    dispatch({ type: 'CANCEL_WORKFLOW', payload: { workflowId: workflow.id } });
+  };
+
+  const listStyles = {
+    overflow: 'scroll',
+    overflowX: 'hidden',
   };
 
   if (!items?.length)
@@ -57,7 +74,7 @@ const WorkflowList = ({ items, interactionType }) => {
           </div>
         )}
 
-        <div className={styles.list}>
+        <div className={styles.list} style={items.length >= 2 ? listStyles : {}}>
           {items.map((item, idx) => (
             <div key={`${item.name}${idx}`} className="list-group-item list-group-item-action">
               <div style={{ display: 'flex', flexDirection: 'row', gap: '16px' }}>
@@ -67,11 +84,11 @@ const WorkflowList = ({ items, interactionType }) => {
               <p>{item.type}</p>
 
               {interactionType === WorkflowItemsInteractionType.TRIGGER && (
-                <button onClick={() => navigate(`${ROUTE.TRIGGERFORM}/${item.definitionId}`)}>Trigger workflow</button>
+                <button onClick={() => navigate(`${ROUTE.TRIGGERFORM}/${item.id}`)}>Trigger workflow</button>
               )}
 
               {interactionType === WorkflowItemsInteractionType.MANAGE && (
-                <div className="dropdown">
+                <div className="dropdown" style={{ position: 'relative !important' }}>
                   <button
                     className={styles.dropdownButton}
                     type="button"
@@ -80,10 +97,13 @@ const WorkflowList = ({ items, interactionType }) => {
                     aria-haspopup="true"
                     aria-expanded="false"
                   >
-                    <img src={dropdown} alt="More actions" />
+                    <img src={dropdownSvg} alt="More actions" />
                   </button>
                   <div className={`dropdown-menu dropdown-menu-right ${styles.dropdownMenu}`}>
-                    <a className={`dropdown-item ${styles.dropdownItem}`} onClick={() => handleGetWorkflow(item)}>
+                    <a
+                      className={`dropdown-item ${styles.dropdownItem}`}
+                      onClick={() => handleUpdateWorkflowStatus(item)}
+                    >
                       Update workflow status
                     </a>
                     <a className={`dropdown-item ${styles.dropdownItem}`} onClick={() => handleCancelWorkflow(item)}>

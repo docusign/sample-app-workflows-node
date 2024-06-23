@@ -21,7 +21,7 @@ const WorkflowDefinitionCreation = ({ message }) => {
     dispatch({ type: 'LOADING_POPUP' });
     const workflow = await api.workflows.publishWorkflow(lastCreatedWorkflow.id);
 
-    if (workflow.status === 200) {
+    if (workflow?.status === 200) {
       dispatch({ type: 'PUBLISHED_LAST_WORKFLOW' });
     }
 

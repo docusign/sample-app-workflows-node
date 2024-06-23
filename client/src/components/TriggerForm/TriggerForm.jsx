@@ -4,10 +4,10 @@ import styles from './TriggerForm.module.css';
 import WorkflowTriggerResultPopup from '../Popups/WorkflowTriggerResult/WorkflowTriggerResult.jsx';
 import { api } from '../../api';
 
-const TriggerForm = ({ definitionId }) => {
+const TriggerForm = ({ workflowId }) => {
   const dispatch = useDispatch();
   const isOpened = useSelector(state => state.popup.isOpened);
-  const workflowDefinitions = useSelector(state => state.workflows.workflowDefinitions);
+  const workflows = useSelector(state => state.workflows.workflows);
   const [instanceName, setInstanceName] = useState('');
   const [signerName, setSignerName] = useState('');
   const [signerEmail, setSignerEmail] = useState('');
@@ -19,47 +19,32 @@ const TriggerForm = ({ definitionId }) => {
   const handleSubmit = async event => {
     event.preventDefault();
 
-    // const body = {
-    //   instanceName,
-    //   signerEmail,
-    //   signerName,
-    //   ccEmail,
-    //   ccName,
-    // };
-
     const body = {
-      instanceName: 'Contract for Rent 2024',
-      signerEmail: 'anotherman@signer.com',
-      signerName: 'Bob Swager',
-      ccEmail: 'myemail@issuer.com',
-      ccName: 'My Name (John Doe)',
+      instanceName,
+      signerEmail,
+      signerName,
+      ccEmail,
+      ccName,
     };
 
     setDataSending(true);
-    const { data } = await api.workflows.triggerWorkflow(definitionId, body);
-    setWorkflowInstanceUrl(data.workflowInstanceUrl);
+    const { data: triggeredWorkflow } = await api.workflows.triggerWorkflow(workflowId, body);
+    setWorkflowInstanceUrl(triggeredWorkflow.workflowInstanceUrl);
 
     // Update workflowDefinitions. ...workflow creates new workflow-object to avoid mutation in redux
-    const updatedWorkflowDefinitions = workflowDefinitions.map(workflow => {
-      if (workflow.definitionId === definitionId) {
+    const updatedWorkflowDefinitions = workflows.map(workflow => {
+      if (workflow.id === workflowId) {
         return {
           ...workflow,
-          instanceId: data.instanceId,
+          instanceId: triggeredWorkflow.instanceId,
           isTriggered: true,
         };
-      } else {
-        return {
-          ...workflow,
-          instanceId: undefined,
-          isTriggered: false,
-        };
       }
+
+      return { ...workflow };
     });
 
-    dispatch({
-      type: 'UPDATE_WORKFLOW_DEFINITIONS',
-      payload: { workflowDefinitions: updatedWorkflowDefinitions },
-    });
+    dispatch({ type: 'UPDATE_WORKFLOWS', payload: { workflows: updatedWorkflowDefinitions } });
     setDataSending(false);
 
     setInstanceName('');

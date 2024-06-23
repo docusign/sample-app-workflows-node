@@ -27,7 +27,7 @@ const Dropdown = ({ options }) => {
       return;
     }
 
-    dispatch({ type: 'CREATED_WORKFLOW', payload: { workflowDefinitionId: data.workflowDefinitionId } });
+    dispatch({ type: 'CREATED_WORKFLOW', payload: { workflowId: data.workflowDefinitionId } });
     dispatch({ type: 'LOADED_POPUP' });
   };
 

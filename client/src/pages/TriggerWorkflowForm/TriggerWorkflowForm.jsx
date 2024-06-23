@@ -1,15 +1,15 @@
 import { useParams } from 'react-router-dom';
+import styles from './TriggerWorkflowForm.module.css';
 import Header from '../../components/Header/Header.jsx';
 import Footer from '../../components/Footer/Footer.jsx';
 import withAuth from '../../hocs/withAuth/withAuth.jsx';
 import WorkflowDescription from '../../components/WorkflowDescription/WorkflowDescription.jsx';
 import TriggerBehindTheScenes from '../../components/WorkflowDescription/BehindTheScenes/TriggerBehindTheScenes.jsx';
-import styles from './TriggerWorkflowForm.module.css';
 import { ROUTE } from '../../constants.js';
 import TriggerForm from '../../components/TriggerForm/TriggerForm.jsx';
 
 const TriggerWorkflowForm = () => {
-  const { definitionId } = useParams();
+  const { workflowId } = useParams();
 
   return (
     <div className="page-box">
@@ -20,7 +20,7 @@ const TriggerWorkflowForm = () => {
           behindTheScenesComponent={<TriggerBehindTheScenes />}
           backRoute={ROUTE.TRIGGER}
         />
-        <TriggerForm definitionId={definitionId} />
+        <TriggerForm workflowId={workflowId} />
       </div>
       <Footer withContent={false} />
     </div>

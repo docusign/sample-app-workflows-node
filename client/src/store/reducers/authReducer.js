@@ -1,3 +1,14 @@
+/**
+ * The initial state object for the Redux store related to authentication.
+ * @type {InitialState}
+ *
+ * @typedef {Object} InitialState
+ * @property {boolean} isAuthenticated - Indicates if the user is authenticated.
+ * @property {string|null} authType - The type of authentication (e.g., 'ACG', 'JWT'), if any, otherwise null.
+ * @property {string|null} userName - The name of the authenticated user, if any, otherwise null.
+ * @property {string|null} userEmail - The email of the authenticated user, if any, otherwise null.
+ */
+
 const initialState = {
   isAuthenticated: false,
   authType: null,

@@ -3,21 +3,22 @@
  * @type {InitialState}
  *
  * @typedef {Array<Object>} WorkflowDefinition
- * @property {string} id - The unique identifier for the workflow.
+ * @property {string} id - The unique identifier for the workflow definition.
  * @property {string} name - The name of the workflow.
  * @property {string} type - The type of the workflow.
- * @property {string} definitionId - The definition ID of the workflow.
  * @property {string} instanceState - The state of the workflow instance.
  * @property {string|undefined} instanceId - The instance ID of the workflow, if any.
  * @property {boolean|undefined} isTriggered - Indicates if the workflow is triggered.
+ *
+ * Workflow, workflowDefinition - this is the same
  */
 
 const initialState = {
+  workflows: [],
   lastCreatedWorkflow: {
     id: null,
     isPublished: false,
   },
-  workflowDefinitions: [],
 };
 
 const workflowsReducer = (state = initialState, { type, payload }) => {
@@ -25,7 +26,7 @@ const workflowsReducer = (state = initialState, { type, payload }) => {
     case 'CREATED_WORKFLOW':
       return {
         ...state,
-        lastCreatedWorkflow: { id: payload.workflowDefinitionId, isPublished: false },
+        lastCreatedWorkflow: { id: payload.workflowId, isPublished: false },
       };
 
     case 'PUBLISHED_LAST_WORKFLOW':
@@ -40,16 +41,19 @@ const workflowsReducer = (state = initialState, { type, payload }) => {
         lastCreatedWorkflow: initialState.lastCreatedWorkflow,
       };
 
-    case 'UPDATE_WORKFLOW_DEFINITIONS':
+    case 'UPDATE_WORKFLOWS':
       return {
         ...state,
-        workflowDefinitions: payload.workflowDefinitions,
+        workflows: payload.workflows,
       };
 
     case 'CANCEL_WORKFLOW':
       return {
         ...state,
-        workflowDefinitions: state.workflows.map(item => (item.instanceId === payload.instanceId ? payload : item)),
+        workflows: state.workflows.map(workflow => {
+          if (workflow.id === payload.workflowId) return { ...workflow, isTriggered: false, instanceId: undefined };
+          return { ...workflow };
+        }),
       };
 
     case 'CLEAR_STATE':

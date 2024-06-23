@@ -3,7 +3,7 @@ export const ROUTE = {
   HOME: '/home',
   TRIGGER: '/trigger-workflow',
   MANAGE: '/manage-workflow',
-  TRIGGERFORM: '/trigger-workflow/form'
+  TRIGGERFORM: '/trigger-workflow/form',
 };
 
 export const LoginStatus = {
@@ -44,23 +44,5 @@ export const WorkflowOptions = [
     value: `Create ${TemplateType.NDA}`,
     type: TemplateType.NDA,
     message: "You've successfully created NDA workflow",
-  },
-];
-
-export const JwtWorkflowDefinitions = [
-  {
-    instanceState: `In Progress`,
-    type: TemplateType.I9,
-    name: "1-9 workflow",
-  },
-  {
-    instanceState: `In Progress`,
-    type: TemplateType.OFFER,
-    name: "Offer letter workflow",
-  },
-  {
-    instanceState: `In Progress`,
-    type: TemplateType.NDA,
-    name: "NDA workflow",
   },
 ];
