@@ -5,6 +5,7 @@ import styles from './LoginForm.module.css';
 import withPopup from '../../hocs/withPopup/withPopup.jsx';
 import { LoginStatus, ROUTE } from '../../constants.js';
 import { api } from '../../api';
+import textContent from '../../assets/text.json';
 
 const LoginForm = ({ togglePopup, setLoading }) => {
   const [authType, setAuthType] = useState(LoginStatus.ACG);
@@ -52,10 +53,10 @@ const LoginForm = ({ togglePopup, setLoading }) => {
                 checked={authType === LoginStatus.ACG}
                 onChange={handleChange}
               />
-              {LoginStatus.ACG}
+              {textContent.login.acg}
             </label>
             <label className={styles.subLabel}>
-              This authentication type provides functionality of creating, triggering and managing workflows.
+              {textContent.login.acgDescription}
             </label>
           </div>
           <div className={styles.radioButtonWrapper}>
@@ -67,17 +68,17 @@ const LoginForm = ({ togglePopup, setLoading }) => {
                 checked={authType === LoginStatus.JWT}
                 onChange={handleChange}
               />
-              {LoginStatus.JWT}
+              {textContent.login.jwt}
             </label>
             <label className={styles.subLabel}>
-              This authentication type provides functionality of only triggering and managing workflows.
+              {textContent.login.jwtDescription}
             </label>
           </div>
         </div>
         <div className={styles.formButtons}>
-          <button type="submit">Log in</button>
+          <button type="submit">{textContent.buttons.login}</button>
           <button className={styles.cancel} type="button" onClick={togglePopup}>
-            Cancel
+            {textContent.buttons.cancel}
           </button>
         </div>
       </form>

@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom';
 import styles from './TriggerWorkflowForm.module.css';
 import Header from '../../components/Header/Header.jsx';
 import Footer from '../../components/Footer/Footer.jsx';
+import textContent from '../../assets/text.json';
 import withAuth from '../../hocs/withAuth/withAuth.jsx';
 import WorkflowDescription from '../../components/WorkflowDescription/WorkflowDescription.jsx';
 import TriggerBehindTheScenes from '../../components/WorkflowDescription/BehindTheScenes/TriggerBehindTheScenes.jsx';
@@ -16,7 +17,7 @@ const TriggerWorkflowForm = () => {
       <Header />
       <div className={styles.contentContainer}>
         <WorkflowDescription
-          title="Trigger a workflow"
+          title={textContent.pageTitles.triggerWorkflow}
           behindTheScenesComponent={<TriggerBehindTheScenes />}
           backRoute={ROUTE.TRIGGER}
         />

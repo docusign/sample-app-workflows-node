@@ -1,9 +1,10 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './TriggerWorkflow.module.css';
 import Header from '../../components/Header/Header.jsx';
 import Footer from '../../components/Footer/Footer.jsx';
+import textContent from '../../assets/text.json';
 import withAuth from '../../hocs/withAuth/withAuth.jsx';
 import WorkflowList from '../../components/WorkflowList/WorkflowList.jsx';
 import WorkflowDescription from '../../components/WorkflowDescription/WorkflowDescription.jsx';
@@ -12,12 +13,14 @@ import { ROUTE, TemplateType, WorkflowItemsInteractionType, WorkflowStatus } fro
 import { api } from '../../api';
 
 const TriggerWorkflow = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const location = useLocation();
   const workflows = useSelector(state => state.workflows.workflows);
 
   useEffect(() => {
     const getWorkflowDefinitions = async () => {
+      setIsLoading(true);
       const definitionsResponse = await api.workflows.getWorkflowDefinitions();
 
       const workflowDefinitions = definitionsResponse.data.value.map(definition => {
@@ -50,6 +53,7 @@ const TriggerWorkflow = () => {
 
       // Set workflow definitions with their statuses downloaded from docusign server
       dispatch({ type: 'UPDATE_WORKFLOWS', payload: { workflows: workflowsWithState } });
+      setIsLoading(false);
     };
 
     getWorkflowDefinitions();
@@ -61,11 +65,11 @@ const TriggerWorkflow = () => {
       <Header />
       <div className={styles.contentContainer}>
         <WorkflowDescription
-          title="Trigger a workflow"
+          title={textContent.pageTitles.triggerWorkflow}
           behindTheScenesComponent={<TriggerBehindTheScenes />}
           backRoute={ROUTE.HOME}
         />
-        <WorkflowList items={workflows} interactionType={WorkflowItemsInteractionType.TRIGGER} />
+        <WorkflowList items={workflows} interactionType={WorkflowItemsInteractionType.TRIGGER} isLoading={isLoading} />
       </div>
       <Footer withContent={false} />
     </div>

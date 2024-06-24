@@ -62,6 +62,7 @@
 }
 
 .dropDownMenu button, .dropDownMenu button:hover, .dropDownMenu button:active {
+    padding-left: 1.5rem;
     font-size: 16px;
     font-weight: 500;
     color: var(--secondary-main) !important;

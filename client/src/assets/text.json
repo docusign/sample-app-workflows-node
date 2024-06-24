@@ -7,14 +7,120 @@
     "footer": {
       "title": "DocuSign: it’s time to agree better",
       "paragraph": "DocuSign helps organizations connect and automate how they prepare, sign, act on, and manage agreements.",
-      "copyright": "© 2023 DocuSign Inc.",
+      "copyright": "© 2024 DocuSign Inc.",
       "createButton": "Create developer account",
       "learnButton": "Learn more ->"
+    }
+  },
+  "login": {
+    "acg": "Authorization Code Grant",
+    "acgDescription": "This authentication type provides functionality of creating, triggering and managing workflows.",
+    "jwt": "JSON Web Token",
+    "jwtDescription": "This authentication type provides functionality of only triggering and managing workflows."
+  },
+  "triggerForm": {
+    "formTitle": "Fill in details",
+    "formName": "Participant Information",
+    "fields": {
+      "instanceName": "Instance Name",
+      "signerName": "Signer Name",
+      "signerEmail": "Signer Email",
+      "ccName": "CC Name",
+      "ccEmail": "CC Email"
+    }
+  },
+  "home": {
+    "card1": {
+      "title": "'Create a workflow'",
+      "description": "Create workflow definitions from the dropdown list below"
+    },
+    "card2": {
+      "title": "Trigger a workflow",
+      "description": "Get list of workflow definitions created and trigger workflows"
+    },
+    "card3": {
+      "title": "Manage a workflow",
+      "description": "Get list of workflow instances, update their status and cancel them"
     }
   },
   "loader": {
     "title": "Waiting for log in",
     "paragraph": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+  },
+  "behindTheScenes": {
+    "titles": {
+      "main": "This sample features",
+      "code": "Code flow",
+      "step1": "Step 1",
+      "step2": "Step 2",
+      "step3": "Step 3"
+    },
+    "descriptions": {
+      "codeDescription": "See the source code: "
+    },
+    "createWorkflow": {
+      "mainDescription": "- Creation of 1-9 workflow\n            - Creation of Offer Letter workflow\n            - Creation of NDA workflow",
+      "step1Description": "Using the Envelopes:list API method, check that template is imported to the account, otherwise give an ability to download needed template.",
+      "step2Description": "Using the WorkflowManagement:create API method, create a workflow definition with all the data from the template.",
+      "step3Description": "Using the WorkflowManagement:publish API method, publish the created workflow definition to the account to make it visible and usable."
+    },
+    "triggerWorkflow": {
+      "mainDescription": "- Gets published workflow definitions from the account\n        - Gets last run status of workflow definition used in this sample app\n        - Triggers workflow definition",
+      "step1Description": "Using the WorkflowManagement:getWorkflowDefinitions API method, gets workflow definitions created on user account and filters last published definitions used in this app.",
+      "step2Description": "Using the WorkflowTrigger:triggerWorkflow API method, triggers chosen workflow definition with data parsed from the form"
+    },
+    "manageWorkflow": {
+      "mainDescription": "- Gets triggered workflow instances of sample app workflow definitions\n        - Gets status of workflow instances created using Trigger Workflow functionality\n        - Cancels chosen workflow instance",
+      "step1Description": "Using the WorkflowInstanceManagement:getWorkflowInstances API method, gets workflow instances triggered from workflow definition used for this sample app and filters only created in this user session4.",
+      "step2Description": "Using the WorkflowInstanceManagement:getWorkflowInstance API method, gets the status of the chosen workflow instance.",
+      "step3Description": "Using the WorkflowInstanceManagement:cancelWorkflowInstance API method, cancels the chosen workflow instance."
+    }
+  },
+  "workflowList": {
+    "doNotHaveWorkflow": "You don't have any workflows",
+    "columns": {
+      "lastRunStatus": "Status of last run",
+      "workflowName": "Workflow name",
+      "workflowType": "Workflow type"
+    }
+  },
+  "pageTitles": {
+    "manageWorkflow": "Manage workflows",
+    "triggerWorkflow": "Trigger a workflow"
+  },
+  "popups": {
+    "workflowTriggered": {
+      "title": "Workflow Triggered",
+      "description": "To complete the workflow steps click the button below"
+    },
+    "workflowDefinitionCreated": {
+      "publish": {
+        "description": "To publish the workflow, proceed with the button below",
+        "button": "Publish the workflow"
+      },
+      "published": {
+        "title": "Done",
+        "description": "Workflow successfully published"
+      },
+      "error": {
+        "title": "Workflow creation was unsuccessful",
+        "button": "Download Template"
+      }
+    }
+  },
+  "buttons": {
+    "login": "Log in",
+    "logout": "Log out",
+    "behindTheScenes": "Behind the scenes",
+    "continue": "Continue",
+    "cancel": "Cancel",
+    "createWorkflow": "Create a new workflow ->",
+    "triggerWorkflow": "Trigger workflow",
+    "triggerNewWorkflow": "Trigger new workflow ->",
+    "updateWorkflow": "Update workflow status",
+    "cancelWorkflow": "Cancel workflow",
+    "getStarted": "Get Started",
+    "moreInfo": "More Info"
   },
   "links": {
     "github": "https://github.com/docusign/sample-app-mymaestro-node",

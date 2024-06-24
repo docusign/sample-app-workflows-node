@@ -1,4 +1,6 @@
 import React from 'react';
+import 'bootstrap/dist/js/bootstrap.bundle.js';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';

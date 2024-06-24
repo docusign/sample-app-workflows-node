@@ -5,8 +5,10 @@ import WorkflowStatusPill from '../WorkflowStatusPill/WorkflowStatusPill.jsx';
 import dropdownSvg from '../../assets/img/dropdown.svg';
 import { ROUTE, WorkflowItemsInteractionType } from '../../constants.js';
 import { api } from '../../api';
+import textContent from '../../assets/text.json';
+import Loader from '../Loader/Loader.jsx';
 
-const WorkflowList = ({ items, interactionType }) => {
+const WorkflowList = ({ items, interactionType, isLoading }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const workflows = useSelector(state => state.workflows.workflows);
@@ -37,16 +39,23 @@ const WorkflowList = ({ items, interactionType }) => {
     overflowX: 'hidden',
   };
 
+  if (isLoading)
+    return (
+      <div className={styles.loaderContainer}>
+        <Loader visible={isLoading} />
+      </div>
+    );
+
   if (!items?.length)
     return (
       <div className={`list-group ${styles.listGroup}`}>
         <div className={styles.emptyListContainer}>
-          <h1>{"You don't have any workflows"}</h1>
+          <h1>{textContent.workflowList.doNotHaveWorkflow}</h1>
           <Link to={ROUTE.HOME}>
             <button className={styles.defaultButton} type="button">
               {interactionType === WorkflowItemsInteractionType.TRIGGER
-                ? 'Create a new workflow ->'
-                : 'Trigger new workflow ->'}
+                ? textContent.buttons.createWorkflow
+                : textContent.buttons.triggerNewWorkflow}
             </button>
           </Link>
         </div>
@@ -55,22 +64,22 @@ const WorkflowList = ({ items, interactionType }) => {
 
   return (
     <div className={`list-group ${styles.listGroup}`}>
-      <div>
+      <div className={styles.listContainer}>
         {interactionType === WorkflowItemsInteractionType.TRIGGER && (
           <div className={styles.headerRow}>
             <div>
-              <p>Status of last run</p>
-              <p>Workflow name</p>
+              <p>{textContent.workflowList.columns.lastRunStatus}</p>
+              <p>{textContent.workflowList.columns.workflowName}</p>
             </div>
             <div className={styles.typeHeader}>
-              <p>Workflow type</p>
+              <p>{textContent.workflowList.columns.workflowType}</p>
             </div>
           </div>
         )}
 
         {interactionType === WorkflowItemsInteractionType.MANAGE && (
           <div className={styles.headerAction}>
-            <button type="button">{'Trigger new workflow ->'}</button>
+            <button type="button">{textContent.buttons.triggerNewWorkflow}</button>
           </div>
         )}
 
@@ -84,7 +93,7 @@ const WorkflowList = ({ items, interactionType }) => {
               <p>{item.type}</p>
 
               {interactionType === WorkflowItemsInteractionType.TRIGGER && (
-                <button onClick={() => navigate(`${ROUTE.TRIGGERFORM}/${item.id}`)}>Trigger workflow</button>
+                <button onClick={() => navigate(`${ROUTE.TRIGGERFORM}/${item.id}`)}>{textContent.buttons.triggerWorkflow}</button>
               )}
 
               {interactionType === WorkflowItemsInteractionType.MANAGE && (
@@ -104,10 +113,10 @@ const WorkflowList = ({ items, interactionType }) => {
                       className={`dropdown-item ${styles.dropdownItem}`}
                       onClick={() => handleUpdateWorkflowStatus(item)}
                     >
-                      Update workflow status
+                      {textContent.buttons.updateWorkflow}
                     </a>
                     <a className={`dropdown-item ${styles.dropdownItem}`} onClick={() => handleCancelWorkflow(item)}>
-                      Cancel workflow
+                      {textContent.buttons.cancelWorkflow}
                     </a>
                   </div>
                 </div>

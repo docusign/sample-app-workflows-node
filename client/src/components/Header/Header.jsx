@@ -42,7 +42,7 @@ const Header = () => {
                 className="btn btn-secondary dropdown-toggle"
                 type="button"
                 id="dropdownMenuButton"
-                data-toggle="dropdown"
+                data-bs-toggle="dropdown"
                 aria-haspopup="true"
                 aria-expanded="false"
               >
@@ -52,7 +52,7 @@ const Header = () => {
                 <h4>{userName}</h4>
                 <p>{userEmail}</p>
                 <button className="dropdown-item" type="button" onClick={handleLogOut}>
-                  Log out
+                  {textContent.buttons.logout}
                 </button>
               </div>
             </div>

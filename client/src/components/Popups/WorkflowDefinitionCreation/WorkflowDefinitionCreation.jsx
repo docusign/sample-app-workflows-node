@@ -4,6 +4,7 @@ import withPopup from '../../../hocs/withPopup/withPopup.jsx';
 import imgError from '../../../assets/img/workflow-trigger.svg';
 import imgSuccess from '../../../assets/img/success.svg';
 import { api } from '../../../api';
+import textContent from '../../../assets/text.json';
 
 const WorkflowDefinitionCreation = ({ message }) => {
   const dispatch = useDispatch();
@@ -33,8 +34,8 @@ const WorkflowDefinitionCreation = ({ message }) => {
       <div>
         <div className={styles.popupContainer}>
           <img src={imgSuccess} alt="" />
-          <h2>Done</h2>
-          <p>Workflow successfully published</p>
+          <h2>{textContent.popups.workflowDefinitionCreated.published.title}</h2>
+          <p>{textContent.popups.workflowDefinitionCreated.published.description}</p>
         </div>
       </div>
     );
@@ -44,9 +45,9 @@ const WorkflowDefinitionCreation = ({ message }) => {
     return (
       <div className={styles.popupContainer}>
         <img src={imgError} alt="" />
-        <h2>Workflow creation was unsuccessful</h2>
+        <h2>{textContent.popups.workflowDefinitionCreated.error.title}</h2>
         <p>{errorMessage}</p>
-        <button onClick={handleDownloadTemplate}>Download Template</button>
+        <button onClick={handleDownloadTemplate}>{textContent.popups.workflowDefinitionCreated.error.button}</button>
       </div>
     );
   }
@@ -55,8 +56,8 @@ const WorkflowDefinitionCreation = ({ message }) => {
     <div className={styles.popupContainer}>
       <img src={imgSuccess} alt="" />
       <h2>{message}</h2>
-      <p>To publish the workflow, proceed with the button below</p>
-      <button onClick={handlePublishWorkflow}>Publish the workflow</button>
+      <p>{textContent.popups.workflowDefinitionCreated.publish.description}</p>
+      <button onClick={handlePublishWorkflow}>{textContent.popups.workflowDefinitionCreated.publish.button}</button>
     </div>
   );
 };
