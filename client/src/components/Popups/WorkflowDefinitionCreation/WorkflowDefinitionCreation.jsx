@@ -9,31 +9,26 @@ const WorkflowDefinitionCreation = ({ message }) => {
   const dispatch = useDispatch();
   const errorMessage = useSelector(state => state.popup.errorMessage);
   const templateName = useSelector(state => state.popup.templateName);
-  const lastCreatedWorkflowId = useSelector(state => state.workflows.lastCreatedWorkflowId);
-  const lastCreatedWorkflowPublished = useSelector(state => state.workflows.lastCreatedWorkflowPublished);
-
-  const handleDownloadPrerequisites = async () => {
-    await api.workflows.downloadWorkflowPrerequisites(templateName);
-  };
+  const lastCreatedWorkflow = useSelector(state => state.workflows.lastCreatedWorkflow);
 
   const handleDownloadTemplate = async () => {
     await api.workflows.downloadWorkflowTemplate(templateName);
   };
 
   const handlePublishWorkflow = async () => {
-    if (!lastCreatedWorkflowId) return;
+    if (!lastCreatedWorkflow.id) return;
 
     dispatch({ type: 'LOADING_POPUP' });
-    const workflow = await api.workflows.publishWorkflow(lastCreatedWorkflowId);
+    const workflow = await api.workflows.publishWorkflow(lastCreatedWorkflow.id);
 
-    if (workflow.status === 200) {
-      dispatch({ type: 'UPDATE_WORKFLOW', payload: { lastCreatedWorkflowPublished: true } });
+    if (workflow?.status === 200) {
+      dispatch({ type: 'PUBLISHED_LAST_WORKFLOW' });
     }
 
     dispatch({ type: 'LOADED_POPUP' });
   };
 
-  if (lastCreatedWorkflowPublished) {
+  if (lastCreatedWorkflow?.isPublished) {
     return (
       <div>
         <div className={styles.popupContainer}>

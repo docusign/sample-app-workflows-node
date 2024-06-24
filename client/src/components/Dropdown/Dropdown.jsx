@@ -5,14 +5,14 @@ import WorkflowCreationPopup from '../Popups/WorkflowDefinitionCreation/Workflow
 import { api } from '../../api';
 
 const Dropdown = ({ options }) => {
-  const [selectedDocument, setSelectedDocument] = useState(options[0].value);
   const dispatch = useDispatch();
   const isOpened = useSelector(state => state.popup.isOpened);
+  const [selectedDocument, setSelectedDocument] = useState(options[0].value);
 
   const togglePopup = () => {
     dispatch({ type: isOpened ? 'CLOSE_POPUP' : 'OPEN_POPUP' });
     dispatch({ type: 'CLEAR_ERROR_POPUP' });
-    dispatch({ type: 'CLEAR_WORKFLOW' });
+    dispatch({ type: 'CLEAR_CREATED_WORKFLOW' });
   };
 
   const handleCreateWorkflow = async ({ value, type }) => {
@@ -27,7 +27,7 @@ const Dropdown = ({ options }) => {
       return;
     }
 
-    dispatch({ type: 'ADD_WORKFLOW', payload: data });
+    dispatch({ type: 'CREATED_WORKFLOW', payload: { workflowId: data.workflowDefinitionId } });
     dispatch({ type: 'LOADED_POPUP' });
   };
 
@@ -54,12 +54,13 @@ const Dropdown = ({ options }) => {
           </a>
         ))}
       </div>
-      {isOpened ? (
+
+      {isOpened && (
         <WorkflowCreationPopup
           togglePopup={togglePopup}
           message={options.find(option => option.value === selectedDocument).message}
         />
-      ) : null}
+      )}
     </div>
   );
 };

@@ -3,7 +3,7 @@ export const ROUTE = {
   HOME: '/home',
   TRIGGER: '/trigger-workflow',
   MANAGE: '/manage-workflow',
-  TRIGGERFORM: '/trigger-workflow/form'
+  TRIGGERFORM: '/trigger-workflow/form',
 };
 
 export const LoginStatus = {

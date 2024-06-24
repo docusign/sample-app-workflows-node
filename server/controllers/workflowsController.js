@@ -10,11 +10,12 @@
  */
 
 const path = require('path');
-const validator = require('validator');
+const validator = require('validator'); // Package to prevent XSS. This is not express-validator
 const docusign = require('docusign-esign');
 const config = require('../config');
 const WorkflowsService = require('../services/workflowsService');
 const createPrefixedLogger = require('../utils/logger');
+const { getParameterValueFromUrl } = require('../utils/utils');
 
 const oAuth = docusign.ApiClient.OAuth;
 const restApi = docusign.ApiClient.RestApi;
@@ -55,11 +56,7 @@ class WorkflowsController {
         templateType: req?.body?.templateType,
       });
 
-      const workflowResponse = {
-        ...workflow.workflowDefinition,
-        workflowDefinitionId: workflow.workflowDefinitionId,
-      };
-      res.json(workflowResponse);
+      res.json({ workflowDefinitionId: workflow.workflowDefinitionId });
     } catch (error) {
       this.handleForbiddenResponse(error, res);
     }
@@ -70,13 +67,13 @@ class WorkflowsController {
    */
   static cancelWorkflow = async (req, res) => {
     try {
-      const results = await WorkflowsService.cancelWorkflowInstance({
+      const result = await WorkflowsService.cancelWorkflowInstance({
         instanceId: req?.params?.instanceId,
-        accessToken: req.user.accessToken,
+        accessToken: req?.user?.accessToken || req?.session?.accessToken,
         basePath: config.maestroApiUrl,
         accountId: req.session.accountId,
       });
-      res.status(200).send(results);
+      res.status(200).send(result);
     } catch (error) {
       this.handleForbiddenResponse(error, res);
     }
@@ -130,14 +127,14 @@ class WorkflowsController {
    */
   static getWorkflowInstance = async (req, res) => {
     try {
-      const results = await WorkflowsService.getWorkflowInstance({
+      const result = await WorkflowsService.getWorkflowInstance({
         instanceId: req?.params?.instanceId,
         definitionId: req?.params?.definitionId,
-        accessToken: req.user.accessToken,
+        accessToken: req?.user?.accessToken || req?.session?.accessToken,
         basePath: config.maestroApiUrl,
         accountId: req.session.accountId,
       });
-      res.status(200).send(results);
+      res.status(200).send(result);
     } catch (error) {
       this.handleForbiddenResponse(error, res);
     }
@@ -150,7 +147,7 @@ class WorkflowsController {
     try {
       const results = await WorkflowsService.getWorkflowInstances({
         definitionId: req.params.definitionId,
-        accessToken: req.user.accessToken,
+        accessToken: req?.user?.accessToken || req?.session?.accessToken,
         basePath: config.maestroApiUrl,
         accountId: req.session.accountId,
       });
@@ -172,16 +169,21 @@ class WorkflowsController {
       signerName: validator.escape(body?.signerName),
       ccEmail: validator.escape(body?.ccEmail),
       ccName: validator.escape(body?.ccName),
-      workflowId: req.session.workflowId,
-      accessToken: req.user.accessToken,
+      workflowId: req.params.definitionId,
+      accessToken: req?.user?.accessToken || req?.session?.accessToken,
       basePath: config.maestroApiUrl,
       accountId: req.session.accountId,
+      mtid: undefined,
+      mtsec: undefined,
     };
 
     try {
       const workflow = await WorkflowsService.getWorkflowDefinition(args);
-      const results = await WorkflowsService.triggerWorkflowInstance(workflow, args);
-      res.status(200).send(results);
+      args.mtid = getParameterValueFromUrl(workflow.triggerUrl, 'mtid');
+      args.mtsec = getParameterValueFromUrl(workflow.triggerUrl, 'mtsec');
+
+      const result = await WorkflowsService.triggerWorkflowInstance(args);
+      res.status(200).send(result);
     } catch (error) {
       this.handleForbiddenResponse(error, res);
     }

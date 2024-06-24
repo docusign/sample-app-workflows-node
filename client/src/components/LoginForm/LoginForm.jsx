@@ -17,8 +17,8 @@ const LoginForm = ({ togglePopup, setLoading }) => {
 
     try {
       if (authType === LoginStatus.JWT) {
-        const res = await api.jwt.login();
-        dispatch({ type: 'LOGIN', payload: { authType, userName: res.data.name, userEmail: res.data.email } });
+        const { data: userInfo } = await api.jwt.login();
+        dispatch({ type: 'LOGIN', payload: { authType, userName: userInfo.name, userEmail: userInfo.email } });
         navigate(ROUTE.HOME);
         dispatch({ type: 'CLOSE_POPUP' });
         dispatch({ type: 'LOADED_POPUP' });
@@ -54,8 +54,9 @@ const LoginForm = ({ togglePopup, setLoading }) => {
               />
               {LoginStatus.ACG}
             </label>
-            <label className={styles.subLabel}>This authentication type provides functionality of creating, triggering
-              and managing workflows.</label>
+            <label className={styles.subLabel}>
+              This authentication type provides functionality of creating, triggering and managing workflows.
+            </label>
           </div>
           <div className={styles.radioButtonWrapper}>
             <label className={styles.label}>
@@ -68,7 +69,9 @@ const LoginForm = ({ togglePopup, setLoading }) => {
               />
               {LoginStatus.JWT}
             </label>
-            <label className={styles.subLabel}>This authentication type provides functionality of only triggering and managing workflows.</label>
+            <label className={styles.subLabel}>
+              This authentication type provides functionality of only triggering and managing workflows.
+            </label>
           </div>
         </div>
         <div className={styles.formButtons}>

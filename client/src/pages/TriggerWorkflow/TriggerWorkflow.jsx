@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './TriggerWorkflow.module.css';
 import Header from '../../components/Header/Header.jsx';
@@ -12,47 +13,63 @@ import { api } from '../../api';
 
 const TriggerWorkflow = () => {
   const dispatch = useDispatch();
-  const workflowDefinitions = useSelector(state => state.workflows.workflowDefinitions);
+  const location = useLocation();
+  const workflows = useSelector(state => state.workflows.workflows);
 
   useEffect(() => {
     const getWorkflowDefinitions = async () => {
-      const definitionsresponse = await api.workflows.getWorkflowDefinitions();
+      const definitionsResponse = await api.workflows.getWorkflowDefinitions();
 
-      let definitions = definitionsresponse.data.value.map(definition => {
+      const workflowDefinitions = definitionsResponse.data.value.map(definition => {
+        if (workflows.length) {
+          const foundWorkflow = workflows.find(workflow => workflow.id === definition.id);
+          if (foundWorkflow) return foundWorkflow;
+        }
+
         const templateKeys = Object.keys(TemplateType);
         const foundKey = templateKeys.find(key => definition.name.startsWith(TemplateType[key]));
 
         return {
           id: definition.id,
-          name: `WF ${TemplateType[foundKey] ?? 'ExampleName'}`,
+          name: `WF ${TemplateType[foundKey] || 'ExampleName'}`,
           type: TemplateType[foundKey] || 'ExampleType',
         };
       });
 
-      definitions = await Promise.all(definitions.map(async definition => {
-        const instancesResponse = await api.workflows.getWorkflowInstances(definition.id);
-        let definitionInstances = instancesResponse.data;
-        return {
-          ...definition,
-          instanceState: definitionInstances ? definitionInstances[definitionInstances.length - 1].instanceState : WorkflowStatus.NotRun,
-        };
-      }));
+      const workflowsWithState = await Promise.all(
+        workflowDefinitions.map(async definition => {
+          const { data } = await api.workflows.getWorkflowInstances(definition.id);
+          const relevantInstanceState = data.length > 0 ? data[data.length - 1].instanceState : WorkflowStatus.NotRun;
 
-      dispatch({ type: 'UPDATE_WORKFLOW', payload: { workflowDefinitions: definitions } });
+          return {
+            ...definition,
+            instanceState: relevantInstanceState,
+          };
+        })
+      );
+
+      // Set workflow definitions with their statuses downloaded from docusign server
+      dispatch({ type: 'UPDATE_WORKFLOWS', payload: { workflows: workflowsWithState } });
     };
 
     getWorkflowDefinitions();
-  }, [dispatch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, location.pathname]);
 
-  return (<div className="page-box">
-    <Header />
-    <div className={styles.contentContainer}>
-      <WorkflowDescription title="Trigger a workflow" behindTheScenesComponent={<TriggerBehindTheScenes />}
-                           backRoute={ROUTE.HOME} />
-      <WorkflowList items={workflowDefinitions} interactionType={WorkflowItemsInteractionType.TRIGGER} />
+  return (
+    <div className="page-box">
+      <Header />
+      <div className={styles.contentContainer}>
+        <WorkflowDescription
+          title="Trigger a workflow"
+          behindTheScenesComponent={<TriggerBehindTheScenes />}
+          backRoute={ROUTE.HOME}
+        />
+        <WorkflowList items={workflows} interactionType={WorkflowItemsInteractionType.TRIGGER} />
+      </div>
+      <Footer withContent={false} />
     </div>
-    <Footer withContent={false} />
-  </div>);
+  );
 };
 
 const TriggerWorkflowAuthenticated = withAuth(TriggerWorkflow);

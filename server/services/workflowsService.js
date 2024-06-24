@@ -25,7 +25,7 @@ class WorkflowsService {
   static i9Template = 'I9Template.json';
   static offerLetterTemplate = 'OfferLetterTemplate.json';
   static workflowSuffix = 'send invite to signer';
-  static ndaTemplate = 'ndaTemplate.json'; // TODO: Add NDA Template File
+  static ndaTemplate = 'ndaTemplate.json';
   static dsApiClient = new docusign.ApiClient();
   static workflowManagementApi = new docusign.WorkflowManagementApi(this.dsApiClient);
   static workflowInstanceManagementApi = new docusign.WorkflowInstanceManagementApi(this.dsApiClient);
@@ -72,7 +72,7 @@ class WorkflowsService {
     if (!results?.resultSetSize || Number(results.resultSetSize) <= 0) {
       return {
         message: 'Template for this workflow is missing, make sure that you uploaded it on your account',
-        templateName: this.i9Template,
+        templateName: templateFile,
       };
     }
 
@@ -718,7 +718,7 @@ class WorkflowsService {
     }
   };
 
-  static triggerWorkflowInstance = async (workflow, args) => {
+  static triggerWorkflowInstance = async args => {
     this.dsApiClient.setBasePath(args.basePath);
     this.dsApiClient.addDefaultHeader('Authorization', `Bearer ${args.accessToken}`);
 

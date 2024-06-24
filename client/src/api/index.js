@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { store } from '../store/store';
+import { persistor, store } from '../store/store';
 
 const apiUrl = process.env.BACKEND_API;
 
@@ -22,21 +22,23 @@ export const api = Object.freeze({
   jwt: {
     // Login by JSON Web Token
     login: async () => {
-      const res = await instance.get('/auth/jwt/login');
+      const response = await instance.get('/auth/jwt/login');
       // If user has never logged in before, redirect to consent screen
-      if (res.status === 210) {
-        window.location = res.data;
+      if (response.status === 210) {
+        window.location = response.data;
         return;
       }
 
-      return res;
+      return response;
     },
     logout: async () => {
       await instance.get('/auth/jwt/logout');
+      await persistor.purge();
+      localStorage.clear();
     },
     loginStatus: async () => {
-      const res = await instance.get('/auth/jwt/login-status');
-      return JSON.parse(res.data); // response boolean
+      const response = await instance.get('/auth/jwt/login-status');
+      return JSON.parse(response.data); // response boolean
     },
   },
   acg: {
@@ -47,21 +49,23 @@ export const api = Object.freeze({
     },
     logout: async () => {
       await instance.get('/auth/passport/logout');
+      await persistor.purge();
+      localStorage.clear();
     },
     callbackExecute: async code => {
-      const res = await instance.get(`/auth/passport/callback?code=${code}`);
-      return res;
+      const response = await instance.get(`/auth/passport/callback?code=${code}`);
+      return response;
     },
     loginStatus: async () => {
-      const res = await instance.get('/auth/passport/login-status');
-      return JSON.parse(res.data); // response boolean
+      const response = await instance.get('/auth/passport/login-status');
+      return JSON.parse(response.data); // response boolean
     },
   },
   workflows: {
     createWorkflowDefinition: async templateType => {
       try {
-        const res = await instance.post('/workflows/create', { templateType: templateType });
-        return res;
+        const response = await instance.post('/workflows/create', { templateType: templateType });
+        return response;
       } catch (error) {
         if (error.response && error.response.status === 400) {
           return error.response;
@@ -71,21 +75,18 @@ export const api = Object.freeze({
     },
     cancelWorkflowInstance: async workflow => {
       try {
-        const res = await instance.put(`/workflows/${workflow.definitionId}/instances/${workflow.dacId}/cancel`);
-        return res;
+        const response = await instance.put(`/workflows/${workflow.id}/instances/${workflow.instanceId}/cancel`);
+        return response;
       } catch (error) {
-        if (error.response && error.response.status === 400) {
-          return error.response;
-        }
-        throw error;
+        console.log(error);
       }
     },
     publishWorkflow: async workflowId => {
-      const res = await instance.post('/workflows/publish', { workflowId });
+      const response = await instance.post('/workflows/publish', { workflowId });
 
-      if (res.status === 210) {
+      if (response.status === 210) {
         try {
-          window.open(res.data, 'newTab', 'width=800,height=600');
+          window.open(response.data, 'newTab', 'width=800,height=600');
           await new Promise(r => setTimeout(r, 3000));
 
           const published = await instance.post('/workflows/publish', { workflowId });
@@ -95,19 +96,27 @@ export const api = Object.freeze({
         }
       }
 
-      return res;
+      return response;
+    },
+    triggerWorkflow: async (workflowId, body) => {
+      try {
+        const response = await instance.put(`/workflows/${workflowId}/trigger`, body);
+        return response;
+      } catch (error) {
+        console.log(error);
+      }
     },
     getWorkflowDefinitions: async () => {
-      const res = await instance.get(`/workflows/definitions`);
-      return res;
+      const response = await instance.get(`/workflows/definitions`);
+      return response;
     },
     getWorkflowInstance: async workflow => {
-      const res = await instance.get(`/workflows/${workflow.definitionId}/instances/${workflow.dacId}`);
-      return res;
+      const response = await instance.get(`/workflows/${workflow.id}/instances/${workflow.instanceId}`);
+      return response;
     },
-    getWorkflowInstances: async definitionId => {
-      const res = await instance.get(`/workflows/${definitionId}/instances`);
-      return res;
+    getWorkflowInstances: async workflowId => {
+      const response = await instance.get(`/workflows/${workflowId}/instances`);
+      return response;
     },
     downloadWorkflowTemplate: async templateName => {
       try {

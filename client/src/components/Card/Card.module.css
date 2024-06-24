@@ -57,3 +57,18 @@
     align-items: center;
     overflow: visible;
 }
+
+.buttonGroup {
+    display: flex;
+    flex-direction: row;
+}
+
+.moreInfo {
+    line-height: 10px !important;
+    background-color: var(--grey-light) !important;
+    color: var(--black-light) !important;
+}
+
+.moreInfo:hover, .moreInfo:focus, .moreInfo:active {
+    border: none;
+}

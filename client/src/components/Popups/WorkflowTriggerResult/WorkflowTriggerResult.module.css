@@ -37,7 +37,7 @@
 
 .popupContainer div {
     width: 80%;
-    height: 30px;
+    height: 55px;
     background-color: var(--grey-main);
     border: 1px solid var(--black-extraextralight);
 }

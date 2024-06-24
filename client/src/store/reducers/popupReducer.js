@@ -1,3 +1,14 @@
+/**
+ * The initial state object for the Redux store.
+ * @type {InitialState}
+ *
+ * @typedef {Object} InitialState
+ * @property {boolean} isOpened - Indicates if the popup is opened.
+ * @property {boolean} isLoading - Indicates if the popup is loading and shows the loading circle.
+ * @property {string|null} errorMessage - Error message if any, otherwise null.
+ * @property {string|null} templateName - The name of the template, if any, otherwise null.
+ */
+
 const initialState = {
   isOpened: false,
   isLoading: false,
