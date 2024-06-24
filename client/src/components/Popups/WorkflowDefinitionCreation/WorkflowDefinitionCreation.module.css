@@ -1,5 +1,5 @@
 .popupContainer {
-    padding-top: 1.5rem;
+    padding-top: 5rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -9,7 +9,7 @@
     height: 54px;
     width: 450px;
     line-height: 28px !important;
-    margin: 12px 0 0 0;
+    margin: 12px 0 -12px 0;
     text-align: center;
     font-size: 24px !important;
     font-weight: 700 !important;
@@ -17,7 +17,6 @@
 
 .popupContainer p {
     text-align: center;
-    margin: 1rem 0 0 0;
     width: 80%;
     font-size: 16px;
     font-weight: 400;

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styles from './Dropdown.module.css';
 import WorkflowCreationPopup from '../Popups/WorkflowDefinitionCreation/WorkflowDefinitionCreation.jsx';
 import { api } from '../../api';
+import textContent from '../../assets/text.json';
 
 const Dropdown = ({ options }) => {
   const dispatch = useDispatch();
@@ -37,11 +38,11 @@ const Dropdown = ({ options }) => {
         className="btn btn-secondary dropdown-toggle"
         type="button"
         id="dropdownMenuButton"
-        data-toggle="dropdown"
+        data-bs-toggle="dropdown"
         aria-haspopup="true"
         aria-expanded="false"
       >
-        Get Started
+        {textContent.buttons.getStarted}
       </button>
       <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
         {options.map(option => (

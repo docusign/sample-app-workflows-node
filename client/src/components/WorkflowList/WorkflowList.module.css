@@ -1,8 +1,11 @@
 .listGroup {
   width: 100%;
-  padding-top: 6.25rem;
   margin-left: 34px;
   max-height: 62vh;
+}
+
+.listContainer {
+  padding-top: 6.25rem;
 }
 
 .listGroup a {
@@ -156,7 +159,7 @@
 
 .loaderContainer {
   position: static;
-  padding-top: 15rem;
+  padding-top: 7.5rem;
   padding-right: 30rem;
 }
 

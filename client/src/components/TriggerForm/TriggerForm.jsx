@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styles from './TriggerForm.module.css';
 import WorkflowTriggerResultPopup from '../Popups/WorkflowTriggerResult/WorkflowTriggerResult.jsx';
 import { api } from '../../api';
+import textContent from '../../assets/text.json';
 
 const TriggerForm = ({ workflowId }) => {
   const dispatch = useDispatch();
@@ -57,38 +58,38 @@ const TriggerForm = ({ workflowId }) => {
 
   return (
     <div className={styles.formContainer}>
-      <h2>Fill in details</h2>
+      <h2>{textContent.triggerForm.formTitle}</h2>
       <div className={styles.divider} />
       <form className={styles.triggerForm} onSubmit={handleSubmit}>
-        <h3>Participant Information</h3>
+        <h3>{textContent.triggerForm.formName}</h3>
         <div>
-          <label>Instance Name *</label>
+          <label>{textContent.triggerForm.fields.instanceName}</label>
           <input type="text" value={instanceName} onChange={e => setInstanceName(e.target.value)} required={true} />
         </div>
 
         <div>
-          <label>Signer Name *</label>
+          <label>{textContent.triggerForm.fields.signerName}</label>
           <input type="text" value={signerName} onChange={e => setSignerName(e.target.value)} required={true} />
         </div>
 
         <div>
-          <label>Signer Email *</label>
+          <label>{textContent.triggerForm.fields.signerEmail}</label>
           <input type="text" value={signerEmail} onChange={e => setSignerEmail(e.target.value)} required={true} />
         </div>
 
         <div>
-          <label>CC Name *</label>
+          <label>{textContent.triggerForm.fields.ccName}</label>
           <input type="text" value={ccName} onChange={e => setCcName(e.target.value)} required={true} />
         </div>
 
         <div>
-          <label>CC Email *</label>
+          <label>{textContent.triggerForm.fields.ccEmail}</label>
           <input type="text" value={ccEmail} onChange={e => setCcEmail(e.target.value)} required={true} />
         </div>
 
         <div className={styles.divider} />
         <button type="submit" disabled={isDataSending}>
-          Continue
+          {textContent.buttons.continue}
         </button>
       </form>
       {isOpened && <WorkflowTriggerResultPopup workflowInstanceUrl={workflowInstanceUrl} />}

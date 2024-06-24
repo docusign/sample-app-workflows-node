@@ -4,6 +4,7 @@ import styles from './WorkflowTriggerResult.module.css';
 import withPopup from '../../../hocs/withPopup/withPopup.jsx';
 import imgSuccess from '../../../assets/img/success.svg';
 import { ROUTE } from '../../../constants.js';
+import textContent from '../../../assets/text.json';
 
 const WorkflowTriggerResult = ({ workflowInstanceUrl }) => {
   const navigate = useNavigate();
@@ -17,12 +18,9 @@ const WorkflowTriggerResult = ({ workflowInstanceUrl }) => {
   return (
     <div className={styles.popupContainer}>
       <img src={imgSuccess} alt="" />
-      <h2>Workflow Triggered</h2>
-      <p>To complete the workflow steps follow this URL:</p>
-      <div>
-        <span>URL: {workflowInstanceUrl}</span>
-      </div>
-      <button onClick={handleFinishTrigger}>Continue</button>
+      <h2>{textContent.popups.workflowTriggered.title}</h2>
+      <p>{textContent.popups.workflowTriggered.description}</p>
+      <a href={workflowInstanceUrl} target="_blank" rel="noreferrer" onClick={handleFinishTrigger}>{textContent.buttons.continue}</a>
     </div>
   );
 };

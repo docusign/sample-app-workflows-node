@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@popperjs/core": "^2.11.8",
     "@reduxjs/toolkit": "^2.2.5",
     "@vitejs/plugin-react": "^4.2.1",
     "axios": "^1.7.2",

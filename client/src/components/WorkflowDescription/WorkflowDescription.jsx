@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import styles from './WorkflowDescription.module.css';
+import textContent from '../../assets/text.json';
 
 const WorkflowDescription = ({ title, behindTheScenesComponent, backRoute }) => {
   return (
@@ -13,11 +14,11 @@ const WorkflowDescription = ({ title, behindTheScenesComponent, backRoute }) => 
           className="btn btn-secondary dropdown-toggle"
           type="button"
           id="dropdownMenuButton"
-          data-toggle="dropdown"
+          data-bs-toggle="dropdown"
           aria-haspopup="true"
           aria-expanded="false"
         >
-          Behind the scenes
+          {textContent.buttons.behindTheScenes}
         </button>
         {behindTheScenesComponent}
       </div>

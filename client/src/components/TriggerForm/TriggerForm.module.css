@@ -53,6 +53,12 @@ label {
   font-weight: 500;
   line-height: 20px;
 }
+
+.triggerForm label:after {
+  content: " *";
+  color: var(--secondary-main);
+}
+
 .triggerForm input {
   height: 40px;
   width: 80%;
