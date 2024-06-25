@@ -1,8 +1,12 @@
 # Node.js and React: MyMaestro Sample Application
 
+![React + Vite](./client/src/assets/img/favicon.png) ![React + Vite](./client/src/assets/img/logo.svg)
+
 ## Introduction
 
-Welcome to the MyMaestro sample app! MyMaestro is written using Node.js (server) and React (client), and showcase the new Maestro API and how developers can use the API to create solutions for HR use cases, specifically use cases related to hiring
+Welcome to the MyMaestro sample app! MyMaestro is written using Node.js (server) and React (client), and showcase the new Maestro API. Docusign Maestro is a core platform service powering the Docusign. Easily build and deploy customized workflows that automate and accelerate your agreement processes without writing any code. Maestro connects all the tools and activities in your workflow so agreement processes are more efficient, more uniform, and have better visibility.
+
+With Docusign Maestro, you can combine workflow steps for Docusign apps like ID Verification, Web Forms, and eSignature, and third-party extensions to automate your agreement process end-to-end.
 
 ## Configuring your integration
 
@@ -10,17 +14,18 @@ Before you can run this sample app on your local machine, you must first create 
 
 ### Create a new integration
 
-1. If you don't already have one, create a [free developer account](https://go.docusign.com/sandbox/productshot/?elqCampaignId=16535).
-2. Log into your developer account, and navigate to [My Apps & Keys](https://admindemo.docusign.com/authenticate?goTo=apiIntegratorKey).
+1. If you don't already have one, create a [free developer account](https://go.docusign.com/sandbox/productshot/).
+2. Log into your developer account, and navigate to [My Apps & Keys](https://admindemo.docusign.com/apps-and-keys).
 3. Select **Add App and Integration Key**.
-4. Create a new integration that is configured to use **JSON Web Token (JWT) Grant**.
+4. Create a new integration that is configured to use **JSON Web Token (JWT) Grant** and **Authorization Code Grant (ACG)**.
    You will need the **integration key** itself and its **RSA key pair**. To use this application, you must add your application's **Redirect URI** to your integration key. See our video, [**Creating an Integration Key for JWT Authentication**](https://www.youtube.com/watch?v=GgDqa7-L0yo) for a demonstration of how to create an integration key (client ID) for a user application like this example.
    - Save the **integration key** and **private RSA key pair** somewhere safe as you will need these later.
-5. Add the following as redirect URIs for your app:
-   - http://localhost:3000
-   - http://localhost:3000/index
+5. Add redirect URIs for your app. There are several variables from the **.env** file that are used in the code and configured for redirect urls. Find variables below in the **.env** file and add the values of these variables in the Docusign account settings in the appropriate **Redirect URIs** section:
+   - FRONTEND_DEV_HOST (http://localhost:3000)
+   - FRONTEND_PROD_HOST (https://mymaestro.azurewebsites.net)
+   - JWT_REDIRECT_URI (https://developers.docusign.com/platform/auth/consent)
 
-## Installation guide
+Please pay attention that if you run the project in docker using the **docker-compose.local.yml** file, the variable FRONTEND_DEV_HOST there changes to the value **http://localhost:80**. Keep in mind that in this case this value will also have to be added to **Redirect URIs** section.
 
 ### Prerequisites
 
@@ -29,16 +34,6 @@ Before you can run this sample app on your local machine, you must first create 
 - [Node.js](https://nodejs.org/) v20+
 - [VS Code](https://code.visualstudio.com/)
 - [Docker](https://docs.docker.com/get-docker/)
-
-### Docusign account settings
-
-The following must be enabled on your developer account in order to run all of the examples:
-
-- **SMS delivery**: Follow the instructions in the [Docusign eSignature Admin Guide](https://support.docusign.com/guides/ndse-admin-guide-sending-settings) under the **Fields and Properties** section. Make sure "Allow SMS delivery to recipients" is checked.
-- **Conditional routing**: Follow the instructions in the [Introduction to Conditional Routing](https://support.docusign.com/en/guides/ndse-user-guide-intro-to-conditional-routing) under the **Getting started with conditional routing** section. Make sure "Enable conditional routing" is checked.
-- **CertifiedDelivery recipients**: Follow the instructions on this [Docusign eSignature Admin Guide](https://support.docusign.com/guides/ndse-admin-guide-sending-settings) under the **Recipient Roles** section. Make sure "Enable needs to view role" is checked.
-- **Document visibility**: Follow the instructions on this [Docusign eSignature Admin Guide](https://support.docusign.com/guides/ndse-admin-guide-sending-settings) under the **Fields and Properties** section. Set your settings to "Must sign to view, unless sender," and make sure "Allow sender to specify document visibility" is checked.
-- **IDV**: Follow the instructions in the [Docusign Identify - ID Verification Q&A](https://support.docusign.com/en/articles/Tech-Readiness-DocuSign-Identify-ID-Verification#How_to_add_ID_Verification_on_an_account) to enable IDV on your account.
 
 ### Install dependencies locally
 
@@ -50,18 +45,23 @@ The following must be enabled on your developer account in order to run all of t
 6. Install dependencies: **`npm install`**
 7. Rename the **.env.example** file in the root directory to **.env**, and update the file with the integration key and other settings.
    > **Note:** Protect your integration key and client secret. You should make sure that the **.env** file will not be stored in your source code repository.
-8. Rename the **example_private.key** file to **private.key**, and paste your complete private RSA key into this file (including the header and footer of the key).
+8. Rename the **example_private.key** file to **private.key**, and paste your complete private RSA key into this file (including the header and footer of the key). Private RSA you should get when created Docusign account.
 
-## Running MyMaestro
+## Running MyMaestro in development mode
 
 1. Navigate to the application folder: **`cd sample-app-mymaestro-node`**
-2. Navigate to the server folder: **`cd server`**
-3. To start the server and client at the same time: **`npm run dev`**
-4. **Or,** to run the server and client separately:
-   - In one terminal, navigate to the server folder (**`cd server`**) and run **`npm run server`**
-   - In a separate terminal, navigate to the client folder (**`cd client`**) and run **`npm start`**
-5. Open a browser to **http://localhost:3000**
+2. To start the server and client at the same time: **`npm run concurrently:dev`**
+3. **Or,** to run the server and client separately:
+   - In one terminal, run **`npm run client:dev`**
+   - In a separate terminal, run **`npm run server:dev`**
+4. Open a browser to **http://localhost:3000**
 
-## License information
+## Running MyMaestro in docker
 
-This repository uses the MIT License. See the [LICENSE](./LICENSE) file for more information.
+You can run application in docker locally like in production mode
+
+1. Navigate to the application folder: **`cd sample-app-mymaestro-node`**
+2. Make sure that you configured **.env** file and saved **private.key** in the root of the folder. Make sure that you have docker installed.
+3. Run **`docker-compose -f docker-compose.local.yaml up -d`**
+4. In order to stop containers run **`docker compose -f docker-compose.local.yaml down`**
+5. Open a browser to **http://localhost:80**

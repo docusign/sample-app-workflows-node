@@ -125,16 +125,14 @@
 }
 
 .dropdownMenu {
+  right: 0;
   min-height: 100%;
   min-width: 100%;
   box-shadow: 0 4px 16px 0 #0800143d !important;
 }
 
-.dropdownMenu > a {
-  cursor: pointer;
-}
-
 .dropdownItem {
+  cursor: pointer;
   height: 100%;
   width: 100%;
   max-height: 32px;

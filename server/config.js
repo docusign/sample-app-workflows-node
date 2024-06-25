@@ -1,3 +1,5 @@
+const { extractPortFromUrl } = require('./utils/utils');
+
 function readRequiredEnvVariable(variableName) {
   const value = process.env[variableName];
   if (!value) throw new Error(`Can not read the ${variableName} from the env variables`);
@@ -8,9 +10,8 @@ const nodeEnv = readRequiredEnvVariable('NODE_ENV');
 
 const config = {
   nodeEnv: nodeEnv,
-  backendHost: readRequiredEnvVariable('BACKEND_HOST'),
-  backendPort: Number(readRequiredEnvVariable('BACKEND_PORT')),
-  redirectUri: readRequiredEnvVariable('REDIRECT_URI'),
+  backendPort: extractPortFromUrl(readRequiredEnvVariable('BACKEND_DEV_HOST')),
+  jwtRedirectUri: readRequiredEnvVariable('JWT_REDIRECT_URI'),
   dsOauthServer: readRequiredEnvVariable('DS_OAUTH_SERVER'),
   userId: readRequiredEnvVariable('USER_ID'),
   clientId: readRequiredEnvVariable('DS_CLIENT_ID'),

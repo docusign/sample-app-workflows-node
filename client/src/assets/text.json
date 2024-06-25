@@ -44,8 +44,7 @@
     }
   },
   "loader": {
-    "title": "Waiting for log in",
-    "paragraph": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+    "title": "Waiting for log in"
   },
   "behindTheScenes": {
     "titles": {

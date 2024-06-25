@@ -7,4 +7,12 @@ const getParameterValueFromUrl = (urlString, paramName) => {
   return queryParams[paramName];
 };
 
-module.exports = { getParameterValueFromUrl };
+const extractPortFromUrl = url => {
+  const regex = /https?:\/\/[^:]+:(\d+)/;
+  const match = url.match(regex);
+
+  if (match) return Number(match[1]);
+  return null;
+};
+
+module.exports = { getParameterValueFromUrl, extractPortFromUrl };

@@ -9,6 +9,7 @@ import textContent from '../../../assets/text.json';
 const WorkflowDefinitionCreation = ({ message }) => {
   const dispatch = useDispatch();
   const errorMessage = useSelector(state => state.popup.errorMessage);
+  const errorHeader = useSelector(state => state.popup.errorHeader);
   const templateName = useSelector(state => state.popup.templateName);
   const lastCreatedWorkflow = useSelector(state => state.workflows.lastCreatedWorkflow);
 
@@ -24,8 +25,18 @@ const WorkflowDefinitionCreation = ({ message }) => {
 
     if (workflow?.status === 200) {
       dispatch({ type: 'PUBLISHED_LAST_WORKFLOW' });
+      dispatch({ type: 'LOADED_POPUP' });
+      return;
     }
 
+    dispatch({
+      type: 'SET_ERROR_POPUP',
+      payload: {
+        errorHeader: 'Publish workflow was unsuccessful',
+        errorMessage: 'The Docusign server returned an error during the workflow publishing. Try again later.',
+        templateName: null,
+      },
+    });
     dispatch({ type: 'LOADED_POPUP' });
   };
 
@@ -41,13 +52,15 @@ const WorkflowDefinitionCreation = ({ message }) => {
     );
   }
 
-  if (errorMessage && templateName) {
+  if (errorMessage) {
     return (
       <div className={styles.popupContainer}>
         <img src={imgError} alt="" />
-        <h2>{textContent.popups.workflowDefinitionCreated.error.title}</h2>
+        <h2>{errorHeader ?? textContent.popups.workflowDefinitionCreated.error.title}</h2>
         <p>{errorMessage}</p>
-        <button onClick={handleDownloadTemplate}>{textContent.popups.workflowDefinitionCreated.error.button}</button>
+        {templateName && (
+          <button onClick={handleDownloadTemplate}>{textContent.popups.workflowDefinitionCreated.error.button}</button>
+        )}
       </div>
     );
   }

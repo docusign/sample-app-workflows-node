@@ -13,14 +13,14 @@ import { ROUTE, TemplateType, WorkflowItemsInteractionType, WorkflowStatus } fro
 import { api } from '../../api';
 
 const TriggerWorkflow = () => {
-  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const location = useLocation();
+  const [isLoading, setLoading] = useState(false);
   const workflows = useSelector(state => state.workflows.workflows);
 
   useEffect(() => {
     const getWorkflowDefinitions = async () => {
-      setIsLoading(true);
+      setLoading(true);
       const definitionsResponse = await api.workflows.getWorkflowDefinitions();
 
       const workflowDefinitions = definitionsResponse.data.value.map(definition => {
@@ -53,7 +53,7 @@ const TriggerWorkflow = () => {
 
       // Set workflow definitions with their statuses downloaded from docusign server
       dispatch({ type: 'UPDATE_WORKFLOWS', payload: { workflows: workflowsWithState } });
-      setIsLoading(false);
+      setLoading(false);
     };
 
     getWorkflowDefinitions();

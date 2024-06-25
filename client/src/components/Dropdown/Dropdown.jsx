@@ -23,7 +23,10 @@ const Dropdown = ({ options }) => {
     const { status, data } = await api.workflows.createWorkflowDefinition(type);
 
     if (status === 400) {
-      dispatch({ type: 'SET_ERROR_POPUP', payload: { errorMessage: data.message, templateName: data.templateName } });
+      dispatch({
+        type: 'SET_ERROR_POPUP',
+        payload: { errorMessage: data.message, errorHeader: null, templateName: data.templateName },
+      });
       dispatch({ type: 'LOADED_POPUP' });
       return;
     }

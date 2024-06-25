@@ -7,6 +7,9 @@ services:
     build:
       context: .
       dockerfile: ./client/Dockerfile
+      args:
+        NODE_ENV: development
+        BACKEND_DEV_HOST: http://localhost:80/api
     env_file:
       - .env
     volumes:
@@ -26,6 +29,9 @@ services:
       dockerfile: ./server/Dockerfile
     env_file:
       - .env
+    environment:
+      - NODE_ENV=development
+      - FRONTEND_DEV_HOST=http://localhost:80
     networks:
       - natbridge
 
