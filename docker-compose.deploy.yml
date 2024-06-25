@@ -1,0 +1,28 @@
+version: "3.9"
+services:
+  frontend:
+    container_name: nginx-frontend-app
+    image: dssaregistry.azurecr.io/mymaestro:frontlatest
+    restart: always
+    build:
+      context: .
+      dockerfile: ./client/Dockerfile
+      args:
+        NODE_ENV: production
+    env_file:
+      - .env
+    ports:
+      - 80:80
+      - 443:443
+
+  backend:
+    container_name: node-app
+    image: dssaregistry.azurecr.io/mymaestro:backlatest
+    restart: always
+    build:
+      context: .
+      dockerfile: ./server/Dockerfile
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=production
