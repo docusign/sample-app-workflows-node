@@ -1,10 +1,11 @@
 import axios from 'axios';
 import { persistor, store } from '../store/store';
 
-const apiUrl = process.env.BACKEND_API;
+const isDev = process.env.NODE_ENV === 'development';
+const apiUrl = isDev ? process.env.BACKEND_DEV_HOST : process.env.BACKEND_PROD_HOST;
 
 const instance = axios.create({
-  baseURL: `${apiUrl}/api`,
+  baseURL: apiUrl,
   withCredentials: true,
 });
 
@@ -45,7 +46,7 @@ export const api = Object.freeze({
     // Login by Authorization Code Grant
     login: () => {
       // Avoid here XHR requests because we encounter problems with CORS for ACG Authorization
-      window.location.href = `${apiUrl}/api/auth/passport/login`;
+      window.location.href = `${apiUrl}/auth/passport/login`;
     },
     logout: async () => {
       await instance.get('/auth/passport/logout');
@@ -82,21 +83,28 @@ export const api = Object.freeze({
       }
     },
     publishWorkflow: async workflowId => {
-      const response = await instance.post('/workflows/publish', { workflowId });
+      try {
+        const response = await instance.post('/workflows/publish', { workflowId });
 
-      if (response.status === 210) {
-        try {
-          window.open(response.data, 'newTab', 'width=800,height=600');
-          await new Promise(r => setTimeout(r, 3000));
+        if (response.status === 210) {
+          try {
+            window.open(response.data, 'newTab', 'width=600,height=400');
+            await new Promise(r => setTimeout(r, 3000));
 
-          const published = await instance.post('/workflows/publish', { workflowId });
-          return published;
-        } catch (error) {
-          console.log(error);
+            const published = await instance.post('/workflows/publish', { workflowId });
+            return published;
+          } catch (error) {
+            console.log(error);
+          }
         }
-      }
 
-      return response;
+        return response;
+      } catch (error) {
+        if (error.response && error.response.status >= 400) {
+          return error.response;
+        }
+        throw error;
+      }
     },
     triggerWorkflow: async (workflowId, body) => {
       try {

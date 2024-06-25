@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './WorkflowList.module.css';
@@ -12,6 +13,22 @@ const WorkflowList = ({ items, interactionType, isLoading }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const workflows = useSelector(state => state.workflows.workflows);
+  const [isOptionsOpen, setOptionsOpen] = useState(false);
+  const [dropdownIdx, setDropdownIdx] = useState(null);
+
+  const handleFocusDropdown = idx => {
+    setTimeout(() => {
+      setDropdownIdx(idx);
+      setOptionsOpen(true);
+    }, 120);
+  };
+
+  const handleBlurDropdown = () => {
+    setTimeout(() => {
+      setDropdownIdx(null);
+      setOptionsOpen(false);
+    }, 100);
+  };
 
   const handleUpdateWorkflowStatus = async workflow => {
     const { data: workflowInstance } = await api.workflows.getWorkflowInstance(workflow);
@@ -25,6 +42,7 @@ const WorkflowList = ({ items, interactionType, isLoading }) => {
     });
 
     dispatch({ type: 'UPDATE_WORKFLOWS', payload: { workflows: updatedWorkflows } });
+    setOptionsOpen(false);
   };
 
   const handleCancelWorkflow = async workflow => {
@@ -32,6 +50,7 @@ const WorkflowList = ({ items, interactionType, isLoading }) => {
     if (status !== 200) return;
 
     dispatch({ type: 'CANCEL_WORKFLOW', payload: { workflowId: workflow.id } });
+    setOptionsOpen(false);
   };
 
   const listStyles = {
@@ -79,7 +98,9 @@ const WorkflowList = ({ items, interactionType, isLoading }) => {
 
         {interactionType === WorkflowItemsInteractionType.MANAGE && (
           <div className={styles.headerAction}>
-            <button type="button">{textContent.buttons.triggerNewWorkflow}</button>
+            <button type="button" onClick={() => navigate(ROUTE.TRIGGER)}>
+              {textContent.buttons.triggerNewWorkflow}
+            </button>
           </div>
         )}
 
@@ -93,11 +114,18 @@ const WorkflowList = ({ items, interactionType, isLoading }) => {
               <p>{item.type}</p>
 
               {interactionType === WorkflowItemsInteractionType.TRIGGER && (
-                <button onClick={() => navigate(`${ROUTE.TRIGGERFORM}/${item.id}`)}>{textContent.buttons.triggerWorkflow}</button>
+                <button onClick={() => navigate(`${ROUTE.TRIGGERFORM}/${item.id}`)}>
+                  {textContent.buttons.triggerWorkflow}
+                </button>
               )}
 
               {interactionType === WorkflowItemsInteractionType.MANAGE && (
-                <div className="dropdown" style={{ position: 'relative !important' }}>
+                <div
+                  className="dropdown"
+                  style={{ position: 'relative !important' }}
+                  onFocus={() => handleFocusDropdown(idx)}
+                  onBlur={() => handleBlurDropdown(idx)}
+                >
                   <button
                     className={styles.dropdownButton}
                     type="button"
@@ -108,7 +136,10 @@ const WorkflowList = ({ items, interactionType, isLoading }) => {
                   >
                     <img src={dropdownSvg} alt="More actions" />
                   </button>
-                  <div className={`dropdown-menu dropdown-menu-right ${styles.dropdownMenu}`}>
+                  <div
+                    className={`dropdown-menu dropdown-menu-right ${styles.dropdownMenu}`}
+                    style={isOptionsOpen && dropdownIdx === idx ? { display: 'block' } : {}}
+                  >
                     <a
                       className={`dropdown-item ${styles.dropdownItem}`}
                       onClick={() => handleUpdateWorkflowStatus(item)}

@@ -31,7 +31,7 @@ const ManageWorkflow = () => {
             ...workflow,
             instanceState: relevantInstanceState,
           };
-        }),
+        })
       );
 
       // Update workflow statuses
@@ -52,8 +52,11 @@ const ManageWorkflow = () => {
           behindTheScenesComponent={<ManageBehindTheScenes />}
           backRoute={ROUTE.HOME}
         />
-        <WorkflowList items={triggeredWorkflowDefinitions} interactionType={WorkflowItemsInteractionType.MANAGE}
-                      isLoading={isLoading} />
+        <WorkflowList
+          items={triggeredWorkflowDefinitions}
+          interactionType={WorkflowItemsInteractionType.MANAGE}
+          isLoading={isLoading}
+        />
       </div>
       <Footer withContent={false} />
     </div>

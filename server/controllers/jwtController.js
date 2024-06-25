@@ -65,7 +65,7 @@ class JwtController {
         const consentUrl =
           `${config.dsOauthServer}/oauth/auth?response_type=code&` +
           `scope=${urlScopes}&client_id=${config.clientId}&` +
-          `redirect_uri=${config.redirectUri}`;
+          `redirect_uri=${config.jwtRedirectUri}`;
 
         this.logger.info(`ConsentUrl: ${consentUrl}`);
         res.status(210).send(consentUrl);

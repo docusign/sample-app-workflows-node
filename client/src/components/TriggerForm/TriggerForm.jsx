@@ -1,12 +1,15 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './TriggerForm.module.css';
 import WorkflowTriggerResultPopup from '../Popups/WorkflowTriggerResult/WorkflowTriggerResult.jsx';
 import { api } from '../../api';
 import textContent from '../../assets/text.json';
+import { ROUTE } from '../../constants.js';
 
 const TriggerForm = ({ workflowId }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const isOpened = useSelector(state => state.popup.isOpened);
   const workflows = useSelector(state => state.workflows.workflows);
   const [instanceName, setInstanceName] = useState('');
@@ -16,6 +19,11 @@ const TriggerForm = ({ workflowId }) => {
   const [ccEmail, setCcEmail] = useState('');
   const [isDataSending, setDataSending] = useState(false);
   const [workflowInstanceUrl, setWorkflowInstanceUrl] = useState('');
+
+  const handleCloseTriggerPopup = () => {
+    dispatch({ type: isOpened ? 'CLOSE_POPUP' : 'OPEN_POPUP' });
+    navigate(ROUTE.HOME);
+  };
 
   const handleSubmit = async event => {
     event.preventDefault();
@@ -92,7 +100,9 @@ const TriggerForm = ({ workflowId }) => {
           {textContent.buttons.continue}
         </button>
       </form>
-      {isOpened && <WorkflowTriggerResultPopup workflowInstanceUrl={workflowInstanceUrl} />}
+      {isOpened && (
+        <WorkflowTriggerResultPopup workflowInstanceUrl={workflowInstanceUrl} togglePopup={handleCloseTriggerPopup} />
+      )}
     </div>
   );
 };

@@ -42,13 +42,7 @@ const Hero = () => {
           <button className="btn btn-secondary" onClick={togglePopup}>
             {textContent.hero.tryButton}
           </button>
-          {isOpened && (
-            <PopupLoginForm
-              togglePopup={togglePopup}
-              title={textContent.loader.title}
-              paragraph={textContent.loader.paragraph}
-            />
-          )}
+          {isOpened && <PopupLoginForm togglePopup={togglePopup} title={textContent.loader.title} />}
         </div>
       </div>
       <Footer />
