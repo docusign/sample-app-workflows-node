@@ -10,6 +10,16 @@
  * @property {string|null} templateName - The name of the template, if any, otherwise null.
  */
 
+import {
+  OPEN_POPUP,
+  CLOSE_POPUP,
+  LOADING_POPUP,
+  LOADED_POPUP,
+  SET_ERROR_POPUP,
+  CLEAR_ERROR_POPUP,
+  CLEAR_STATE,
+} from '../types';
+
 const initialState = {
   isOpened: false,
   isLoading: false,
@@ -18,38 +28,36 @@ const initialState = {
   templateName: null,
 };
 
-const popupReducer = (state = initialState, { type, payload }) => {
+export const popupReducer = (state = initialState, { type, payload }) => {
   switch (type) {
-    case 'OPEN_POPUP':
+    case OPEN_POPUP:
       return { ...state, isOpened: true };
 
-    case 'CLOSE_POPUP':
+    case CLOSE_POPUP:
       return { ...state, isOpened: false };
 
-    case 'LOADING_POPUP':
+    case LOADING_POPUP:
       return { ...state, isLoading: true };
 
-    case 'LOADED_POPUP':
+    case LOADED_POPUP:
       return { ...state, isLoading: false };
 
-    case 'SET_ERROR_POPUP':
+    case SET_ERROR_POPUP:
       return {
         ...state,
         isOpened: true,
-        errorMessage: payload.errorMessage,
         errorHeader: payload.errorHeader,
+        errorMessage: payload.errorMessage,
         templateName: payload.templateName,
       };
 
-    case 'CLEAR_ERROR_POPUP':
+    case CLEAR_ERROR_POPUP:
       return { ...state, errorMessage: null, errorHeader: null, templateName: null };
 
-    case 'CLEAR_STATE':
+    case CLEAR_STATE:
       return { ...initialState };
 
     default:
       return state;
   }
 };
-
-export default popupReducer;

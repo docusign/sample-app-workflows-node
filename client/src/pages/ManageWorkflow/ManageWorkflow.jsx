@@ -11,9 +11,10 @@ import WorkflowDescription from '../../components/WorkflowDescription/WorkflowDe
 import ManageBehindTheScenes from '../../components/WorkflowDescription/BehindTheScenes/ManageBehindTheScenes.jsx';
 import { ROUTE, WorkflowItemsInteractionType, WorkflowStatus } from '../../constants.js';
 import { api } from '../../api';
+import { updateWorkflowDefinitions } from '../../store/actions';
 
 const ManageWorkflow = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isWorkflowListLoading, setWorkflowListLoading] = useState(false);
   const dispatch = useDispatch();
   const location = useLocation();
   const workflows = useSelector(state => state.workflows.workflows);
@@ -21,7 +22,7 @@ const ManageWorkflow = () => {
 
   useEffect(() => {
     const updateWorkflowStatuses = async () => {
-      setIsLoading(true);
+      setWorkflowListLoading(true);
       const workflowsWithUpdatedState = await Promise.all(
         workflows.map(async workflow => {
           const { data } = await api.workflows.getWorkflowInstances(workflow.id);
@@ -35,8 +36,8 @@ const ManageWorkflow = () => {
       );
 
       // Update workflow statuses
-      dispatch({ type: 'UPDATE_WORKFLOWS', payload: { workflows: workflowsWithUpdatedState } });
-      setIsLoading(false);
+      dispatch(updateWorkflowDefinitions(workflowsWithUpdatedState));
+      setWorkflowListLoading(false);
     };
 
     updateWorkflowStatuses();
@@ -55,7 +56,7 @@ const ManageWorkflow = () => {
         <WorkflowList
           items={triggeredWorkflowDefinitions}
           interactionType={WorkflowItemsInteractionType.MANAGE}
-          isLoading={isLoading}
+          isLoading={isWorkflowListLoading}
         />
       </div>
       <Footer withContent={false} />

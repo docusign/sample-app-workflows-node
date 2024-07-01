@@ -9,6 +9,8 @@
  * @property {string|null} userEmail - The email of the authenticated user, if any, otherwise null.
  */
 
+import { LOGIN_USER, CLEAR_STATE } from '../types';
+
 const initialState = {
   isAuthenticated: false,
   authType: null,
@@ -16,9 +18,9 @@ const initialState = {
   userEmail: null,
 };
 
-const authReducer = (state = initialState, { type, payload }) => {
+export const authReducer = (state = initialState, { type, payload }) => {
   switch (type) {
-    case 'LOGIN':
+    case LOGIN_USER:
       return {
         ...state,
         isAuthenticated: true,
@@ -27,12 +29,10 @@ const authReducer = (state = initialState, { type, payload }) => {
         userEmail: payload.userEmail,
       };
 
-    case 'CLEAR_STATE':
+    case CLEAR_STATE:
       return { ...initialState };
 
     default:
       return state;
   }
 };
-
-export default authReducer;

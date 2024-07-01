@@ -11,16 +11,17 @@ import WorkflowDescription from '../../components/WorkflowDescription/WorkflowDe
 import TriggerBehindTheScenes from '../../components/WorkflowDescription/BehindTheScenes/TriggerBehindTheScenes.jsx';
 import { ROUTE, TemplateType, WorkflowItemsInteractionType, WorkflowStatus } from '../../constants.js';
 import { api } from '../../api';
+import { updateWorkflowDefinitions } from '../../store/actions';
 
 const TriggerWorkflow = () => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const [isLoading, setLoading] = useState(false);
+  const [isWorkflowListLoading, setWorkflowListLoading] = useState(false);
   const workflows = useSelector(state => state.workflows.workflows);
 
   useEffect(() => {
     const getWorkflowDefinitions = async () => {
-      setLoading(true);
+      setWorkflowListLoading(true);
       const definitionsResponse = await api.workflows.getWorkflowDefinitions();
 
       const workflowDefinitions = definitionsResponse.data.value.map(definition => {
@@ -52,8 +53,8 @@ const TriggerWorkflow = () => {
       );
 
       // Set workflow definitions with their statuses downloaded from docusign server
-      dispatch({ type: 'UPDATE_WORKFLOWS', payload: { workflows: workflowsWithState } });
-      setLoading(false);
+      dispatch(updateWorkflowDefinitions(workflowsWithState));
+      setWorkflowListLoading(false);
     };
 
     getWorkflowDefinitions();
@@ -69,7 +70,11 @@ const TriggerWorkflow = () => {
           behindTheScenesComponent={<TriggerBehindTheScenes />}
           backRoute={ROUTE.HOME}
         />
-        <WorkflowList items={workflows} interactionType={WorkflowItemsInteractionType.TRIGGER} isLoading={isLoading} />
+        <WorkflowList
+          items={workflows}
+          interactionType={WorkflowItemsInteractionType.TRIGGER}
+          isLoading={isWorkflowListLoading}
+        />
       </div>
       <Footer withContent={false} />
     </div>

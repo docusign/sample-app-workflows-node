@@ -3,14 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './TriggerForm.module.css';
 import WorkflowTriggerResultPopup from '../Popups/WorkflowTriggerResult/WorkflowTriggerResult.jsx';
-import { api } from '../../api';
 import textContent from '../../assets/text.json';
 import { ROUTE } from '../../constants.js';
+import { api } from '../../api';
+import { openPopupWindow, closePopupWindow, updateWorkflowDefinitions } from '../../store/actions';
 
 const TriggerForm = ({ workflowId }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const isOpened = useSelector(state => state.popup.isOpened);
+  const isPopupOpened = useSelector(state => state.popup.isOpened);
   const workflows = useSelector(state => state.workflows.workflows);
   const [instanceName, setInstanceName] = useState('');
   const [signerName, setSignerName] = useState('');
@@ -21,7 +22,7 @@ const TriggerForm = ({ workflowId }) => {
   const [workflowInstanceUrl, setWorkflowInstanceUrl] = useState('');
 
   const handleCloseTriggerPopup = () => {
-    dispatch({ type: isOpened ? 'CLOSE_POPUP' : 'OPEN_POPUP' });
+    dispatch(closePopupWindow());
     navigate(ROUTE.HOME);
   };
 
@@ -40,7 +41,7 @@ const TriggerForm = ({ workflowId }) => {
     const { data: triggeredWorkflow } = await api.workflows.triggerWorkflow(workflowId, body);
     setWorkflowInstanceUrl(triggeredWorkflow.workflowInstanceUrl);
 
-    // Update workflowDefinitions. ...workflow creates new workflow-object to avoid mutation in redux
+    // Update workflowDefinitions. "...workflow" creates new workflow-object to avoid mutation in redux
     const updatedWorkflowDefinitions = workflows.map(workflow => {
       if (workflow.id === workflowId) {
         return {
@@ -53,7 +54,7 @@ const TriggerForm = ({ workflowId }) => {
       return { ...workflow };
     });
 
-    dispatch({ type: 'UPDATE_WORKFLOWS', payload: { workflows: updatedWorkflowDefinitions } });
+    dispatch(updateWorkflowDefinitions(updatedWorkflowDefinitions));
     setDataSending(false);
 
     setInstanceName('');
@@ -61,7 +62,7 @@ const TriggerForm = ({ workflowId }) => {
     setSignerEmail('');
     setCcName('');
     setCcEmail('');
-    dispatch({ type: isOpened ? 'CLOSE_POPUP' : 'OPEN_POPUP' });
+    dispatch(openPopupWindow());
   };
 
   return (
@@ -100,7 +101,7 @@ const TriggerForm = ({ workflowId }) => {
           {textContent.buttons.continue}
         </button>
       </form>
-      {isOpened && (
+      {isPopupOpened && (
         <WorkflowTriggerResultPopup workflowInstanceUrl={workflowInstanceUrl} togglePopup={handleCloseTriggerPopup} />
       )}
     </div>

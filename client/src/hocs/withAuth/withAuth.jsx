@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { LoginStatus, ROUTE } from '../../constants.js';
 import { persistor } from '../../store/store.js';
 import { api } from '../../api';
+import { clearAllState } from '../../store/actions';
 
 const withAuth = WrappedComponent => {
   const AuthHOC = props => {
@@ -15,11 +16,11 @@ const withAuth = WrappedComponent => {
       const checkLoginStatus = async () => {
         if (authType === LoginStatus.ACG) {
           const isLoggedIn = await api.acg.loginStatus();
-          !isLoggedIn && dispatch({ type: 'CLEAR_STATE' }) && (await persistor.purge()) && localStorage.clear();
+          !isLoggedIn && dispatch(clearAllState()) && (await persistor.purge()) && localStorage.clear();
         }
         if (authType === LoginStatus.JWT) {
           const isLoggedIn = await api.jwt.loginStatus();
-          !isLoggedIn && dispatch({ type: 'CLEAR_STATE' }) && (await persistor.purge()) && localStorage.clear();
+          !isLoggedIn && dispatch(clearAllState()) && (await persistor.purge()) && localStorage.clear();
         }
       };
 

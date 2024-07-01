@@ -6,6 +6,7 @@ import source from '../../assets/img/github-source.svg';
 import textContent from '../../assets/text.json';
 import { LoginStatus, ROUTE } from '../../constants.js';
 import { api } from '../../api';
+import { clearAllState } from '../../store/actions';
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -23,7 +24,7 @@ const Header = () => {
       await api.jwt.logout();
     }
 
-    dispatch({ type: 'CLEAR_STATE' });
+    dispatch(clearAllState());
   };
 
   return (

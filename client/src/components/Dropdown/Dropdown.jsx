@@ -2,37 +2,44 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './Dropdown.module.css';
 import WorkflowCreationPopup from '../Popups/WorkflowDefinitionCreation/WorkflowDefinitionCreation.jsx';
-import { api } from '../../api';
 import textContent from '../../assets/text.json';
+import { api } from '../../api';
+import {
+  openPopupWindow,
+  closePopupWindow,
+  openLoadingCircleInPopup,
+  closeLoadingCircleInPopup,
+  showErrorTextInPopup,
+  clearErrorTextInPopup,
+  saveCreatedWorkflow,
+  clearCreatedWorkflowFromState,
+} from '../../store/actions';
 
 const Dropdown = ({ options }) => {
   const dispatch = useDispatch();
-  const isOpened = useSelector(state => state.popup.isOpened);
+  const isPopupOpened = useSelector(state => state.popup.isOpened);
   const [selectedDocument, setSelectedDocument] = useState(options[0].value);
 
-  const togglePopup = () => {
-    dispatch({ type: isOpened ? 'CLOSE_POPUP' : 'OPEN_POPUP' });
-    dispatch({ type: 'CLEAR_ERROR_POPUP' });
-    dispatch({ type: 'CLEAR_CREATED_WORKFLOW' });
+  const closePopup = () => {
+    dispatch(closePopupWindow());
+    dispatch(clearErrorTextInPopup());
+    dispatch(clearCreatedWorkflowFromState());
   };
 
   const handleCreateWorkflow = async ({ value, type }) => {
     setSelectedDocument(value);
-    dispatch({ type: 'OPEN_POPUP' });
-    dispatch({ type: 'LOADING_POPUP' });
+    dispatch(openPopupWindow());
+    dispatch(openLoadingCircleInPopup());
     const { status, data } = await api.workflows.createWorkflowDefinition(type);
 
     if (status === 400) {
-      dispatch({
-        type: 'SET_ERROR_POPUP',
-        payload: { errorMessage: data.message, errorHeader: null, templateName: data.templateName },
-      });
-      dispatch({ type: 'LOADED_POPUP' });
+      dispatch(showErrorTextInPopup(null, data.message, data.templateName));
+      dispatch(closeLoadingCircleInPopup());
       return;
     }
 
-    dispatch({ type: 'CREATED_WORKFLOW', payload: { workflowId: data.workflowDefinitionId } });
-    dispatch({ type: 'LOADED_POPUP' });
+    dispatch(saveCreatedWorkflow(data.workflowDefinitionId));
+    dispatch(closeLoadingCircleInPopup());
   };
 
   return (
@@ -59,9 +66,9 @@ const Dropdown = ({ options }) => {
         ))}
       </div>
 
-      {isOpened && (
+      {isPopupOpened && (
         <WorkflowCreationPopup
-          togglePopup={togglePopup}
+          togglePopup={closePopup}
           message={options.find(option => option.value === selectedDocument).message}
         />
       )}

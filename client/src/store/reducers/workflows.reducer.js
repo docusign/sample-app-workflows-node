@@ -13,6 +13,15 @@
  * Workflow, workflowDefinition - this is the same
  */
 
+import {
+  CREATED_WORKFLOW,
+  PUBLISHED_LAST_WORKFLOW,
+  CLEAR_CREATED_WORKFLOW,
+  UPDATE_WORKFLOWS,
+  CANCEL_WORKFLOW,
+  CLEAR_STATE,
+} from '../types';
+
 const initialState = {
   workflows: [],
   lastCreatedWorkflow: {
@@ -21,33 +30,33 @@ const initialState = {
   },
 };
 
-const workflowsReducer = (state = initialState, { type, payload }) => {
+export const workflowsReducer = (state = initialState, { type, payload }) => {
   switch (type) {
-    case 'CREATED_WORKFLOW':
+    case CREATED_WORKFLOW:
       return {
         ...state,
         lastCreatedWorkflow: { id: payload.workflowId, isPublished: false },
       };
 
-    case 'PUBLISHED_LAST_WORKFLOW':
+    case PUBLISHED_LAST_WORKFLOW:
       return {
         ...state,
         lastCreatedWorkflow: { ...state.lastCreatedWorkflow, isPublished: true },
       };
 
-    case 'CLEAR_CREATED_WORKFLOW':
+    case CLEAR_CREATED_WORKFLOW:
       return {
         ...state,
         lastCreatedWorkflow: initialState.lastCreatedWorkflow,
       };
 
-    case 'UPDATE_WORKFLOWS':
+    case UPDATE_WORKFLOWS:
       return {
         ...state,
         workflows: payload.workflows,
       };
 
-    case 'CANCEL_WORKFLOW':
+    case CANCEL_WORKFLOW:
       return {
         ...state,
         workflows: state.workflows.map(workflow => {
@@ -56,12 +65,10 @@ const workflowsReducer = (state = initialState, { type, payload }) => {
         }),
       };
 
-    case 'CLEAR_STATE':
-      return { ...initialState };
+    case CLEAR_STATE:
+      return { ...initialState, workflows: [] };
 
     default:
       return state;
   }
 };
-
-export default workflowsReducer;

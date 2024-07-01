@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { persistor, store } from '../store/store';
+import { clearAllState } from '../store/actions';
 
 const isDev = process.env.NODE_ENV === 'development';
 const apiUrl = isDev ? process.env.BACKEND_DEV_HOST : process.env.BACKEND_PROD_HOST;
@@ -13,7 +14,7 @@ instance.interceptors.response.use(
   response => response,
   err => {
     if (err?.response?.status === 401) {
-      store.dispatch({ type: 'CLEAR_STATE' });
+      store.dispatch(clearAllState());
     }
     throw err;
   }
