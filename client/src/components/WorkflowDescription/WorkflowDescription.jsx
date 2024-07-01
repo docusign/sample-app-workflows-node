@@ -6,7 +6,7 @@ const WorkflowDescription = ({ title, behindTheScenesComponent, backRoute }) => 
   return (
     <div className={styles.descriptionContainer}>
       <Link to={backRoute}>
-        <button className={styles.backButton}>← Back</button>
+        <button className={styles.backButton}>← Back to home</button>
       </Link>
       <h2>{title}</h2>
       <div className={`dropdown ${styles.dropDown}`}>

@@ -3,32 +3,38 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import styles from './LoginForm.module.css';
 import withPopup from '../../hocs/withPopup/withPopup.jsx';
+import textContent from '../../assets/text.json';
 import { LoginStatus, ROUTE } from '../../constants.js';
 import { api } from '../../api';
-import textContent from '../../assets/text.json';
+import {
+  authorizeUser,
+  closeLoadingCircleInPopup,
+  closePopupWindow,
+  openLoadingCircleInPopup,
+} from '../../store/actions';
 
-const LoginForm = ({ togglePopup, setLoading }) => {
+const LoginForm = ({ togglePopup }) => {
   const [authType, setAuthType] = useState(LoginStatus.ACG);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleSubmit = async e => {
     e.preventDefault();
-    dispatch({ type: 'LOADING_POPUP' });
+    dispatch(openLoadingCircleInPopup());
 
     try {
       if (authType === LoginStatus.JWT) {
         const { data: userInfo } = await api.jwt.login();
-        dispatch({ type: 'LOGIN', payload: { authType, userName: userInfo.name, userEmail: userInfo.email } });
+        dispatch(authorizeUser(authType, userInfo.name, userInfo.email));
         navigate(ROUTE.HOME);
-        dispatch({ type: 'CLOSE_POPUP' });
-        dispatch({ type: 'LOADED_POPUP' });
+        dispatch(closePopupWindow());
+        dispatch(closeLoadingCircleInPopup());
       }
       if (authType === LoginStatus.ACG) {
         api.acg.login();
       }
     } catch (error) {
-      setLoading(false);
+      dispatch(closeLoadingCircleInPopup());
       console.log(error);
     }
   };
@@ -55,9 +61,7 @@ const LoginForm = ({ togglePopup, setLoading }) => {
               />
               {textContent.login.acg}
             </label>
-            <label className={styles.subLabel}>
-              {textContent.login.acgDescription}
-            </label>
+            <label className={styles.subLabel}>{textContent.login.acgDescription}</label>
           </div>
           <div className={styles.radioButtonWrapper}>
             <label className={styles.label}>
@@ -70,9 +74,7 @@ const LoginForm = ({ togglePopup, setLoading }) => {
               />
               {textContent.login.jwt}
             </label>
-            <label className={styles.subLabel}>
-              {textContent.login.jwtDescription}
-            </label>
+            <label className={styles.subLabel}>{textContent.login.jwtDescription}</label>
           </div>
         </div>
         <div className={styles.formButtons}>

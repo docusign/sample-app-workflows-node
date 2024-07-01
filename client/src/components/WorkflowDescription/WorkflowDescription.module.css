@@ -1,9 +1,16 @@
 .backButton {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
   margin-left: -20px;
-  width: 100px;
+  width: 200px;
   height: 40px;
   background-color: transparent;
   color: var(--secondary-main);
+}
+
+.backButton:active {
+  background-color: var(--green-light);
 }
 
 .descriptionContainer {

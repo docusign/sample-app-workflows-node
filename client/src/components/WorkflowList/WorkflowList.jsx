@@ -3,11 +3,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './WorkflowList.module.css';
 import WorkflowStatusPill from '../WorkflowStatusPill/WorkflowStatusPill.jsx';
+import Loader from '../Loader/Loader.jsx';
 import dropdownSvg from '../../assets/img/dropdown.svg';
 import { ROUTE, WorkflowItemsInteractionType } from '../../constants.js';
-import { api } from '../../api';
 import textContent from '../../assets/text.json';
-import Loader from '../Loader/Loader.jsx';
+import { api } from '../../api';
+import { cancelTriggeredWorkflow, updateWorkflowDefinitions } from '../../store/actions';
 
 const WorkflowList = ({ items, interactionType, isLoading }) => {
   const dispatch = useDispatch();
@@ -41,7 +42,7 @@ const WorkflowList = ({ items, interactionType, isLoading }) => {
       return { ...workflowDefinition };
     });
 
-    dispatch({ type: 'UPDATE_WORKFLOWS', payload: { workflows: updatedWorkflows } });
+    dispatch(updateWorkflowDefinitions(updatedWorkflows));
     setOptionsOpen(false);
   };
 
@@ -49,7 +50,7 @@ const WorkflowList = ({ items, interactionType, isLoading }) => {
     const { status } = await api.workflows.cancelWorkflowInstance(workflow);
     if (status !== 200) return;
 
-    dispatch({ type: 'CANCEL_WORKFLOW', payload: { workflowId: workflow.id } });
+    dispatch(cancelTriggeredWorkflow(workflow.id));
     setOptionsOpen(false);
   };
 

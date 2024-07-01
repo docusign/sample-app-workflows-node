@@ -8,6 +8,13 @@ import TriggerWorkflowAuthenticated from './pages/TriggerWorkflow/TriggerWorkflo
 import TriggerWorkflowFormAuthenticated from './pages/TriggerWorkflowForm/TriggerWorkflowForm.jsx';
 import { LoginStatus, ROUTE } from './constants.js';
 import { api } from './api';
+import {
+  authorizeUser,
+  closeLoadingCircleInPopup,
+  closePopupWindow,
+  openLoadingCircleInPopup,
+  openPopupWindow,
+} from './store/actions';
 
 function App() {
   const location = useLocation();
@@ -18,16 +25,16 @@ function App() {
 
   useEffect(() => {
     const fetchCallback = async () => {
-      if (code && code.length > 0) {
-        const { data: userInfo } = await api.acg.callbackExecute(code);
-        dispatch({
-          type: 'LOGIN',
-          payload: { authType: LoginStatus.ACG, userName: userInfo.name, userEmail: userInfo.email },
-        });
-        navigate(ROUTE.HOME);
-        dispatch({ type: 'CLOSE_POPUP' });
-        dispatch({ type: 'LOADED_POPUP' });
-      }
+      if (!code || code?.length <= 0) return;
+
+      dispatch(openPopupWindow());
+      dispatch(openLoadingCircleInPopup());
+
+      const { data: userInfo } = await api.acg.callbackExecute(code);
+      dispatch(authorizeUser(LoginStatus.ACG, userInfo.name, userInfo.email));
+      navigate(ROUTE.HOME);
+      dispatch(closePopupWindow());
+      dispatch(closeLoadingCircleInPopup());
     };
 
     fetchCallback();

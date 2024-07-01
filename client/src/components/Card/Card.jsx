@@ -6,15 +6,16 @@ import Dropdown from '../Dropdown/Dropdown.jsx';
 import { WorkflowOptions } from '../../constants.js';
 import CreateWorkflowMoreinfoPopup from '../Popups/CreateWorkflowMoreInfo/CreateWorkflowMoreInfo.jsx';
 import textContent from '../../assets/text.json';
+import { openPopupWindow, closePopupWindow } from '../../store/actions';
 
 const Card = ({ img, title, description, linkTo, dropDown, moreInfo }) => {
-  const [isBtsOpened, setBtsOpened] = useState(false);
+  const [isBehindTheScenesOpened, setBehindTheScenesOpened] = useState(false);
   const dispatch = useDispatch();
-  const isOpened = useSelector(state => state.popup.isOpened);
+  const isPopupOpened = useSelector(state => state.popup.isOpened);
 
   const togglePopup = async () => {
-    setBtsOpened(!isBtsOpened);
-    dispatch({ type: isOpened ? 'CLOSE_POPUP' : 'OPEN_POPUP' });
+    setBehindTheScenesOpened(!isBehindTheScenesOpened);
+    dispatch(!isPopupOpened ? openPopupWindow() : closePopupWindow());
   };
 
   return (
@@ -39,7 +40,7 @@ const Card = ({ img, title, description, linkTo, dropDown, moreInfo }) => {
               )}
               <Dropdown options={WorkflowOptions} />
             </div>
-            {isBtsOpened && <CreateWorkflowMoreinfoPopup togglePopup={togglePopup} />}
+            {isBehindTheScenesOpened && <CreateWorkflowMoreinfoPopup togglePopup={togglePopup} />}
           </div>
         )}
       </div>

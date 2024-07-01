@@ -3,8 +3,14 @@ import styles from './WorkflowDefinitionCreation.module.css';
 import withPopup from '../../../hocs/withPopup/withPopup.jsx';
 import imgError from '../../../assets/img/workflow-trigger.svg';
 import imgSuccess from '../../../assets/img/success.svg';
-import { api } from '../../../api';
 import textContent from '../../../assets/text.json';
+import { api } from '../../../api';
+import {
+  closeLoadingCircleInPopup,
+  openLoadingCircleInPopup,
+  showErrorTextInPopup,
+  publishCreatedWorkflow,
+} from '../../../store/actions';
 
 const WorkflowDefinitionCreation = ({ message }) => {
   const dispatch = useDispatch();
@@ -20,24 +26,24 @@ const WorkflowDefinitionCreation = ({ message }) => {
   const handlePublishWorkflow = async () => {
     if (!lastCreatedWorkflow.id) return;
 
-    dispatch({ type: 'LOADING_POPUP' });
+    dispatch(openLoadingCircleInPopup());
     const workflow = await api.workflows.publishWorkflow(lastCreatedWorkflow.id);
 
     if (workflow?.status === 200) {
-      dispatch({ type: 'PUBLISHED_LAST_WORKFLOW' });
-      dispatch({ type: 'LOADED_POPUP' });
+      dispatch(publishCreatedWorkflow());
+      dispatch(closeLoadingCircleInPopup());
       return;
     }
 
-    dispatch({
-      type: 'SET_ERROR_POPUP',
-      payload: {
-        errorHeader: 'Publish workflow was unsuccessful',
-        errorMessage: 'The Docusign server returned an error during the workflow publishing. Try again later.',
-        templateName: null,
-      },
-    });
-    dispatch({ type: 'LOADED_POPUP' });
+    dispatch(
+      showErrorTextInPopup(
+        'Publish workflow was unsuccessful',
+        'The Docusign server returned an error during the workflow publishing. Try again later.',
+        null
+      )
+    );
+
+    dispatch(closeLoadingCircleInPopup());
   };
 
   if (lastCreatedWorkflow?.isPublished) {

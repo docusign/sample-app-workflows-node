@@ -5,18 +5,19 @@ import Footer from '../../components/Footer/Footer.jsx';
 import Header from '../../components/Header/Header.jsx';
 import textContent from '../../assets/text.json';
 import PopupLoginForm from '../../components/LoginForm/LoginForm.jsx';
+import { openPopupWindow, closePopupWindow } from '../../store/actions';
 import { LoginStatus, ROUTE } from '../../constants.js';
 import { api } from '../../api';
 
 const Hero = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const isOpened = useSelector(state => state.popup.isOpened);
+  const isPopupOpened = useSelector(state => state.popup.isOpened);
   const authType = useSelector(state => state.auth.authType);
 
   const togglePopup = async () => {
     if (!authType) {
-      dispatch({ type: isOpened ? 'CLOSE_POPUP' : 'OPEN_POPUP' });
+      dispatch(!isPopupOpened ? openPopupWindow() : closePopupWindow());
       return;
     }
 
@@ -42,7 +43,7 @@ const Hero = () => {
           <button className="btn btn-secondary" onClick={togglePopup}>
             {textContent.hero.tryButton}
           </button>
-          {isOpened && <PopupLoginForm togglePopup={togglePopup} title={textContent.loader.title} />}
+          {isPopupOpened && <PopupLoginForm togglePopup={togglePopup} title={textContent.loader.title} />}
         </div>
       </div>
       <Footer />
