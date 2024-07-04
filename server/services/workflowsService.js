@@ -9,11 +9,13 @@
  * - Workflow instance fetching.
  */
 
-const fs = require('fs');
 const path = require('path');
 const uuid = require('uuid');
 const docusign = require('docusign-maestro');
 const docusignEsign = require('docusign-esign');
+const workflowI9 = require('../assets/templates/workflowI9');
+const workflowOfferLetter = require('../assets/templates/workflowOfferLetter');
+const workflowNda = require('../assets/templates/workflowNda');
 const { TEMPLATE_TYPE } = require('../constants');
 
 const oAuth = docusign.ApiClient.OAuth;
@@ -22,10 +24,6 @@ const restApi = docusign.ApiClient.RestApi;
 class WorkflowsService {
   // Constants
   static templatesPath = path.join(path.resolve(), 'assets/templates');
-  static i9Template = 'I9Template.json';
-  static offerLetterTemplate = 'OfferLetterTemplate.json';
-  // static ndaTemplate = 'ndaTemplate.json';
-  static ndaTemplate = 'WORKFLOW_NDA.json';
   static workflowSuffix = 'send invite to signer';
   static dsApiClient = new docusign.ApiClient();
   static workflowManagementApi = new docusign.WorkflowManagementApi(this.dsApiClient);
@@ -42,39 +40,46 @@ class WorkflowsService {
     return await this.workflowInstanceManagementApi.cancelWorkflowInstance(args.accountId, args.instanceId);
   };
 
-  static getTemplate = async args => {
-    let templateFile = null;
+  static selectTemplate = templateType => {
+    let templateCaller = null;
 
-    switch (args.templateType) {
+    switch (templateType) {
       case TEMPLATE_TYPE.I9:
-        templateFile = this.i9Template;
-        break;
-
-      case TEMPLATE_TYPE.NDA:
-        templateFile = this.ndaTemplate;
+        templateCaller = workflowI9;
         break;
 
       case TEMPLATE_TYPE.OFFER:
-        templateFile = this.offerLetterTemplate;
+        templateCaller = workflowOfferLetter;
         break;
+
+      case TEMPLATE_TYPE.NDA:
+        templateCaller = workflowNda;
+        break;
+
+      default:
+        throw new Error('TemplateType is not correct or not found');
     }
 
-    const templateFileBuffer = fs.readFileSync(path.resolve(this.templatesPath, templateFile), 'utf8');
-    const templateFileContent = JSON.parse(templateFileBuffer);
+    return templateCaller;
+  };
+
+  static getTemplate = async args => {
+    const templateCaller = this.selectTemplate(args.templateType);
+    const templateName = templateCaller(null, null).name;
 
     this.dsApiClient.setBasePath(args.basePath);
     this.dsApiClient.addDefaultHeader('Authorization', `Bearer ${args.accessToken}`);
-    let templatesApi = new docusignEsign.TemplatesApi(this.dsApiClient);
+    const templatesApi = new docusignEsign.TemplatesApi(this.dsApiClient);
 
     const results = await templatesApi.listTemplates(args.accountId, {
-      searchText: templateFileContent.name,
+      searchText: templateName,
     });
 
     if (!results?.resultSetSize || Number(results.resultSetSize) <= 0) {
       return {
         message:
           'This template is missing on your Docusign account. Download the template, login to your account, go to "Templates / Start / Envelope Templates / Upload Template", upload it there and try again',
-        templateName: templateFile,
+        templateName: 'Maestro_Test__NDA.json', // FIXME:
       };
     }
 
@@ -83,6 +88,20 @@ class WorkflowsService {
       templateName: results.envelopeTemplates[0].name,
       createdNewTemplate: false,
     };
+  };
+
+  static createWorkflow = async ({ templateId, accessToken, basePath, accountId, templateType }) => {
+    const templateCaller = this.selectTemplate(templateType);
+    const workflowTemplate = templateCaller(templateId, accountId);
+    workflowTemplate.workflowDefinition.workflowName += ` - ${this.workflowSuffix}`;
+
+    this.dsApiClient.setBasePath(basePath);
+    this.dsApiClient.addDefaultHeader('Authorization', `Bearer ${accessToken}`);
+
+    const workflowManagementApi = new docusign.WorkflowManagementApi(this.dsApiClient);
+    const workflow = await workflowManagementApi.createWorkflowDefinition(workflowTemplate, accountId);
+
+    return workflow;
   };
 
   static createWorkflow2 = async ({ templateId, accessToken, basePath, accountId, templateType }) => {
@@ -692,19 +711,6 @@ class WorkflowsService {
     return workflow;
   };
 
-  static createWorkflow = async ({ templateId, accessToken, basePath, accountId }) => {
-    const wdefinition = require('../assets/templates/WORKFLOW_NDA.json');
-    const workflowDefinition = wdefinition;
-
-    this.dsApiClient.setBasePath(basePath);
-    this.dsApiClient.addDefaultHeader('Authorization', `Bearer ${accessToken}`);
-
-    const workflowManagementApi = new docusign.WorkflowManagementApi(this.dsApiClient);
-    const workflow = await workflowManagementApi.createWorkflowDefinition(workflowDefinition, accountId);
-
-    return workflow;
-  };
-
   static getWorkflowDefinition = async args => {
     this.dsApiClient.setBasePath(args.basePath);
     this.dsApiClient.addDefaultHeader('Authorization', `Bearer ${args.accessToken}`);
@@ -777,22 +783,30 @@ class WorkflowsService {
     const triggerPayload = docusign.TriggerPayload.constructFromObject({
       // instanceName: args.instanceName,
       participant: {},
+
+      // payload for 1-9
       // payload: {
-      //   signerEmail: args.signerEmail,
-      //   signerName: args.signerName,
-      //   ccEmail: args.ccEmail,
-      //   ccName: args.ccName,
+      //   preparerName: 'preparer1',
+      //   preparerEmail: 'preparer1@preparer1.com',
+      //   employeeName: 'employee1',
+      //   employeeEmail: 'employee1@employee1.com',
+      //   hrApproverName: 'approver1',
+      //   hrApproverEmail: 'approver1@approver1.com',
       // },
+
+      // payload for OfferLetter
       payload: {
-        hrApproverName: 'test3',
-        hrApproverEmail: 'test3@test3.com',
-        employee_email: {
-          value: 'sdgsdg',
-        },
-        employee_name: {
-          value: 'sdgsdg',
-        },
+        hrManagerName: 'hr2',
+        hrManagerEmail: 'hr2@hr2.com',
+        Company: 'hr2Company',
       },
+
+      // payload for NDA
+      // payload: {
+      //   hrApproverName: 'approver3',
+      //   hrApproverEmail: 'approver3@approver3.com',
+      // },
+
       metadata: {},
     });
 

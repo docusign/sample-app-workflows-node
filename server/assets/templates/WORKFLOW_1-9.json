@@ -80,12 +80,24 @@
         "participants": {}
       },
       "output": {
-        "dacId_c30c7afc-7d56-451c-b889-0a6488822fca": { "source": "step", "propertyName": "dacId", "stepId": "c30c7afc-7d56-451c-b889-0a6488822fca" }
+        "dacId_c30c7afc-7d56-451c-b889-0a6488822fca": {
+          "source": "step",
+          "propertyName": "dacId",
+          "stepId": "c30c7afc-7d56-451c-b889-0a6488822fca"
+        }
       }
     },
     "variables": {
-      "dacId_c30c7afc-7d56-451c-b889-0a6488822fca": { "source": "step", "propertyName": "dacId", "stepId": "c30c7afc-7d56-451c-b889-0a6488822fca" },
-      "id_c30c7afc-7d56-451c-b889-0a6488822fca": { "source": "step", "propertyName": "id", "stepId": "c30c7afc-7d56-451c-b889-0a6488822fca" },
+      "dacId_c30c7afc-7d56-451c-b889-0a6488822fca": {
+        "source": "step",
+        "propertyName": "dacId",
+        "stepId": "c30c7afc-7d56-451c-b889-0a6488822fca"
+      },
+      "id_c30c7afc-7d56-451c-b889-0a6488822fca": {
+        "source": "step",
+        "propertyName": "id",
+        "stepId": "c30c7afc-7d56-451c-b889-0a6488822fca"
+      },
       "Employee name_c30c7afc-7d56-451c-b889-0a6488822fca": {
         "propertyName": "Employee name",
         "source": "step",
@@ -897,8 +909,18 @@
         "input": {
           "recipients": [
             {
-              "name": { "propertyName": "Employee name", "source": "step", "stepId": "c30c7afc-7d56-451c-b889-0a6488822fca", "type": "String" },
-              "email": { "propertyName": "Employee email", "source": "step", "stepId": "c30c7afc-7d56-451c-b889-0a6488822fca", "type": "String" }
+              "name": {
+                "propertyName": "Employee name",
+                "source": "step",
+                "stepId": "c30c7afc-7d56-451c-b889-0a6488822fca",
+                "type": "String"
+              },
+              "email": {
+                "propertyName": "Employee email",
+                "source": "step",
+                "stepId": "c30c7afc-7d56-451c-b889-0a6488822fca",
+                "type": "String"
+              }
             }
           ],
           "mergeValues": {
@@ -2156,8 +2178,18 @@
                 "agentCanEditEmail": "false",
                 "agentCanEditName": "false",
                 "requireUploadSignature": "false",
-                "name": { "propertyName": "Employee name", "source": "step", "stepId": "c30c7afc-7d56-451c-b889-0a6488822fca", "type": "String" },
-                "email": { "propertyName": "Employee email", "source": "step", "stepId": "c30c7afc-7d56-451c-b889-0a6488822fca", "type": "String" },
+                "name": {
+                  "propertyName": "Employee name",
+                  "source": "step",
+                  "stepId": "c30c7afc-7d56-451c-b889-0a6488822fca",
+                  "type": "String"
+                },
+                "email": {
+                  "propertyName": "Employee email",
+                  "source": "step",
+                  "stepId": "c30c7afc-7d56-451c-b889-0a6488822fca",
+                  "type": "String"
+                },
                 "recipientId": "2",
                 "recipientIdGuid": "00000000-0000-0000-0000-000000000000",
                 "accessCode": "",
@@ -2499,8 +2531,18 @@
                 "agentCanEditEmail": "false",
                 "agentCanEditName": "false",
                 "requireUploadSignature": "false",
-                "name": { "propertyName": "Preparer name", "source": "step", "stepId": "c30c7afc-7d56-451c-b889-0a6488822fca", "type": "String" },
-                "email": { "propertyName": "Preparer email", "source": "step", "stepId": "c30c7afc-7d56-451c-b889-0a6488822fca", "type": "String" },
+                "name": {
+                  "propertyName": "Preparer name",
+                  "source": "step",
+                  "stepId": "c30c7afc-7d56-451c-b889-0a6488822fca",
+                  "type": "String"
+                },
+                "email": {
+                  "propertyName": "Preparer email",
+                  "source": "step",
+                  "stepId": "c30c7afc-7d56-451c-b889-0a6488822fca",
+                  "type": "String"
+                },
                 "recipientId": "50834148",
                 "recipientIdGuid": "00000000-0000-0000-0000-000000000000",
                 "accessCode": "",
@@ -3653,7 +3695,12 @@
                 "agentCanEditEmail": "false",
                 "agentCanEditName": "false",
                 "requireUploadSignature": "false",
-                "name": { "propertyName": "HR Approver name", "source": "step", "stepId": "c30c7afc-7d56-451c-b889-0a6488822fca", "type": "String" },
+                "name": {
+                  "propertyName": "HR Approver name",
+                  "source": "step",
+                  "stepId": "c30c7afc-7d56-451c-b889-0a6488822fca",
+                  "type": "String"
+                },
                 "email": {
                   "propertyName": "HR Approver email",
                   "source": "step",

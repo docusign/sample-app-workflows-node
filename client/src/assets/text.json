@@ -31,7 +31,7 @@
   },
   "home": {
     "card1": {
-      "title": "'Create a workflow'",
+      "title": "Create a workflow",
       "description": "Create workflow definitions from the dropdown list below"
     },
     "card2": {

@@ -27,6 +27,10 @@ export const TemplateType = {
   I9: '1-9 document',
   OFFER: 'Offer letter',
   NDA: 'NDA document',
+
+  I92: 'MyMaestro: I-9',
+  OFFER2: 'MyMaestro: Offer Letter',
+  NDA2: 'MyMaestro: NDA',
 };
 
 export const WorkflowOptions = [

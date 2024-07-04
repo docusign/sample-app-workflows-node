@@ -192,7 +192,7 @@
         "config": { "participantId": "756c29b4-45ba-4da2-bb55-0b5476ebad83" },
         "input": {
           "isEmbeddedSign": true,
-          "documents": [{ "type": "FromDSTemplate", "eSignTemplateId": "{templateId}" }],
+          "documents": [{ "type": "FromDSTemplate", "eSignTemplateId": "4bf2cc6c-ef2d-4d4b-bb8c-9b3b77d1323b" }],
           "emailSubject": "Please DocuSign the Mutual NDA",
           "emailBlurb": "",
           "recipients": {
