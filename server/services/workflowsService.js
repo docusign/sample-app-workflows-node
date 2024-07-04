@@ -85,7 +85,7 @@ class WorkflowsService {
     };
   };
 
-  static createWorkflow = async ({ templateId, accessToken, basePath, accountId, templateType }) => {
+  static createWorkflow2 = async ({ templateId, accessToken, basePath, accountId, templateType }) => {
     const signerId = uuid.v4();
     const ccId = uuid.v4();
     const triggerId = 'wfTrigger';
@@ -101,12 +101,12 @@ class WorkflowsService {
 
     const dacIdField = `dacId_${triggerId}`;
     const idField = `id_${triggerId}`;
-    const signerNameField = `signerName_${triggerId}`;
-    const signerEmailField = `signerEmail_${triggerId}`;
-    const ccNameField = `ccName_${triggerId}`;
-    const ccEmailField = `ccEmail_${triggerId}`;
-    // const hrApproverNameField = `hrApproverName_${triggerId}`;
-    // const hrApproverEmailField = `hrApproverEmail_${triggerId}`;
+    // const signerNameField = `signerName_${triggerId}`;
+    // const signerEmailField = `signerEmail_${triggerId}`;
+    // const ccNameField = `ccName_${triggerId}`;
+    // const ccEmailField = `ccEmail_${triggerId}`;
+    const hrApproverNameField = `hrApproverName_${triggerId}`;
+    const hrApproverEmailField = `hrApproverEmail_${triggerId}`;
     const trigger = docusign.DSWorkflowTrigger.constructFromObject({
       name: 'Get_URL',
       type: 'Http',
@@ -128,36 +128,36 @@ class WorkflowsService {
             stepId: triggerId,
           },
 
-          // [hrApproverNameField]: {
+          [hrApproverNameField]: {
+            source: 'step',
+            propertyName: 'hrApproverName',
+            stepId: triggerId,
+          },
+          [hrApproverEmailField]: {
+            source: 'step',
+            propertyName: 'hrApproverEmail',
+            stepId: triggerId,
+          },
+          // [signerNameField]: {
           //   source: 'step',
-          //   propertyName: 'hrApproverName',
+          //   propertyName: 'signerName',
           //   stepId: triggerId,
           // },
-          // [hrApproverEmailField]: {
+          // [signerEmailField]: {
           //   source: 'step',
-          //   propertyName: 'hrApproverEmail',
+          //   propertyName: 'signerEmail',
           //   stepId: triggerId,
           // },
-          [signerNameField]: {
-            source: 'step',
-            propertyName: 'signerName',
-            stepId: triggerId,
-          },
-          [signerEmailField]: {
-            source: 'step',
-            propertyName: 'signerEmail',
-            stepId: triggerId,
-          },
-          [ccNameField]: {
-            source: 'step',
-            propertyName: 'ccName',
-            stepId: triggerId,
-          },
-          [ccEmailField]: {
-            source: 'step',
-            propertyName: 'ccEmail',
-            stepId: triggerId,
-          },
+          // [ccNameField]: {
+          //   source: 'step',
+          //   propertyName: 'ccName',
+          //   stepId: triggerId,
+          // },
+          // [ccEmailField]: {
+          //   source: 'step',
+          //   propertyName: 'ccEmail',
+          //   stepId: triggerId,
+          // },
         },
         participants: {},
       },
@@ -182,36 +182,36 @@ class WorkflowsService {
         stepId: triggerId,
       }),
 
-      // [hrApproverNameField]: docusign.DSWorkflowVariableRecord.constructFromObject({
+      [hrApproverNameField]: docusign.DSWorkflowVariableRecord.constructFromObject({
+        source: 'step',
+        propertyName: 'hrApproverName',
+        stepId: triggerId,
+      }),
+      [hrApproverEmailField]: docusign.DSWorkflowVariableRecord.constructFromObject({
+        source: 'step',
+        propertyName: 'hrApproverEmail',
+        stepId: triggerId,
+      }),
+      // [signerNameField]: docusign.DSWorkflowVariableRecord.constructFromObject({
       //   source: 'step',
-      //   propertyName: 'hrApproverName',
+      //   propertyName: 'signerName',
       //   stepId: triggerId,
       // }),
-      // [hrApproverEmailField]: docusign.DSWorkflowVariableRecord.constructFromObject({
+      // [signerEmailField]: docusign.DSWorkflowVariableRecord.constructFromObject({
       //   source: 'step',
-      //   propertyName: 'hrApproverEmail',
+      //   propertyName: 'signerEmail',
       //   stepId: triggerId,
       // }),
-      [signerNameField]: docusign.DSWorkflowVariableRecord.constructFromObject({
-        source: 'step',
-        propertyName: 'signerName',
-        stepId: triggerId,
-      }),
-      [signerEmailField]: docusign.DSWorkflowVariableRecord.constructFromObject({
-        source: 'step',
-        propertyName: 'signerEmail',
-        stepId: triggerId,
-      }),
-      [ccNameField]: docusign.DSWorkflowVariableRecord.constructFromObject({
-        source: 'step',
-        propertyName: 'ccName',
-        stepId: triggerId,
-      }),
-      [ccEmailField]: docusign.DSWorkflowVariableRecord.constructFromObject({
-        source: 'step',
-        propertyName: 'ccEmail',
-        stepId: triggerId,
-      }),
+      // [ccNameField]: docusign.DSWorkflowVariableRecord.constructFromObject({
+      //   source: 'step',
+      //   propertyName: 'ccName',
+      //   stepId: triggerId,
+      // }),
+      // [ccEmailField]: docusign.DSWorkflowVariableRecord.constructFromObject({
+      //   source: 'step',
+      //   propertyName: 'ccEmail',
+      //   stepId: triggerId,
+      // }),
 
       envelopeId_step2: docusign.DSWorkflowVariableRecord.constructFromObject({
         source: 'step',
@@ -252,14 +252,14 @@ class WorkflowsService {
           {
             name: {
               source: 'step',
-              // propertyName: 'hrApproverName',
-              propertyName: 'signerName',
+              propertyName: 'hrApproverName',
+              // propertyName: 'signerName',
               stepId: triggerId,
             },
             email: {
               source: 'step',
-              // propertyName: 'hrApproverEmail',
-              propertyName: 'signerEmail',
+              propertyName: 'hrApproverEmail',
+              // propertyName: 'signerEmail',
               stepId: triggerId,
             },
           },
@@ -268,8 +268,8 @@ class WorkflowsService {
           CustomMessage: 'Follow this link to access and complete the workflow.',
           ParticipantFullName: {
             source: 'step',
-            // propertyName: 'hrApproverName',
-            propertyName: 'signerName',
+            propertyName: 'hrApproverName',
+            // propertyName: 'signerName',
             stepId: triggerId,
           },
         },
@@ -568,14 +568,14 @@ class WorkflowsService {
               requireUploadSignature: 'false',
               name: {
                 source: 'step',
-                // propertyName: 'hrApproverName',
-                propertyName: 'signerName',
+                propertyName: 'hrApproverName',
+                // propertyName: 'signerName',
                 stepId: triggerId,
               },
               email: {
                 source: 'step',
-                // propertyName: 'hrApproverEmail',
-                propertyName: 'signerEmail',
+                propertyName: 'hrApproverEmail',
+                // propertyName: 'signerEmail',
                 stepId: triggerId,
               },
               recipientId: '1',
@@ -599,14 +599,14 @@ class WorkflowsService {
               agentCanEditName: 'false',
               name: {
                 source: 'step',
-                // propertyName: 'hrApproverName',
-                propertyName: 'ccName',
+                propertyName: 'hrApproverName',
+                // propertyName: 'ccName',
                 stepId: triggerId,
               },
               email: {
                 source: 'step',
-                // propertyName: 'hrApproverEmail',
-                propertyName: 'ccEmail',
+                propertyName: 'hrApproverEmail',
+                // propertyName: 'ccEmail',
                 stepId: triggerId,
               },
               recipientId: '2',
@@ -692,6 +692,19 @@ class WorkflowsService {
     return workflow;
   };
 
+  static createWorkflow = async ({ templateId, accessToken, basePath, accountId }) => {
+    const wdefinition = require('../assets/templates/WORKFLOW_NDA.json');
+    const workflowDefinition = wdefinition;
+
+    this.dsApiClient.setBasePath(basePath);
+    this.dsApiClient.addDefaultHeader('Authorization', `Bearer ${accessToken}`);
+
+    const workflowManagementApi = new docusign.WorkflowManagementApi(this.dsApiClient);
+    const workflow = await workflowManagementApi.createWorkflowDefinition(workflowDefinition, accountId);
+
+    return workflow;
+  };
+
   static getWorkflowDefinition = async args => {
     this.dsApiClient.setBasePath(args.basePath);
     this.dsApiClient.addDefaultHeader('Authorization', `Bearer ${args.accessToken}`);
@@ -762,18 +775,24 @@ class WorkflowsService {
     const mtsec = args.mtsec;
 
     const triggerPayload = docusign.TriggerPayload.constructFromObject({
-      instanceName: args.instanceName,
+      // instanceName: args.instanceName,
       participant: {},
-      payload: {
-        signerEmail: args.signerEmail,
-        signerName: args.signerName,
-        ccEmail: args.ccEmail,
-        ccName: args.ccName,
-      },
       // payload: {
-      //   hrApproverName: 'test3',
-      //   hrApproverEmail: 'test3@test3.com',
+      //   signerEmail: args.signerEmail,
+      //   signerName: args.signerName,
+      //   ccEmail: args.ccEmail,
+      //   ccName: args.ccName,
       // },
+      payload: {
+        hrApproverName: 'test3',
+        hrApproverEmail: 'test3@test3.com',
+        employee_email: {
+          value: 'sdgsdg',
+        },
+        employee_name: {
+          value: 'sdgsdg',
+        },
+      },
       metadata: {},
     });
 

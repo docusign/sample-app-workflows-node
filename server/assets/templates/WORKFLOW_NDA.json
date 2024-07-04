@@ -2,7 +2,7 @@
   "id": "0acc8f91-7042-4de2-8f28-df66dd22c282",
   "name": "MyMaestro: NDA",
   "userId": "8cb9aa3f-ceb6-4424-bdfc-f6ce2e16dad1",
-  "accountId": "0820f9c5-0d81-489a-bcc9-8a0df87f44aa",
+  "accountId": "8a1318df-e2d3-48af-ae26-27fa85fe80e9",
   "createdDate": "2024-05-20T20:59:22.267Z",
   "createdByName": "Paige Test",
   "lastUpdatedDate": "2024-07-02T18:58:08.967Z",
@@ -35,13 +35,13 @@
             "source": "step",
             "stepId": "c30c7afc-7d56-451c-b889-0a6488822fca"
           },
-          "HR Approver Name_c30c7afc-7d56-451c-b889-0a6488822fca": {
+          "hrApproverName_c30c7afc-7d56-451c-b889-0a6488822fca": {
             "propertyName": "hrApproverName",
             "source": "step",
             "stepId": "c30c7afc-7d56-451c-b889-0a6488822fca",
             "type": "String"
           },
-          "HR Approver Email_c30c7afc-7d56-451c-b889-0a6488822fca": {
+          "hrApproverEmail_c30c7afc-7d56-451c-b889-0a6488822fca": {
             "propertyName": "hrApproverEmail",
             "source": "step",
             "stepId": "c30c7afc-7d56-451c-b889-0a6488822fca",
@@ -69,14 +69,14 @@
         "propertyName": "id",
         "stepId": "c30c7afc-7d56-451c-b889-0a6488822fca"
       },
-      "HR Approver Name_c30c7afc-7d56-451c-b889-0a6488822fca": {
-        "propertyName": "HR Approver Name",
+      "hrApproverName_c30c7afc-7d56-451c-b889-0a6488822fca": {
+        "propertyName": "hrApproverName",
         "source": "step",
         "stepId": "c30c7afc-7d56-451c-b889-0a6488822fca",
         "type": "String"
       },
-      "HR Approver Email_c30c7afc-7d56-451c-b889-0a6488822fca": {
-        "propertyName": "HR Approver Email",
+      "hrApproverEmail_c30c7afc-7d56-451c-b889-0a6488822fca": {
+        "propertyName": "hrApproverEmail",
         "source": "step",
         "stepId": "c30c7afc-7d56-451c-b889-0a6488822fca",
         "type": "String"
@@ -192,7 +192,7 @@
         "config": { "participantId": "756c29b4-45ba-4da2-bb55-0b5476ebad83" },
         "input": {
           "isEmbeddedSign": true,
-          "documents": [{ "type": "FromDSTemplate", "eSignTemplateId": "4bf2cc6c-ef2d-4d4b-bb8c-9b3b77d1323b" }],
+          "documents": [{ "type": "FromDSTemplate", "eSignTemplateId": "{templateId}" }],
           "emailSubject": "Please DocuSign the Mutual NDA",
           "emailBlurb": "",
           "recipients": {
@@ -225,7 +225,7 @@
                     {
                       "name": "Full Name",
                       "value": {
-                        "propertyName": "HR Approver Name",
+                        "propertyName": "hrApproverName",
                         "source": "step",
                         "stepId": "c30c7afc-7d56-451c-b889-0a6488822fca",
                         "type": "String"
@@ -305,7 +305,7 @@
                       "requireAll": "false",
                       "name": "First Party",
                       "value": {
-                        "propertyName": "HR Approver Name",
+                        "propertyName": "hrApproverName",
                         "source": "step",
                         "stepId": "c30c7afc-7d56-451c-b889-0a6488822fca",
                         "type": "String"
@@ -377,13 +377,13 @@
                 "agentCanEditName": "false",
                 "requireUploadSignature": "false",
                 "name": {
-                  "propertyName": "HR Approver Name",
+                  "propertyName": "hrApproverName",
                   "source": "step",
                   "stepId": "c30c7afc-7d56-451c-b889-0a6488822fca",
                   "type": "String"
                 },
                 "email": {
-                  "propertyName": "HR Approver Email",
+                  "propertyName": "hrApproverEmail",
                   "source": "step",
                   "stepId": "c30c7afc-7d56-451c-b889-0a6488822fca",
                   "type": "String"
