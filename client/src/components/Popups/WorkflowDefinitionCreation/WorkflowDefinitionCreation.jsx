@@ -35,6 +35,18 @@ const WorkflowDefinitionCreation = ({ message }) => {
       return;
     }
 
+    if (workflow?.status === 400 && workflow?.data?.errorMessage.includes('limit (5)')) {
+      dispatch(
+        showErrorTextInPopup(
+          'Publish workflow was unsuccessful',
+          "You've used all your 5 available workflows on the account. Delete active workflows to make space.",
+          null
+        )
+      );
+      dispatch(closeLoadingCircleInPopup());
+      return;
+    }
+
     dispatch(
       showErrorTextInPopup(
         'Publish workflow was unsuccessful',
@@ -42,7 +54,6 @@ const WorkflowDefinitionCreation = ({ message }) => {
         null
       )
     );
-
     dispatch(closeLoadingCircleInPopup());
   };
 

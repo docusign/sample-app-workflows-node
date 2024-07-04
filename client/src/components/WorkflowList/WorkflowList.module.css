@@ -132,13 +132,17 @@
 }
 
 .dropdownItem {
-  cursor: pointer;
   height: 100%;
   width: 100%;
   max-height: 32px;
   font-size: 16px;
   font-weight: 400;
   background-color: var(--white-main);
+}
+
+.dropdownItem:hover {
+  cursor: pointer;
+  background-color: var(--blue-light);
 }
 
 .dropdownItem:active {

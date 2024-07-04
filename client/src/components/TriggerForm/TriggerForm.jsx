@@ -42,16 +42,14 @@ const TriggerForm = ({ workflowId }) => {
     setWorkflowInstanceUrl(triggeredWorkflow.workflowInstanceUrl);
 
     // Update workflowDefinitions. "...workflow" creates new workflow-object to avoid mutation in redux
-    const updatedWorkflowDefinitions = workflows.map(workflow => {
-      if (workflow.id === workflowId) {
-        return {
-          ...workflow,
-          instanceId: triggeredWorkflow.instanceId,
-          isTriggered: true,
-        };
-      }
+    const updatedWorkflowDefinitions = workflows.map(w => {
+      if (w.id !== workflowId) return { ...w };
 
-      return { ...workflow };
+      return {
+        ...w,
+        instanceId: triggeredWorkflow.instanceId,
+        isTriggered: true,
+      };
     });
 
     dispatch(updateWorkflowDefinitions(updatedWorkflowDefinitions));
@@ -97,8 +95,9 @@ const TriggerForm = ({ workflowId }) => {
         </div>
 
         <div className={styles.divider} />
-        <button type="submit" disabled={isDataSending}>
-          {textContent.buttons.continue}
+        <button className="btn btn-primary" type="submit" disabled={isDataSending}>
+          <span className="sr-only">{textContent.buttons.continue}</span>
+          {isDataSending ? <span className="spinner-border spinner-border-sm" /> : null}
         </button>
       </form>
       {isPopupOpened && (

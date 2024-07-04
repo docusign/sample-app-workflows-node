@@ -1,0 +1,641 @@
+{
+  "id": "ad547613-0ccf-4bbf-9493-a886c43e488e",
+  "name": "MyMaestro: Offer Letter",
+  "userId": "8cb9aa3f-ceb6-4424-bdfc-f6ce2e16dad1",
+  "accountId": "0820f9c5-0d81-489a-bcc9-8a0df87f44aa",
+  "createdDate": "2024-05-17T19:52:15.696Z",
+  "createdByName": "Paige Test",
+  "lastUpdatedDate": "2024-06-17T22:42:29.009Z",
+  "triggerUrl": "https://apps-d.docusign.com/api/maestro/v1/accounts/0820f9c5-0d81-489a-bcc9-8a0df87f44aa/workflow_definitions/ad547613-0ccf-4bbf-9493-a886c43e488e/trigger?mtid=f6039de4-069f-4d39-8eb2-523076f4027c&mtsec=K4JTLY_jcSDuuO6-p0P_r1WjpUqEn2JZynhIht0FC7s",
+  "lastDeployedId": "6670bbd03fa10c6ac9d2e18a",
+  "lastDeployedVersion": "2.0.0",
+  "isDraft": false,
+  "status": "active",
+  "workflowDefinition": {
+    "workflowName": "MyMaestro: Offer Letter",
+    "workflowDescription": "",
+    "accountId": "0820f9c5-0d81-489a-bcc9-8a0df87f44aa",
+    "documentVersion": "1.0.0",
+    "schemaVersion": "1.0.0",
+    "participants": { "f2f6fe59-ba86-4ec4-a404-7cffdbf48b42": { "participantRole": "HR Manager" } },
+    "trigger": {
+      "name": "Get_URL",
+      "type": "Http",
+      "httpType": "Get",
+      "id": "c30c7afc-7d56-451c-b889-0a6488822fca",
+      "input": {
+        "metadata": { "customAttributes": {} },
+        "payload": {
+          "dacId_c30c7afc-7d56-451c-b889-0a6488822fca": {
+            "propertyName": "dacId",
+            "source": "step",
+            "stepId": "c30c7afc-7d56-451c-b889-0a6488822fca"
+          },
+          "id_c30c7afc-7d56-451c-b889-0a6488822fca": {
+            "propertyName": "id",
+            "source": "step",
+            "stepId": "c30c7afc-7d56-451c-b889-0a6488822fca"
+          },
+          "HR Manager Name_c30c7afc-7d56-451c-b889-0a6488822fca": {
+            "propertyName": "HR Manager Name",
+            "source": "step",
+            "stepId": "c30c7afc-7d56-451c-b889-0a6488822fca",
+            "type": "String"
+          },
+          "HR Manager Email_c30c7afc-7d56-451c-b889-0a6488822fca": {
+            "propertyName": "HR Manager Email",
+            "source": "step",
+            "stepId": "c30c7afc-7d56-451c-b889-0a6488822fca",
+            "type": "String"
+          },
+          "Company_c30c7afc-7d56-451c-b889-0a6488822fca": {
+            "propertyName": "Company",
+            "defaultValue": "Tally",
+            "source": "step",
+            "stepId": "c30c7afc-7d56-451c-b889-0a6488822fca",
+            "type": "String"
+          }
+        },
+        "participants": {}
+      },
+      "output": {
+        "dacId_c30c7afc-7d56-451c-b889-0a6488822fca": { "source": "step", "propertyName": "dacId", "stepId": "c30c7afc-7d56-451c-b889-0a6488822fca" }
+      }
+    },
+    "variables": {
+      "dacId_c30c7afc-7d56-451c-b889-0a6488822fca": { "source": "step", "propertyName": "dacId", "stepId": "c30c7afc-7d56-451c-b889-0a6488822fca" },
+      "id_c30c7afc-7d56-451c-b889-0a6488822fca": { "source": "step", "propertyName": "id", "stepId": "c30c7afc-7d56-451c-b889-0a6488822fca" },
+      "HR Manager Name_c30c7afc-7d56-451c-b889-0a6488822fca": {
+        "propertyName": "HR Manager Name",
+        "source": "step",
+        "stepId": "c30c7afc-7d56-451c-b889-0a6488822fca",
+        "type": "String"
+      },
+      "HR Manager Email_c30c7afc-7d56-451c-b889-0a6488822fca": {
+        "propertyName": "HR Manager Email",
+        "source": "step",
+        "stepId": "c30c7afc-7d56-451c-b889-0a6488822fca",
+        "type": "String"
+      },
+      "Company_c30c7afc-7d56-451c-b889-0a6488822fca": {
+        "defaultValue": "Tally",
+        "propertyName": "Company",
+        "source": "step",
+        "stepId": "c30c7afc-7d56-451c-b889-0a6488822fca",
+        "type": "String"
+      },
+      "NewHireName.value_495396bc-f09f-44c9-a7a2-db69b29683f9": {
+        "source": "step",
+        "propertyName": "NewHireName.value",
+        "stepId": "495396bc-f09f-44c9-a7a2-db69b29683f9",
+        "type": "String"
+      },
+      "NewHireEmail.value_495396bc-f09f-44c9-a7a2-db69b29683f9": {
+        "source": "step",
+        "propertyName": "NewHireEmail.value",
+        "stepId": "495396bc-f09f-44c9-a7a2-db69b29683f9",
+        "type": "String"
+      },
+      "HiringManagerName.value_495396bc-f09f-44c9-a7a2-db69b29683f9": {
+        "source": "step",
+        "propertyName": "HiringManagerName.value",
+        "stepId": "495396bc-f09f-44c9-a7a2-db69b29683f9",
+        "type": "String"
+      },
+      "HiringManagerEmail.value_495396bc-f09f-44c9-a7a2-db69b29683f9": {
+        "source": "step",
+        "propertyName": "HiringManagerEmail.value",
+        "stepId": "495396bc-f09f-44c9-a7a2-db69b29683f9",
+        "type": "String"
+      },
+      "envelopeId_7ef4c9e4-b405-4ffd-9ab7-bd2d3be4f2fb": {
+        "source": "step",
+        "propertyName": "envelopeId",
+        "stepId": "7ef4c9e4-b405-4ffd-9ab7-bd2d3be4f2fb",
+        "type": "String"
+      },
+      "status_7ef4c9e4-b405-4ffd-9ab7-bd2d3be4f2fb": {
+        "source": "step",
+        "propertyName": "status",
+        "stepId": "7ef4c9e4-b405-4ffd-9ab7-bd2d3be4f2fb",
+        "type": "String"
+      },
+      "combinedDocumentsBase64_7ef4c9e4-b405-4ffd-9ab7-bd2d3be4f2fb": {
+        "source": "step",
+        "propertyName": "combinedDocumentsBase64",
+        "stepId": "7ef4c9e4-b405-4ffd-9ab7-bd2d3be4f2fb",
+        "type": "File"
+      },
+      "fields.HR Rep.Date Signed 5b9335d9-b02c-45c0-ad2f-4772553904da.value_7ef4c9e4-b405-4ffd-9ab7-bd2d3be4f2fb": {
+        "source": "step",
+        "propertyName": "fields.HR Rep.Date Signed 5b9335d9-b02c-45c0-ad2f-4772553904da.value",
+        "stepId": "7ef4c9e4-b405-4ffd-9ab7-bd2d3be4f2fb",
+        "type": "String"
+      },
+      "fields.HR Rep.Company.value_7ef4c9e4-b405-4ffd-9ab7-bd2d3be4f2fb": {
+        "source": "step",
+        "propertyName": "fields.HR Rep.Company.value",
+        "stepId": "7ef4c9e4-b405-4ffd-9ab7-bd2d3be4f2fb",
+        "type": "String"
+      },
+      "fields.HR Rep.HR Rep Name.value_7ef4c9e4-b405-4ffd-9ab7-bd2d3be4f2fb": {
+        "source": "step",
+        "propertyName": "fields.HR Rep.HR Rep Name.value",
+        "stepId": "7ef4c9e4-b405-4ffd-9ab7-bd2d3be4f2fb",
+        "type": "String"
+      },
+      "fields.New Hire.Date Signed 01127f23-f0bf-4bcc-94b2-a3beb304037c.value_7ef4c9e4-b405-4ffd-9ab7-bd2d3be4f2fb": {
+        "source": "step",
+        "propertyName": "fields.New Hire.Date Signed 01127f23-f0bf-4bcc-94b2-a3beb304037c.value",
+        "stepId": "7ef4c9e4-b405-4ffd-9ab7-bd2d3be4f2fb",
+        "type": "String"
+      },
+      "fields.New Hire.New Hire Name.value_7ef4c9e4-b405-4ffd-9ab7-bd2d3be4f2fb": {
+        "source": "step",
+        "propertyName": "fields.New Hire.New Hire Name.value",
+        "stepId": "7ef4c9e4-b405-4ffd-9ab7-bd2d3be4f2fb",
+        "type": "String"
+      },
+      "fields.New Hire.VerifyEmailInput[0]email.value_7ef4c9e4-b405-4ffd-9ab7-bd2d3be4f2fb": {
+        "source": "step",
+        "propertyName": "fields.New Hire.VerifyEmailInput[0]email.value",
+        "stepId": "7ef4c9e4-b405-4ffd-9ab7-bd2d3be4f2fb",
+        "type": "String"
+      }
+    },
+    "steps": [
+      {
+        "id": "495396bc-f09f-44c9-a7a2-db69b29683f9",
+        "name": "Collect Data with Web Forms",
+        "moduleName": "WebForms",
+        "configurationProgress": "Completed",
+        "type": "DS-WebForms",
+        "config": {
+          "webFormSlug": "a1ef195e71d1f18e9918790659eed784",
+          "webFormId": "8a636b83-a354-46d8-be07-6f16ae540668",
+          "webFormName": "Offer Letter Info",
+          "participantId": "f2f6fe59-ba86-4ec4-a404-7cffdbf48b42"
+        },
+        "input": {},
+        "output": {
+          "NewHireName.value_495396bc-f09f-44c9-a7a2-db69b29683f9": {
+            "source": "step",
+            "propertyName": "NewHireName.value",
+            "stepId": "495396bc-f09f-44c9-a7a2-db69b29683f9",
+            "type": "String"
+          },
+          "NewHireEmail.value_495396bc-f09f-44c9-a7a2-db69b29683f9": {
+            "source": "step",
+            "propertyName": "NewHireEmail.value",
+            "stepId": "495396bc-f09f-44c9-a7a2-db69b29683f9",
+            "type": "String"
+          },
+          "HiringManagerName.value_495396bc-f09f-44c9-a7a2-db69b29683f9": {
+            "source": "step",
+            "propertyName": "HiringManagerName.value",
+            "stepId": "495396bc-f09f-44c9-a7a2-db69b29683f9",
+            "type": "String"
+          },
+          "HiringManagerEmail.value_495396bc-f09f-44c9-a7a2-db69b29683f9": {
+            "source": "step",
+            "propertyName": "HiringManagerEmail.value",
+            "stepId": "495396bc-f09f-44c9-a7a2-db69b29683f9",
+            "type": "String"
+          }
+        }
+      },
+      {
+        "id": "7ef4c9e4-b405-4ffd-9ab7-bd2d3be4f2fb",
+        "name": "Get Signatures",
+        "moduleName": "ESign",
+        "configurationProgress": "Completed",
+        "type": "DS-Sign",
+        "config": { "participantId": "f2f6fe59-ba86-4ec4-a404-7cffdbf48b42" },
+        "input": {
+          "isEmbeddedSign": true,
+          "documents": [{ "type": "FromDSTemplate", "eSignTemplateId": "fc4c3ef6-2886-4357-9207-33f8dbe57094" }],
+          "emailSubject": "Please Sign Your Employment Offer Letter -  [[New Hire_UserName]]",
+          "emailBlurb": "",
+          "recipients": {
+            "signers": [
+              {
+                "defaultRecipient": "false",
+                "tabs": {
+                  "signHereTabs": [
+                    {
+                      "stampType": "signature",
+                      "name": "SignHere",
+                      "tabLabel": "Signature 0b06cfee-2ec9-463e-924a-ac8e7c60bbc4",
+                      "scaleValue": "1",
+                      "optional": "false",
+                      "documentId": "89448297",
+                      "recipientId": "1",
+                      "pageNumber": "1",
+                      "xPosition": "134",
+                      "yPosition": "601",
+                      "tabId": "749dfa31-d810-4654-a7c3-fa32cce41486",
+                      "templateLocked": "false",
+                      "templateRequired": "false",
+                      "tabType": "signhere",
+                      "tooltip": "SignHere",
+                      "agreementAttributeLocked": "false"
+                    }
+                  ],
+                  "dateSignedTabs": [
+                    {
+                      "name": "DateSigned",
+                      "value": "",
+                      "tabLabel": "Date Signed 5b9335d9-b02c-45c0-ad2f-4772553904da",
+                      "font": "arial",
+                      "fontColor": "black",
+                      "fontSize": "size12",
+                      "localePolicy": {},
+                      "documentId": "89448297",
+                      "recipientId": "1",
+                      "pageNumber": "1",
+                      "xPosition": "68",
+                      "yPosition": "677",
+                      "width": "0",
+                      "height": "0",
+                      "tabId": "144ed6c1-a65f-40b3-b3d0-233cf64be477",
+                      "templateLocked": "false",
+                      "templateRequired": "false",
+                      "tabType": "datesigned",
+                      "tooltip": "DateSigned",
+                      "agreementAttributeLocked": "false"
+                    }
+                  ],
+                  "textTabs": [
+                    {
+                      "validationPattern": "",
+                      "validationMessage": "",
+                      "shared": "false",
+                      "requireInitialOnSharedChange": "false",
+                      "requireAll": "false",
+                      "value": {
+                        "defaultValue": "Tally",
+                        "propertyName": "Company",
+                        "source": "step",
+                        "stepId": "c30c7afc-7d56-451c-b889-0a6488822fca",
+                        "type": "String"
+                      },
+                      "required": "true",
+                      "locked": "true",
+                      "concealValueOnDocument": "false",
+                      "disableAutoSize": "false",
+                      "maxLength": "4000",
+                      "tabLabel": "Company",
+                      "font": "lucidaconsole",
+                      "fontColor": "black",
+                      "fontSize": "size9",
+                      "localePolicy": {},
+                      "documentId": "89448297",
+                      "recipientId": "1",
+                      "pageNumber": "1",
+                      "xPosition": "302",
+                      "yPosition": "124",
+                      "width": "84",
+                      "height": "22",
+                      "tabId": "f7121832-e324-4c47-b6f1-3e251a342db7",
+                      "templateLocked": "false",
+                      "templateRequired": "false",
+                      "tabType": "text",
+                      "agreementAttributeLocked": "false"
+                    },
+                    {
+                      "validationPattern": "",
+                      "validationMessage": "",
+                      "shared": "false",
+                      "requireInitialOnSharedChange": "false",
+                      "requireAll": "false",
+                      "value": {
+                        "propertyName": "HR Manager Name",
+                        "source": "step",
+                        "stepId": "c30c7afc-7d56-451c-b889-0a6488822fca",
+                        "type": "String"
+                      },
+                      "required": "true",
+                      "locked": "false",
+                      "concealValueOnDocument": "false",
+                      "disableAutoSize": "false",
+                      "maxLength": "4000",
+                      "tabLabel": "HR Rep Name",
+                      "font": "lucidaconsole",
+                      "fontColor": "black",
+                      "fontSize": "size9",
+                      "localePolicy": {},
+                      "documentId": "89448297",
+                      "recipientId": "1",
+                      "pageNumber": "1",
+                      "xPosition": "68",
+                      "yPosition": "536",
+                      "width": "84",
+                      "height": "22",
+                      "tabId": "38ea4005-6e1d-42d9-a44d-3609c9f9aeb7",
+                      "templateLocked": "false",
+                      "templateRequired": "false",
+                      "tabType": "text",
+                      "agreementAttributeLocked": "false"
+                    }
+                  ]
+                },
+                "signInEachLocation": "false",
+                "agentCanEditEmail": "false",
+                "agentCanEditName": "false",
+                "requireUploadSignature": "false",
+                "name": { "propertyName": "HR Manager Name", "source": "step", "stepId": "c30c7afc-7d56-451c-b889-0a6488822fca", "type": "String" },
+                "email": { "propertyName": "HR Manager Email", "source": "step", "stepId": "c30c7afc-7d56-451c-b889-0a6488822fca", "type": "String" },
+                "recipientId": "1",
+                "recipientIdGuid": "00000000-0000-0000-0000-000000000000",
+                "accessCode": "",
+                "requireIdLookup": "false",
+                "routingOrder": "1",
+                "note": "",
+                "roleName": "HR Rep",
+                "completedCount": "0",
+                "deliveryMethod": "email",
+                "templateLocked": "false",
+                "templateRequired": "false",
+                "inheritEmailNotificationConfiguration": "false",
+                "recipientType": "signer"
+              },
+              {
+                "defaultRecipient": "false",
+                "tabs": {
+                  "signHereTabs": [
+                    {
+                      "stampType": "signature",
+                      "name": "SignHere",
+                      "tabLabel": "Signature 63537853-6286-407c-b74d-50deff27676d",
+                      "scaleValue": "1",
+                      "optional": "false",
+                      "documentId": "89448297",
+                      "recipientId": "14194458",
+                      "pageNumber": "2",
+                      "xPosition": "137",
+                      "yPosition": "238",
+                      "tabId": "7082db64-8b5a-4b64-abd3-87921ef92031",
+                      "templateLocked": "false",
+                      "templateRequired": "false",
+                      "tabType": "signhere",
+                      "tooltip": "SignHere",
+                      "agreementAttributeLocked": "false"
+                    }
+                  ],
+                  "dateSignedTabs": [
+                    {
+                      "name": "DateSigned",
+                      "value": "",
+                      "tabLabel": "Date Signed 01127f23-f0bf-4bcc-94b2-a3beb304037c",
+                      "font": "arial",
+                      "bold": "false",
+                      "italic": "false",
+                      "underline": "false",
+                      "fontColor": "black",
+                      "fontSize": "size12",
+                      "localePolicy": {},
+                      "documentId": "89448297",
+                      "recipientId": "14194458",
+                      "pageNumber": "2",
+                      "xPosition": "68",
+                      "yPosition": "316",
+                      "width": "0",
+                      "height": "0",
+                      "tabId": "6375bd65-3352-475d-9f56-f5f678a951e2",
+                      "templateLocked": "false",
+                      "templateRequired": "false",
+                      "tabType": "datesigned",
+                      "tooltip": "DateSigned",
+                      "agreementAttributeLocked": "false"
+                    }
+                  ],
+                  "textTabs": [
+                    {
+                      "validationPattern": "",
+                      "validationMessage": "",
+                      "shared": "false",
+                      "requireInitialOnSharedChange": "false",
+                      "requireAll": "false",
+                      "value": {
+                        "source": "step",
+                        "propertyName": "NewHireName.value",
+                        "stepId": "495396bc-f09f-44c9-a7a2-db69b29683f9",
+                        "type": "String"
+                      },
+                      "required": "true",
+                      "locked": "false",
+                      "concealValueOnDocument": "false",
+                      "disableAutoSize": "false",
+                      "maxLength": "4000",
+                      "tabLabel": "New Hire Name",
+                      "font": "lucidaconsole",
+                      "fontColor": "black",
+                      "fontSize": "size9",
+                      "localePolicy": {},
+                      "documentId": "89448297",
+                      "recipientId": "14194458",
+                      "pageNumber": "2",
+                      "xPosition": "116",
+                      "yPosition": "133",
+                      "width": "84",
+                      "height": "22",
+                      "tabId": "dc3252ce-6941-4a72-b10a-f9c2a8223d01",
+                      "templateLocked": "false",
+                      "templateRequired": "false",
+                      "tabType": "text",
+                      "agreementAttributeLocked": "false"
+                    },
+                    {
+                      "validationPattern": "",
+                      "validationMessage": "",
+                      "shared": "false",
+                      "requireInitialOnSharedChange": "false",
+                      "requireAll": "false",
+                      "name": "Email Address",
+                      "value": {
+                        "source": "step",
+                        "propertyName": "NewHireEmail.value",
+                        "stepId": "495396bc-f09f-44c9-a7a2-db69b29683f9",
+                        "type": "String"
+                      },
+                      "originalValue": "",
+                      "required": "true",
+                      "locked": "false",
+                      "concealValueOnDocument": "false",
+                      "disableAutoSize": "false",
+                      "maxLength": "4000",
+                      "tabLabel": "VerifyEmailInput[0]email",
+                      "font": "lucidaconsole",
+                      "bold": "false",
+                      "italic": "false",
+                      "underline": "false",
+                      "fontColor": "black",
+                      "fontSize": "size9",
+                      "localePolicy": {},
+                      "documentId": "89448297",
+                      "recipientId": "14194458",
+                      "pageNumber": "2",
+                      "xPosition": "116",
+                      "yPosition": "181",
+                      "width": "84",
+                      "height": "22",
+                      "tabId": "3ba9ba20-cebf-4cb9-8555-abbb3008c758",
+                      "templateLocked": "false",
+                      "templateRequired": "false",
+                      "mergeFieldXml": "<root><admv2><json>{\"admBindings\":[{\"fqn\":\"com.docusign.extensibilityplatform.action.verify.email@0.1.1.VerifyEmailInput\",\"path\":\"$.email\",\"position\":\"0\"}]}</json></admv2><prepareAdmSettings><json>{\"folder\":\"VerifyEmailInput\",\"folderProperty\":\"Email Address\",\"initialValue\":\"email\",\"name\":\"Email Address\",\"legacyPath\":\"$.VerifyEmailInput[0].email\",\"required\":true,\"type\":\"martiniDataTabs\",\"collectionItems\":{\"0\":\"VerifyEmailInput 1\"},\"modelType\":\"data-verification\",\"namespace\":\"com.docusign.extensibilityplatform.action.verify.email@0.1.1\"}</json></prepareAdmSettings></root>",
+                      "tabType": "text",
+                      "tooltip": "Email Address",
+                      "extensionData": {
+                        "extensionGroupId": "f2fa453c-1754-478a-80b0-5be079fe07d0",
+                        "publisherName": "Docusign",
+                        "applicationId": "04bc521a-db47-439f-bd5a-c8b5dcc858f2",
+                        "applicationName": "Email Verification",
+                        "actionName": "email",
+                        "actionContract": "Contracts.Actions.Verify.Version1.Email",
+                        "extensionName": "email",
+                        "extensionContract": "Contracts.Extensions.Verify.Version1.Email",
+                        "requiredForExtension": true,
+                        "actionInputKey": "email",
+                        "extensionPolicy": "MustVerifyToSign"
+                      },
+                      "agreementAttributeLocked": "false"
+                    }
+                  ]
+                },
+                "signInEachLocation": "false",
+                "agentCanEditEmail": "false",
+                "agentCanEditName": "false",
+                "requireUploadSignature": "false",
+                "name": { "source": "step", "propertyName": "NewHireName.value", "stepId": "495396bc-f09f-44c9-a7a2-db69b29683f9", "type": "String" },
+                "email": {
+                  "source": "step",
+                  "propertyName": "NewHireEmail.value",
+                  "stepId": "495396bc-f09f-44c9-a7a2-db69b29683f9",
+                  "type": "String"
+                },
+                "recipientId": "14194458",
+                "recipientIdGuid": "00000000-0000-0000-0000-000000000000",
+                "accessCode": "",
+                "requireIdLookup": "false",
+                "routingOrder": "2",
+                "note": "",
+                "roleName": "New Hire",
+                "completedCount": "0",
+                "deliveryMethod": "email",
+                "templateLocked": "false",
+                "templateRequired": "false",
+                "inheritEmailNotificationConfiguration": "false",
+                "recipientType": "signer"
+              }
+            ],
+            "carbonCopies": [
+              {
+                "agentCanEditEmail": "false",
+                "agentCanEditName": "false",
+                "name": {
+                  "source": "step",
+                  "propertyName": "HiringManagerName.value",
+                  "stepId": "495396bc-f09f-44c9-a7a2-db69b29683f9",
+                  "type": "String"
+                },
+                "email": {
+                  "source": "step",
+                  "propertyName": "HiringManagerEmail.value",
+                  "stepId": "495396bc-f09f-44c9-a7a2-db69b29683f9",
+                  "type": "String"
+                },
+                "recipientId": "70245547",
+                "recipientIdGuid": "00000000-0000-0000-0000-000000000000",
+                "accessCode": "",
+                "requireIdLookup": "false",
+                "routingOrder": "3",
+                "note": "",
+                "roleName": "Hiring Manager",
+                "completedCount": "0",
+                "deliveryMethod": "email",
+                "templateLocked": "false",
+                "templateRequired": "false",
+                "inheritEmailNotificationConfiguration": "false",
+                "recipientType": "carboncopy"
+              }
+            ],
+            "certifiedDeliveries": []
+          }
+        },
+        "output": {
+          "envelopeId_7ef4c9e4-b405-4ffd-9ab7-bd2d3be4f2fb": {
+            "source": "step",
+            "propertyName": "envelopeId",
+            "stepId": "7ef4c9e4-b405-4ffd-9ab7-bd2d3be4f2fb",
+            "type": "String"
+          },
+          "status_7ef4c9e4-b405-4ffd-9ab7-bd2d3be4f2fb": {
+            "source": "step",
+            "propertyName": "status",
+            "stepId": "7ef4c9e4-b405-4ffd-9ab7-bd2d3be4f2fb",
+            "type": "String"
+          },
+          "combinedDocumentsBase64_7ef4c9e4-b405-4ffd-9ab7-bd2d3be4f2fb": {
+            "source": "step",
+            "propertyName": "combinedDocumentsBase64",
+            "stepId": "7ef4c9e4-b405-4ffd-9ab7-bd2d3be4f2fb",
+            "type": "File"
+          },
+          "fields.HR Rep.Date Signed 5b9335d9-b02c-45c0-ad2f-4772553904da.value_7ef4c9e4-b405-4ffd-9ab7-bd2d3be4f2fb": {
+            "source": "step",
+            "propertyName": "fields.HR Rep.Date Signed 5b9335d9-b02c-45c0-ad2f-4772553904da.value",
+            "stepId": "7ef4c9e4-b405-4ffd-9ab7-bd2d3be4f2fb",
+            "type": "String"
+          },
+          "fields.HR Rep.Company.value_7ef4c9e4-b405-4ffd-9ab7-bd2d3be4f2fb": {
+            "source": "step",
+            "propertyName": "fields.HR Rep.Company.value",
+            "stepId": "7ef4c9e4-b405-4ffd-9ab7-bd2d3be4f2fb",
+            "type": "String"
+          },
+          "fields.HR Rep.HR Rep Name.value_7ef4c9e4-b405-4ffd-9ab7-bd2d3be4f2fb": {
+            "source": "step",
+            "propertyName": "fields.HR Rep.HR Rep Name.value",
+            "stepId": "7ef4c9e4-b405-4ffd-9ab7-bd2d3be4f2fb",
+            "type": "String"
+          },
+          "fields.New Hire.Date Signed 01127f23-f0bf-4bcc-94b2-a3beb304037c.value_7ef4c9e4-b405-4ffd-9ab7-bd2d3be4f2fb": {
+            "source": "step",
+            "propertyName": "fields.New Hire.Date Signed 01127f23-f0bf-4bcc-94b2-a3beb304037c.value",
+            "stepId": "7ef4c9e4-b405-4ffd-9ab7-bd2d3be4f2fb",
+            "type": "String"
+          },
+          "fields.New Hire.New Hire Name.value_7ef4c9e4-b405-4ffd-9ab7-bd2d3be4f2fb": {
+            "source": "step",
+            "propertyName": "fields.New Hire.New Hire Name.value",
+            "stepId": "7ef4c9e4-b405-4ffd-9ab7-bd2d3be4f2fb",
+            "type": "String"
+          },
+          "fields.New Hire.VerifyEmailInput[0]email.value_7ef4c9e4-b405-4ffd-9ab7-bd2d3be4f2fb": {
+            "source": "step",
+            "propertyName": "fields.New Hire.VerifyEmailInput[0]email.value",
+            "stepId": "7ef4c9e4-b405-4ffd-9ab7-bd2d3be4f2fb",
+            "type": "String"
+          }
+        }
+      },
+      {
+        "id": "8c2d85b8-620b-4234-9eea-b4f1d69ef982",
+        "name": "Show a Confirmation Screen",
+        "moduleName": "ShowConfirmationScreen",
+        "configurationProgress": "Completed",
+        "type": "DS-ShowScreenStep",
+        "config": { "participantId": "f2f6fe59-ba86-4ec4-a404-7cffdbf48b42" },
+        "input": {
+          "httpType": "Post",
+          "payload": {
+            "participantId": "f2f6fe59-ba86-4ec4-a404-7cffdbf48b42",
+            "confirmationMessage": { "title": "Tasks complete", "description": "You've completed all your workflow tasks." }
+          }
+        },
+        "output": {}
+      }
+    ]
+  },
+  "validationErrors": []
+}

@@ -55,7 +55,7 @@ label {
 }
 
 .triggerForm label:after {
-  content: " *";
+  content: ' *';
   color: var(--secondary-main);
 }
 
@@ -84,7 +84,11 @@ label {
 }
 
 .triggerForm button:disabled {
+  display: flex;
+  justify-content: space-around;
+  padding: 0;
+  align-items: center;
   background-color: var(--grey-main);
-  color: var(--black-extraextralight);
+  color: var(--black-extralight);
   cursor: not-allowed;
 }

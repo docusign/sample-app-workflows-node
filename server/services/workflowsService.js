@@ -24,8 +24,9 @@ class WorkflowsService {
   static templatesPath = path.join(path.resolve(), 'assets/templates');
   static i9Template = 'I9Template.json';
   static offerLetterTemplate = 'OfferLetterTemplate.json';
+  // static ndaTemplate = 'ndaTemplate.json';
+  static ndaTemplate = 'WORKFLOW_NDA.json';
   static workflowSuffix = 'send invite to signer';
-  static ndaTemplate = 'ndaTemplate.json';
   static dsApiClient = new docusign.ApiClient();
   static workflowManagementApi = new docusign.WorkflowManagementApi(this.dsApiClient);
   static workflowInstanceManagementApi = new docusign.WorkflowInstanceManagementApi(this.dsApiClient);
@@ -71,7 +72,8 @@ class WorkflowsService {
 
     if (!results?.resultSetSize || Number(results.resultSetSize) <= 0) {
       return {
-        message: 'Template for this workflow is missing, make sure that you uploaded it on your account',
+        message:
+          'This template is missing on your Docusign account. Download the template, login to your account, go to "Templates / Start / Envelope Templates / Upload Template", upload it there and try again',
         templateName: templateFile,
       };
     }
@@ -103,6 +105,8 @@ class WorkflowsService {
     const signerEmailField = `signerEmail_${triggerId}`;
     const ccNameField = `ccName_${triggerId}`;
     const ccEmailField = `ccEmail_${triggerId}`;
+    // const hrApproverNameField = `hrApproverName_${triggerId}`;
+    // const hrApproverEmailField = `hrApproverEmail_${triggerId}`;
     const trigger = docusign.DSWorkflowTrigger.constructFromObject({
       name: 'Get_URL',
       type: 'Http',
@@ -123,6 +127,17 @@ class WorkflowsService {
             propertyName: 'id',
             stepId: triggerId,
           },
+
+          // [hrApproverNameField]: {
+          //   source: 'step',
+          //   propertyName: 'hrApproverName',
+          //   stepId: triggerId,
+          // },
+          // [hrApproverEmailField]: {
+          //   source: 'step',
+          //   propertyName: 'hrApproverEmail',
+          //   stepId: triggerId,
+          // },
           [signerNameField]: {
             source: 'step',
             propertyName: 'signerName',
@@ -166,6 +181,17 @@ class WorkflowsService {
         propertyName: 'id',
         stepId: triggerId,
       }),
+
+      // [hrApproverNameField]: docusign.DSWorkflowVariableRecord.constructFromObject({
+      //   source: 'step',
+      //   propertyName: 'hrApproverName',
+      //   stepId: triggerId,
+      // }),
+      // [hrApproverEmailField]: docusign.DSWorkflowVariableRecord.constructFromObject({
+      //   source: 'step',
+      //   propertyName: 'hrApproverEmail',
+      //   stepId: triggerId,
+      // }),
       [signerNameField]: docusign.DSWorkflowVariableRecord.constructFromObject({
         source: 'step',
         propertyName: 'signerName',
@@ -186,6 +212,7 @@ class WorkflowsService {
         propertyName: 'ccEmail',
         stepId: triggerId,
       }),
+
       envelopeId_step2: docusign.DSWorkflowVariableRecord.constructFromObject({
         source: 'step',
         propertyName: 'envelopeId',
@@ -225,11 +252,13 @@ class WorkflowsService {
           {
             name: {
               source: 'step',
+              // propertyName: 'hrApproverName',
               propertyName: 'signerName',
               stepId: triggerId,
             },
             email: {
               source: 'step',
+              // propertyName: 'hrApproverEmail',
               propertyName: 'signerEmail',
               stepId: triggerId,
             },
@@ -239,6 +268,7 @@ class WorkflowsService {
           CustomMessage: 'Follow this link to access and complete the workflow.',
           ParticipantFullName: {
             source: 'step',
+            // propertyName: 'hrApproverName',
             propertyName: 'signerName',
             stepId: triggerId,
           },
@@ -538,11 +568,13 @@ class WorkflowsService {
               requireUploadSignature: 'false',
               name: {
                 source: 'step',
+                // propertyName: 'hrApproverName',
                 propertyName: 'signerName',
                 stepId: triggerId,
               },
               email: {
                 source: 'step',
+                // propertyName: 'hrApproverEmail',
                 propertyName: 'signerEmail',
                 stepId: triggerId,
               },
@@ -567,11 +599,13 @@ class WorkflowsService {
               agentCanEditName: 'false',
               name: {
                 source: 'step',
+                // propertyName: 'hrApproverName',
                 propertyName: 'ccName',
                 stepId: triggerId,
               },
               email: {
                 source: 'step',
+                // propertyName: 'hrApproverEmail',
                 propertyName: 'ccEmail',
                 stepId: triggerId,
               },
@@ -736,6 +770,10 @@ class WorkflowsService {
         ccEmail: args.ccEmail,
         ccName: args.ccName,
       },
+      // payload: {
+      //   hrApproverName: 'test3',
+      //   hrApproverEmail: 'test3@test3.com',
+      // },
       metadata: {},
     });
 

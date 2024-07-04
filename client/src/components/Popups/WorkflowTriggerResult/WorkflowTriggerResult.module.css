@@ -39,8 +39,7 @@
 
 .popupContainer a:hover {
   color: var(--white-main);
-  background-color: var(--primary-dark);
-  box-shadow: 0px 5px 14px rgba(0, 0, 0, 0.5);
+  background-color: var(--secondary-main);
 }
 
 .popupContainer div {

@@ -30,7 +30,7 @@ class WorkflowsController {
    * Creates workflow instance and sends a response.
    */
   static createWorkflow = async (req, res) => {
-    if (!req.session.templateId) {
+    try {
       const templateResponse = await WorkflowsService.getTemplate({
         basePath: this.basePath,
         accessToken: req.user.accessToken,
@@ -44,12 +44,8 @@ class WorkflowsController {
         return;
       }
 
-      req.session.templateId = templateResponse.templateId;
-    }
-
-    try {
       const workflow = await WorkflowsService.createWorkflow({
-        templateId: req.session.templateId,
+        templateId: templateResponse.templateId,
         accessToken: req.user.accessToken,
         basePath: config.maestroApiUrl,
         accountId: req.session.accountId,
@@ -58,7 +54,7 @@ class WorkflowsController {
 
       res.json({ workflowDefinitionId: workflow.workflowDefinitionId });
     } catch (error) {
-      this.handleForbiddenResponse(error, res);
+      this.handleErrorResponse(error, res);
     }
   };
 
@@ -75,7 +71,7 @@ class WorkflowsController {
       });
       res.status(200).send(result);
     } catch (error) {
-      this.handleForbiddenResponse(error, res);
+      this.handleErrorResponse(error, res);
     }
   };
 
@@ -102,7 +98,7 @@ class WorkflowsController {
         return;
       }
 
-      this.handleForbiddenResponse(error, res);
+      this.handleErrorResponse(error, res);
     }
   };
 
@@ -118,7 +114,7 @@ class WorkflowsController {
       });
       res.status(200).send(results);
     } catch (error) {
-      this.handleForbiddenResponse(error, res);
+      this.handleErrorResponse(error, res);
     }
   };
 
@@ -136,7 +132,7 @@ class WorkflowsController {
       });
       res.status(200).send(result);
     } catch (error) {
-      this.handleForbiddenResponse(error, res);
+      this.handleErrorResponse(error, res);
     }
   };
 
@@ -154,7 +150,7 @@ class WorkflowsController {
 
       res.status(200).send(results);
     } catch (error) {
-      this.handleForbiddenResponse(error, res);
+      this.handleErrorResponse(error, res);
     }
   };
 
@@ -185,7 +181,7 @@ class WorkflowsController {
       const result = await WorkflowsService.triggerWorkflowInstance(args);
       res.status(200).send(result);
     } catch (error) {
-      this.handleForbiddenResponse(error, res);
+      this.handleErrorResponse(error, res);
     }
   };
 
@@ -198,16 +194,19 @@ class WorkflowsController {
     res.download(templatePath);
   };
 
-  static handleForbiddenResponse(error, res) {
-    this.logger.error(`handleForbiddenResponse: ${error}`);
+  static handleErrorResponse(error, res) {
+    this.logger.error(`handleErrorResponse: ${error}`);
 
     const errorCode = error?.response?.statusCode;
     const errorMessage = error?.response?.body?.message;
 
     // use custom error message if Maestro is not enabled for the account
-    const errorInfo = errorCode === 403 ? 'Contact Support to enable this Feature' : null;
+    if (errorCode === 403) {
+      res.status(403).send({ err: error, errorMessage, errorInfo: 'Contact Support to enable this Feature' });
+      return;
+    }
 
-    res.status(403).send({ err: error, errorCode, errorMessage, errorInfo });
+    res.status(errorCode).send({ err: error, errorMessage, errorInfo: null });
   }
 }
 
