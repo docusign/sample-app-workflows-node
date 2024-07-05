@@ -16,7 +16,7 @@ const config = require('../config');
 const WorkflowsService = require('../services/workflowsService');
 const createPrefixedLogger = require('../utils/logger');
 const { getParameterValueFromUrl } = require('../utils/utils');
-const { TEMPLATE_TYPE, FORM_FIELDS } = require('../constants');
+const { TEMPLATE_TYPE } = require('../constants');
 
 const oAuth = docusign.ApiClient.OAuth;
 const restApi = docusign.ApiClient.RestApi;

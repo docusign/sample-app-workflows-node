@@ -37,11 +37,11 @@ const TriggerWorkflow = () => {
 
           return {
             id: definition.id,
-            name: `WF ${TemplateType[foundKey]?.name || 'ExampleName'}`,
-            type: TemplateType[foundKey]?.type || 'ExampleType',
+            name: `WF ${TemplateType[foundKey]?.name}`,
+            type: TemplateType[foundKey]?.type,
           };
         })
-        .filter(w => !!w);
+        .filter(definition => !!definition);
 
       const workflowsWithState = await Promise.all(
         workflowDefinitions.map(async definition => {

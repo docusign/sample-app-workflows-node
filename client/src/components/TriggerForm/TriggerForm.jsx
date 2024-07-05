@@ -16,42 +16,42 @@ const TriggerForm = ({ workflowId, templateType }) => {
   const [isDataSending, setDataSending] = useState(false);
   const [workflowInstanceUrl, setWorkflowInstanceUrl] = useState('');
   const [i9Form, setI9Form] = useState([
-    { fieldHeader: 'Preparer Name', fieldName: 'preparerName', value: '' },
-    { fieldHeader: 'Preparer Email', fieldName: 'preparerEmail', value: '' },
-    { fieldHeader: 'Employee Name', fieldName: 'employeeName', value: '' },
-    { fieldHeader: 'Employee Email', fieldName: 'employeeEmail', value: '' },
-    { fieldHeader: 'HR Approver Name', fieldName: 'hrApproverName', value: '' },
-    { fieldHeader: 'HR Approver Email', fieldName: 'hrApproverEmail', value: '' },
+    { fieldHeader: triggerForm.fieldsI9.field1, fieldName: 'preparerName', value: '' },
+    { fieldHeader: triggerForm.fieldsI9.field2, fieldName: 'preparerEmail', value: '' },
+    { fieldHeader: triggerForm.fieldsI9.field3, fieldName: 'employeeName', value: '' },
+    { fieldHeader: triggerForm.fieldsI9.field4, fieldName: 'employeeEmail', value: '' },
+    { fieldHeader: triggerForm.fieldsI9.field5, fieldName: 'hrApproverName', value: '' },
+    { fieldHeader: triggerForm.fieldsI9.field6, fieldName: 'hrApproverEmail', value: '' },
   ]);
   const [offerLetterForm, setOfferLetterForm] = useState([
-    { fieldHeader: 'HR Manager Name', fieldName: 'hrManagerName', value: '' },
-    { fieldHeader: 'HR Manager Email', fieldName: 'hrManagerEmail', value: '' },
-    { fieldHeader: 'Company', fieldName: 'Company', value: '' },
+    { fieldHeader: triggerForm.fieldsOffer.field1, fieldName: 'hrManagerName', value: '' },
+    { fieldHeader: triggerForm.fieldsOffer.field2, fieldName: 'hrManagerEmail', value: '' },
+    { fieldHeader: triggerForm.fieldsOffer.field3, fieldName: 'Company', value: '' },
   ]);
   const [ndaForm, setNdaForm] = useState([
-    { fieldHeader: 'HR Manager Name', fieldName: 'hrManagerName', value: '' },
-    { fieldHeader: 'HR Manager Email', fieldName: 'hrManagerEmail', value: '' },
+    { fieldHeader: triggerForm.fieldsNda.field1, fieldName: 'hrManagerName', value: '' },
+    { fieldHeader: triggerForm.fieldsNda.field2, fieldName: 'hrManagerEmail', value: '' },
   ]);
 
-  let relevantForm = [];
+  let relevantFormFields = [];
   let relevantSetter = null;
   switch (templateType) {
     case TemplateType.I9.type:
-      relevantForm = i9Form;
+      relevantFormFields = i9Form;
       relevantSetter = setI9Form;
       break;
     case TemplateType.OFFER.type:
-      relevantForm = offerLetterForm;
+      relevantFormFields = offerLetterForm;
       relevantSetter = setOfferLetterForm;
       break;
     case TemplateType.NDA.type:
-      relevantForm = ndaForm;
+      relevantFormFields = ndaForm;
       relevantSetter = setNdaForm;
       break;
   }
 
   const handleChange = (idx, event) => {
-    const newRelevantForm = [...relevantForm];
+    const newRelevantForm = [...relevantFormFields];
     newRelevantForm[idx].value = event.target.value;
     relevantSetter(newRelevantForm);
   };
@@ -64,7 +64,7 @@ const TriggerForm = ({ workflowId, templateType }) => {
   const handleSubmit = async event => {
     event.preventDefault();
 
-    const body = relevantForm.reduce((acc, current) => {
+    const body = relevantFormFields.reduce((acc, current) => {
       acc[current.fieldName] = current.value;
       return acc;
     }, {});
@@ -101,7 +101,7 @@ const TriggerForm = ({ workflowId, templateType }) => {
       <form className={styles.triggerForm} onSubmit={handleSubmit}>
         <h3>{triggerForm.formName}</h3>
 
-        {relevantForm.map((formItem, idx) => (
+        {relevantFormFields.map((formItem, idx) => (
           <div key={formItem.fieldHeader}>
             <label>{formItem.fieldHeader}</label>
             <input type="text" value={formItem.value} onChange={e => handleChange(idx, e)} required={true} />
