@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import styles from './TriggerWorkflowForm.module.css';
 import Header from '../../components/Header/Header.jsx';
 import Footer from '../../components/Footer/Footer.jsx';
@@ -12,6 +12,10 @@ import TriggerForm from '../../components/TriggerForm/TriggerForm.jsx';
 const TriggerWorkflowForm = () => {
   const { workflowId } = useParams();
 
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const type = searchParams.get('type');
+
   return (
     <div className="page-box">
       <Header />
@@ -21,7 +25,7 @@ const TriggerWorkflowForm = () => {
           behindTheScenesComponent={<TriggerBehindTheScenes />}
           backRoute={ROUTE.TRIGGER}
         />
-        <TriggerForm workflowId={workflowId} />
+        <TriggerForm workflowId={workflowId} templateType={type} />
       </div>
       <Footer withContent={false} />
     </div>

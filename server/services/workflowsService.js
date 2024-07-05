@@ -9,13 +9,12 @@
  * - Workflow instance fetching.
  */
 
-const path = require('path');
 const uuid = require('uuid');
 const docusign = require('docusign-maestro');
 const docusignEsign = require('docusign-esign');
-const workflowI9 = require('../assets/templates/workflowI9');
-const workflowOfferLetter = require('../assets/templates/workflowOfferLetter');
-const workflowNda = require('../assets/templates/workflowNda');
+const workflowI9 = require('../assets/workflows/I9.workflow');
+const workflowOfferLetter = require('../assets/workflows/offerLetter.workflow');
+const workflowNda = require('../assets/workflows/nda.workflow');
 const { TEMPLATE_TYPE } = require('../constants');
 
 const oAuth = docusign.ApiClient.OAuth;
@@ -23,11 +22,10 @@ const restApi = docusign.ApiClient.RestApi;
 
 class WorkflowsService {
   // Constants
-  static templatesPath = path.join(path.resolve(), 'assets/templates');
-  static workflowSuffix = 'send invite to signer';
   static dsApiClient = new docusign.ApiClient();
   static workflowManagementApi = new docusign.WorkflowManagementApi(this.dsApiClient);
   static workflowInstanceManagementApi = new docusign.WorkflowInstanceManagementApi(this.dsApiClient);
+  static workflowSuffix = 'send invite to signer';
 
   // For production environment, change "DEMO" to "PRODUCTION"
   static basePath = restApi.BasePath.DEMO; // https://demo.docusign.net/restapi
@@ -41,31 +39,54 @@ class WorkflowsService {
   };
 
   static selectTemplate = templateType => {
-    let templateCaller = null;
+    let templateFile = null;
 
     switch (templateType) {
       case TEMPLATE_TYPE.I9:
-        templateCaller = workflowI9;
+        templateFile = 'Maestro_I9.json';
         break;
 
       case TEMPLATE_TYPE.OFFER:
-        templateCaller = workflowOfferLetter;
+        templateFile = 'Maestro_Offer_Letter.json';
         break;
 
       case TEMPLATE_TYPE.NDA:
-        templateCaller = workflowNda;
+        templateFile = 'Maestro_NDA.json';
         break;
 
       default:
-        throw new Error('TemplateType is not correct or not found');
+        throw new Error('selectTemplate: TemplateType is not correct or not found');
     }
 
-    return templateCaller;
+    return templateFile;
+  };
+
+  static selectWorkflow = templateType => {
+    let workflowCaller = null;
+
+    switch (templateType) {
+      case TEMPLATE_TYPE.I9:
+        workflowCaller = workflowI9;
+        break;
+
+      case TEMPLATE_TYPE.OFFER:
+        workflowCaller = workflowOfferLetter;
+        break;
+
+      case TEMPLATE_TYPE.NDA:
+        workflowCaller = workflowNda;
+        break;
+
+      default:
+        throw new Error('selectWorkflow: TemplateType is not correct or not found');
+    }
+
+    return workflowCaller;
   };
 
   static getTemplate = async args => {
-    const templateCaller = this.selectTemplate(args.templateType);
-    const templateName = templateCaller(null, null).name;
+    const workflowCaller = this.selectWorkflow(args.templateType);
+    const templateName = workflowCaller(null, null).name;
 
     this.dsApiClient.setBasePath(args.basePath);
     this.dsApiClient.addDefaultHeader('Authorization', `Bearer ${args.accessToken}`);
@@ -79,7 +100,7 @@ class WorkflowsService {
       return {
         message:
           'This template is missing on your Docusign account. Download the template, login to your account, go to "Templates / Start / Envelope Templates / Upload Template", upload it there and try again',
-        templateName: 'Maestro_Test__NDA.json', // FIXME:
+        templateName: this.selectTemplate(args.templateType),
       };
     }
 
@@ -91,8 +112,8 @@ class WorkflowsService {
   };
 
   static createWorkflow = async ({ templateId, accessToken, basePath, accountId, templateType }) => {
-    const templateCaller = this.selectTemplate(templateType);
-    const workflowTemplate = templateCaller(templateId, accountId);
+    const workflowCaller = this.selectWorkflow(templateType);
+    const workflowTemplate = workflowCaller(templateId, accountId);
     workflowTemplate.workflowDefinition.workflowName += ` - ${this.workflowSuffix}`;
 
     this.dsApiClient.setBasePath(basePath);
@@ -104,6 +125,7 @@ class WorkflowsService {
     return workflow;
   };
 
+  // FIXME: delete method
   static createWorkflow2 = async ({ templateId, accessToken, basePath, accountId, templateType }) => {
     const signerId = uuid.v4();
     const ccId = uuid.v4();
@@ -780,33 +802,28 @@ class WorkflowsService {
     const mtid = args.mtid;
     const mtsec = args.mtsec;
 
+    const payload = {};
+    if (args.templateType === TEMPLATE_TYPE.I9) {
+      payload.preparerName = args.preparerName;
+      payload.preparerEmail = args.preparerEmail;
+      payload.employeeName = args.employeeName;
+      payload.employeeEmail = args.employeeEmail;
+      payload.hrApproverName = args.hrApproverName;
+      payload.hrApproverEmail = args.hrApproverEmail;
+    }
+    if (args.templateType === TEMPLATE_TYPE.OFFER) {
+      payload.hrManagerName = args.hrManagerName;
+      payload.hrManagerEmail = args.hrManagerEmail;
+      payload.Company = args.Company;
+    }
+    if (args.templateType === TEMPLATE_TYPE.NDA) {
+      payload.hrManagerName = args.hrManagerName;
+      payload.hrManagerEmail = args.hrManagerEmail;
+    }
+
     const triggerPayload = docusign.TriggerPayload.constructFromObject({
-      // instanceName: args.instanceName,
       participant: {},
-
-      // payload for 1-9
-      // payload: {
-      //   preparerName: 'preparer1',
-      //   preparerEmail: 'preparer1@preparer1.com',
-      //   employeeName: 'employee1',
-      //   employeeEmail: 'employee1@employee1.com',
-      //   hrApproverName: 'approver1',
-      //   hrApproverEmail: 'approver1@approver1.com',
-      // },
-
-      // payload for OfferLetter
-      payload: {
-        hrManagerName: 'hr2',
-        hrManagerEmail: 'hr2@hr2.com',
-        Company: 'hr2Company',
-      },
-
-      // payload for NDA
-      // payload: {
-      //   hrApproverName: 'approver3',
-      //   hrApproverEmail: 'approver3@approver3.com',
-      // },
-
+      payload: payload,
       metadata: {},
     });
 

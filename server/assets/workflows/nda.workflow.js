@@ -36,14 +36,14 @@ const workflowNda = (templateId, accountId) => ({
             source: 'step',
             stepId: 'c30c7afc-7d56-451c-b889-0a6488822fca',
           },
-          'hrApproverName_c30c7afc-7d56-451c-b889-0a6488822fca': {
-            propertyName: 'hrApproverName',
+          'hrManagerName_c30c7afc-7d56-451c-b889-0a6488822fca': {
+            propertyName: 'hrManagerName',
             source: 'step',
             stepId: 'c30c7afc-7d56-451c-b889-0a6488822fca',
             type: 'String',
           },
-          'hrApproverEmail_c30c7afc-7d56-451c-b889-0a6488822fca': {
-            propertyName: 'hrApproverEmail',
+          'hrManagerEmail_c30c7afc-7d56-451c-b889-0a6488822fca': {
+            propertyName: 'hrManagerEmail',
             source: 'step',
             stepId: 'c30c7afc-7d56-451c-b889-0a6488822fca',
             type: 'String',
@@ -70,14 +70,14 @@ const workflowNda = (templateId, accountId) => ({
         propertyName: 'id',
         stepId: 'c30c7afc-7d56-451c-b889-0a6488822fca',
       },
-      'hrApproverName_c30c7afc-7d56-451c-b889-0a6488822fca': {
-        propertyName: 'hrApproverName',
+      'hrManagerName_c30c7afc-7d56-451c-b889-0a6488822fca': {
+        propertyName: 'hrManagerName',
         source: 'step',
         stepId: 'c30c7afc-7d56-451c-b889-0a6488822fca',
         type: 'String',
       },
-      'hrApproverEmail_c30c7afc-7d56-451c-b889-0a6488822fca': {
-        propertyName: 'hrApproverEmail',
+      'hrManagerEmail_c30c7afc-7d56-451c-b889-0a6488822fca': {
+        propertyName: 'hrManagerEmail',
         source: 'step',
         stepId: 'c30c7afc-7d56-451c-b889-0a6488822fca',
         type: 'String',
@@ -226,7 +226,7 @@ const workflowNda = (templateId, accountId) => ({
                     {
                       name: 'Full Name',
                       value: {
-                        propertyName: 'hrApproverName',
+                        propertyName: 'hrManagerName',
                         source: 'step',
                         stepId: 'c30c7afc-7d56-451c-b889-0a6488822fca',
                         type: 'String',
@@ -306,7 +306,7 @@ const workflowNda = (templateId, accountId) => ({
                       requireAll: 'false',
                       name: 'First Party',
                       value: {
-                        propertyName: 'hrApproverName',
+                        propertyName: 'hrManagerName',
                         source: 'step',
                         stepId: 'c30c7afc-7d56-451c-b889-0a6488822fca',
                         type: 'String',
@@ -378,13 +378,13 @@ const workflowNda = (templateId, accountId) => ({
                 agentCanEditName: 'false',
                 requireUploadSignature: 'false',
                 name: {
-                  propertyName: 'hrApproverName',
+                  propertyName: 'hrManagerName',
                   source: 'step',
                   stepId: 'c30c7afc-7d56-451c-b889-0a6488822fca',
                   type: 'String',
                 },
                 email: {
-                  propertyName: 'hrApproverEmail',
+                  propertyName: 'hrManagerEmail',
                   source: 'step',
                   stepId: 'c30c7afc-7d56-451c-b889-0a6488822fca',
                   type: 'String',

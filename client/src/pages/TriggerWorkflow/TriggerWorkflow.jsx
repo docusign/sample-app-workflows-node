@@ -24,21 +24,24 @@ const TriggerWorkflow = () => {
       setWorkflowListLoading(true);
       const definitionsResponse = await api.workflows.getWorkflowDefinitions();
 
-      const workflowDefinitions = definitionsResponse.data.value.map(definition => {
-        if (workflows.length) {
-          const foundWorkflow = workflows.find(workflow => workflow.id === definition.id);
-          if (foundWorkflow) return foundWorkflow;
-        }
+      const workflowDefinitions = definitionsResponse.data.value
+        .map(definition => {
+          if (workflows.length) {
+            const foundWorkflow = workflows.find(workflow => workflow.id === definition.id);
+            if (foundWorkflow) return foundWorkflow;
+          }
 
-        const templateKeys = Object.keys(TemplateType);
-        const foundKey = templateKeys.find(key => definition.name.startsWith(TemplateType[key]));
+          const templateKeys = Object.keys(TemplateType);
+          const foundKey = templateKeys.find(key => definition.name.startsWith(TemplateType[key].name));
+          if (!foundKey) return null;
 
-        return {
-          id: definition.id,
-          name: `WF ${TemplateType[foundKey] || 'ExampleName'}`,
-          type: TemplateType[foundKey] || 'ExampleType',
-        };
-      });
+          return {
+            id: definition.id,
+            name: `WF ${TemplateType[foundKey]?.name || 'ExampleName'}`,
+            type: TemplateType[foundKey]?.type || 'ExampleType',
+          };
+        })
+        .filter(w => !!w);
 
       const workflowsWithState = await Promise.all(
         workflowDefinitions.map(async definition => {

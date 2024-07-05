@@ -8,7 +8,13 @@
   "customFields": {
     "listCustomFields": [],
     "textCustomFields": [
-      { "fieldId": "11088921181", "name": "templateUsageRestriction", "required": "false", "show": "false", "value": "allOptions" }
+      {
+        "fieldId": "11088921181",
+        "name": "templateUsageRestriction",
+        "required": "false",
+        "show": "false",
+        "value": "allOptions"
+      }
     ]
   },
   "disableResponsiveDocument": "true",
@@ -167,8 +173,12 @@
   "folderName": "Templates",
   "lastModified": "2024-07-04T10:35:36.4670000Z",
   "lastUsed": "2024-07-04T10:44:05.9130000Z",
-  "name": "Maestro Test: NDA",
-  "owner": { "email": "dspw.sigma.testing@sigma.software", "userId": "3da38cbc-480e-4fbb-a561-66aef59b46fc", "userName": "DocuSign Test" },
+  "name": "MyMaestro: I-9",
+  "owner": {
+    "email": "dspw.sigma.testing@sigma.software",
+    "userId": "3da38cbc-480e-4fbb-a561-66aef59b46fc",
+    "userName": "DocuSign Test"
+  },
   "pageCount": "6",
   "passwordProtected": "false",
   "shared": "false",

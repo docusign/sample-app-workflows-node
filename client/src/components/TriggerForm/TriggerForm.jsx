@@ -3,23 +3,58 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './TriggerForm.module.css';
 import WorkflowTriggerResultPopup from '../Popups/WorkflowTriggerResult/WorkflowTriggerResult.jsx';
-import textContent from '../../assets/text.json';
-import { ROUTE } from '../../constants.js';
+import { triggerForm, buttons } from '../../assets/text.json';
+import { ROUTE, TemplateType } from '../../constants.js';
 import { api } from '../../api';
 import { openPopupWindow, closePopupWindow, updateWorkflowDefinitions } from '../../store/actions';
 
-const TriggerForm = ({ workflowId }) => {
+const TriggerForm = ({ workflowId, templateType }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isPopupOpened = useSelector(state => state.popup.isOpened);
   const workflows = useSelector(state => state.workflows.workflows);
-  const [instanceName, setInstanceName] = useState('');
-  const [signerName, setSignerName] = useState('');
-  const [signerEmail, setSignerEmail] = useState('');
-  const [ccName, setCcName] = useState('');
-  const [ccEmail, setCcEmail] = useState('');
   const [isDataSending, setDataSending] = useState(false);
   const [workflowInstanceUrl, setWorkflowInstanceUrl] = useState('');
+  const [i9Form, setI9Form] = useState([
+    { fieldHeader: 'Preparer Name', fieldName: 'preparerName', value: '' },
+    { fieldHeader: 'Preparer Email', fieldName: 'preparerEmail', value: '' },
+    { fieldHeader: 'Employee Name', fieldName: 'employeeName', value: '' },
+    { fieldHeader: 'Employee Email', fieldName: 'employeeEmail', value: '' },
+    { fieldHeader: 'HR Approver Name', fieldName: 'hrApproverName', value: '' },
+    { fieldHeader: 'HR Approver Email', fieldName: 'hrApproverEmail', value: '' },
+  ]);
+  const [offerLetterForm, setOfferLetterForm] = useState([
+    { fieldHeader: 'HR Manager Name', fieldName: 'hrManagerName', value: '' },
+    { fieldHeader: 'HR Manager Email', fieldName: 'hrManagerEmail', value: '' },
+    { fieldHeader: 'Company', fieldName: 'Company', value: '' },
+  ]);
+  const [ndaForm, setNdaForm] = useState([
+    { fieldHeader: 'HR Manager Name', fieldName: 'hrManagerName', value: '' },
+    { fieldHeader: 'HR Manager Email', fieldName: 'hrManagerEmail', value: '' },
+  ]);
+
+  let relevantForm = [];
+  let relevantSetter = null;
+  switch (templateType) {
+    case TemplateType.I9.type:
+      relevantForm = i9Form;
+      relevantSetter = setI9Form;
+      break;
+    case TemplateType.OFFER.type:
+      relevantForm = offerLetterForm;
+      relevantSetter = setOfferLetterForm;
+      break;
+    case TemplateType.NDA.type:
+      relevantForm = ndaForm;
+      relevantSetter = setNdaForm;
+      break;
+  }
+
+  const handleChange = (idx, event) => {
+    const newRelevantForm = [...relevantForm];
+    newRelevantForm[idx].value = event.target.value;
+    relevantSetter(newRelevantForm);
+  };
 
   const handleCloseTriggerPopup = () => {
     dispatch(closePopupWindow());
@@ -29,16 +64,18 @@ const TriggerForm = ({ workflowId }) => {
   const handleSubmit = async event => {
     event.preventDefault();
 
-    const body = {
-      instanceName,
-      signerEmail,
-      signerName,
-      ccEmail,
-      ccName,
-    };
+    const body = relevantForm.reduce((acc, current) => {
+      acc[current.fieldName] = current.value;
+      return acc;
+    }, {});
+
+    if (!Object.keys(body).length) {
+      navigate(ROUTE.TRIGGER);
+      return;
+    }
 
     setDataSending(true);
-    const { data: triggeredWorkflow } = await api.workflows.triggerWorkflow(workflowId, body);
+    const { data: triggeredWorkflow } = await api.workflows.triggerWorkflow(workflowId, templateType, body);
     setWorkflowInstanceUrl(triggeredWorkflow.workflowInstanceUrl);
 
     // Update workflowDefinitions. "...workflow" creates new workflow-object to avoid mutation in redux
@@ -54,49 +91,26 @@ const TriggerForm = ({ workflowId }) => {
 
     dispatch(updateWorkflowDefinitions(updatedWorkflowDefinitions));
     setDataSending(false);
-
-    setInstanceName('');
-    setSignerName('');
-    setSignerEmail('');
-    setCcName('');
-    setCcEmail('');
     dispatch(openPopupWindow());
   };
 
   return (
     <div className={styles.formContainer}>
-      <h2>{textContent.triggerForm.formTitle}</h2>
+      <h2>{triggerForm.formTitle}</h2>
       <div className={styles.divider} />
       <form className={styles.triggerForm} onSubmit={handleSubmit}>
-        <h3>{textContent.triggerForm.formName}</h3>
-        <div>
-          <label>{textContent.triggerForm.fields.instanceName}</label>
-          <input type="text" value={instanceName} onChange={e => setInstanceName(e.target.value)} required={true} />
-        </div>
+        <h3>{triggerForm.formName}</h3>
 
-        <div>
-          <label>{textContent.triggerForm.fields.signerName}</label>
-          <input type="text" value={signerName} onChange={e => setSignerName(e.target.value)} required={true} />
-        </div>
-
-        <div>
-          <label>{textContent.triggerForm.fields.signerEmail}</label>
-          <input type="text" value={signerEmail} onChange={e => setSignerEmail(e.target.value)} required={true} />
-        </div>
-
-        <div>
-          <label>{textContent.triggerForm.fields.ccName}</label>
-          <input type="text" value={ccName} onChange={e => setCcName(e.target.value)} required={true} />
-        </div>
-
-        <div>
-          <label>{textContent.triggerForm.fields.ccEmail}</label>
-          <input type="text" value={ccEmail} onChange={e => setCcEmail(e.target.value)} required={true} />
-        </div>
+        {relevantForm.map((formItem, idx) => (
+          <div key={formItem.fieldHeader}>
+            <label>{formItem.fieldHeader}</label>
+            <input type="text" value={formItem.value} onChange={e => handleChange(idx, e)} required={true} />
+          </div>
+        ))}
 
         <div className={styles.divider} />
         <button className="btn btn-primary" type="submit" disabled={isDataSending}>
-          <span className="sr-only">{textContent.buttons.continue}</span>
+          <span className="sr-only">{buttons.continue}</span>
           {isDataSending ? <span className="spinner-border spinner-border-sm" /> : null}
         </button>
       </form>

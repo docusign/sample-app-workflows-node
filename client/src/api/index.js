@@ -112,9 +112,9 @@ export const api = Object.freeze({
         throw error;
       }
     },
-    triggerWorkflow: async (workflowId, body) => {
+    triggerWorkflow: async (workflowId, templateType, body) => {
       try {
-        const response = await instance.put(`/workflows/${workflowId}/trigger`, body);
+        const response = await instance.put(`/workflows/${workflowId}/trigger?type=${templateType}`, body);
         return response;
       } catch (error) {
         console.log(error);
@@ -134,7 +134,7 @@ export const api = Object.freeze({
     },
     downloadWorkflowTemplate: async templateName => {
       try {
-        const response = await fetch(`/workflows/download/${templateName}`);
+        const response = await fetch(`${apiUrl}/workflows/download/${templateName}`);
         const blob = await response.blob();
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');

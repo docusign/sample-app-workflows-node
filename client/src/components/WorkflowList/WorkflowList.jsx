@@ -128,8 +128,8 @@ const WorkflowList = ({ items, interactionType, isLoading }) => {
 
         <div className={styles.list} style={items.length >= 2 ? listStyles : {}}>
           {items.map((item, idx) => (
-            <div key={`${item.name}${idx}`} className="list-group-item list-group-item-action">
-              <div style={{ display: 'flex', flexDirection: 'row', gap: '16px' }}>
+            <div key={`${item.name}${idx}`} className={`list-group-item list-group-item-action ${styles.listRow}`}>
+              <div className={styles.cell1}>
                 {loadingWorkflow.isLoading && loadingWorkflow.id === item.id ? (
                   <StatusLoader />
                 ) : (
@@ -140,7 +140,7 @@ const WorkflowList = ({ items, interactionType, isLoading }) => {
               <p>{item.type}</p>
 
               {interactionType === WorkflowItemsInteractionType.TRIGGER && (
-                <button onClick={() => navigate(`${ROUTE.TRIGGERFORM}/${item.id}`)}>
+                <button onClick={() => navigate(`${ROUTE.TRIGGERFORM}/${item.id}?type=${item.type}`)}>
                   {textContent.buttons.triggerWorkflow}
                 </button>
               )}

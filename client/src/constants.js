@@ -24,29 +24,25 @@ export const WorkflowStatus = {
 };
 
 export const TemplateType = {
-  I9: '1-9 document',
-  OFFER: 'Offer letter',
-  NDA: 'NDA document',
-
-  I92: 'MyMaestro: I-9',
-  OFFER2: 'MyMaestro: Offer Letter',
-  NDA2: 'MyMaestro: NDA',
+  I9: { name: 'MyMaestro: I-9', type: '1-9 document' },
+  OFFER: { name: 'MyMaestro: Offer Letter', type: 'Offer letter' },
+  NDA: { name: 'MyMaestro: NDA', type: 'NDA document' },
 };
 
 export const WorkflowOptions = [
   {
-    value: `Create ${TemplateType.I9}`,
-    type: TemplateType.I9,
+    value: `Create ${TemplateType.I9.type}`,
+    type: TemplateType.I9.type,
     message: "You've successfully created a 1-9 workflow",
   },
   {
-    value: `Create ${TemplateType.OFFER}`,
-    type: TemplateType.OFFER,
+    value: `Create ${TemplateType.OFFER.type}`,
+    type: TemplateType.OFFER.type,
     message: "You've successfully created Offer letter workflow",
   },
   {
-    value: `Create ${TemplateType.NDA}`,
-    type: TemplateType.NDA,
+    value: `Create ${TemplateType.NDA.type}`,
+    type: TemplateType.NDA.type,
     message: "You've successfully created NDA workflow",
   },
 ];

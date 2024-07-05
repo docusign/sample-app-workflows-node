@@ -16,6 +16,7 @@ const config = require('../config');
 const WorkflowsService = require('../services/workflowsService');
 const createPrefixedLogger = require('../utils/logger');
 const { getParameterValueFromUrl } = require('../utils/utils');
+const { TEMPLATE_TYPE, FORM_FIELDS } = require('../constants');
 
 const oAuth = docusign.ApiClient.OAuth;
 const restApi = docusign.ApiClient.RestApi;
@@ -24,6 +25,7 @@ class WorkflowsController {
   // For production environment, change "DEMO" to "PRODUCTION"
   static basePath = restApi.BasePath.DEMO; // https://demo.docusign.net/restapi
   static oAuthBasePath = oAuth.BasePath.DEMO; // account-d.docusign.com
+  static templatesPath = path.join(path.resolve(), 'assets/templates');
   static logger = createPrefixedLogger(WorkflowsController.name);
 
   /**
@@ -159,12 +161,9 @@ class WorkflowsController {
    */
   static triggerWorkflow = async (req, res) => {
     const { body } = req;
-    const args = {
-      instanceName: validator.escape(body?.instanceName),
-      signerEmail: validator.escape(body?.signerEmail),
-      signerName: validator.escape(body?.signerName),
-      ccEmail: validator.escape(body?.ccEmail),
-      ccName: validator.escape(body?.ccName),
+
+    const mainArgs = {
+      templateType: req.query.type,
       workflowId: req.params.definitionId,
       accessToken: req?.user?.accessToken || req?.session?.accessToken,
       basePath: config.maestroApiUrl,
@@ -172,6 +171,27 @@ class WorkflowsController {
       mtid: undefined,
       mtsec: undefined,
     };
+
+    const bodyArgs = {};
+    if (req.query.type === TEMPLATE_TYPE.I9) {
+      bodyArgs.preparerName = validator.escape(body?.preparerName);
+      bodyArgs.preparerEmail = validator.escape(body?.preparerEmail);
+      bodyArgs.employeeName = validator.escape(body?.employeeName);
+      bodyArgs.employeeEmail = validator.escape(body?.employeeEmail);
+      bodyArgs.hrApproverName = validator.escape(body?.hrApproverName);
+      bodyArgs.hrApproverEmail = validator.escape(body?.hrApproverEmail);
+    }
+    if (req.query.type === TEMPLATE_TYPE.OFFER) {
+      bodyArgs.hrManagerName = validator.escape(body?.hrManagerName);
+      bodyArgs.hrManagerEmail = validator.escape(body?.hrManagerEmail);
+      bodyArgs.Company = validator.escape(body?.Company);
+    }
+    if (req.query.type === TEMPLATE_TYPE.NDA) {
+      bodyArgs.hrManagerName = validator.escape(body?.hrManagerName);
+      bodyArgs.hrManagerEmail = validator.escape(body?.hrManagerEmail);
+    }
+
+    const args = { ...mainArgs, ...bodyArgs };
 
     try {
       const workflow = await WorkflowsService.getWorkflowDefinition(args);
