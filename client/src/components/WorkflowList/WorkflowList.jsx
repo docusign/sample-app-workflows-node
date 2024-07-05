@@ -2,56 +2,77 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './WorkflowList.module.css';
-import WorkflowStatusPill from '../WorkflowStatusPill/WorkflowStatusPill.jsx';
+import WorkflowStatusPill from './WorkflowStatusPill/WorkflowStatusPill.jsx';
 import Loader from '../Loader/Loader.jsx';
 import dropdownSvg from '../../assets/img/dropdown.svg';
-import { ROUTE, WorkflowItemsInteractionType } from '../../constants.js';
+import { ROUTE, WorkflowItemsInteractionType, WorkflowStatus } from '../../constants.js';
 import textContent from '../../assets/text.json';
 import { api } from '../../api';
 import { cancelTriggeredWorkflow, updateWorkflowDefinitions } from '../../store/actions';
+import StatusLoader from './StatusLoader/StatusLoader.jsx';
 
 const WorkflowList = ({ items, interactionType, isLoading }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const workflows = useSelector(state => state.workflows.workflows);
-  const [isOptionsOpen, setOptionsOpen] = useState(false);
-  const [dropdownIdx, setDropdownIdx] = useState(null);
+  const [loadingWorkflow, setLoadingWorkflow] = useState({ id: '', isLoading: false });
+  const [dropdownOptions, setDropdownOptions] = useState({ id: '', isOpen: false });
 
   const handleFocusDropdown = idx => {
     setTimeout(() => {
-      setDropdownIdx(idx);
-      setOptionsOpen(true);
+      setDropdownOptions({ id: idx, isOpen: true });
     }, 120);
   };
 
   const handleBlurDropdown = () => {
     setTimeout(() => {
-      setDropdownIdx(null);
-      setOptionsOpen(false);
+      setDropdownOptions({ id: '', isOpen: false });
     }, 100);
   };
 
   const handleUpdateWorkflowStatus = async workflow => {
+    setLoadingWorkflow({ id: workflow.id, isLoading: true });
     const { data: workflowInstance } = await api.workflows.getWorkflowInstance(workflow);
-    if (workflowInstance.instanceState === workflow.instanceState) return;
 
-    const updatedWorkflows = workflows.map(workflowDefinition => {
-      if (workflowDefinition.id === workflow.id) {
-        return { ...workflowDefinition, instanceState: workflowInstance.instanceState };
-      }
-      return { ...workflowDefinition };
-    });
+    if (workflowInstance.instanceState !== workflow.instanceState) {
+      const updatedWorkflows = workflows.map(w => {
+        if (w.id !== workflow.id) return { ...w };
+        return { ...w, instanceState: workflowInstance.instanceState };
+      });
+      dispatch(updateWorkflowDefinitions(updatedWorkflows));
+    }
 
-    dispatch(updateWorkflowDefinitions(updatedWorkflows));
-    setOptionsOpen(false);
+    setLoadingWorkflow({ id: '', isLoading: false });
+    setDropdownOptions({ id: '', isOpen: false });
   };
 
   const handleCancelWorkflow = async workflow => {
+    setLoadingWorkflow({ id: workflow.id, isLoading: true });
     const { status } = await api.workflows.cancelWorkflowInstance(workflow);
-    if (status !== 200) return;
+    if (status !== 200) {
+      setLoadingWorkflow({ id: '', isLoading: false });
+      return;
+    }
 
+    const updatedWorkflows = await Promise.all(
+      workflows.map(async w => {
+        if (w.id !== workflow.id) return { ...w };
+
+        const { data } = await api.workflows.getWorkflowInstances(workflow.id);
+        const relevantInstanceState = data.length > 0 ? data[data.length - 1].instanceState : WorkflowStatus.NotRun;
+        return {
+          ...workflow,
+          instanceState: relevantInstanceState,
+        };
+      })
+    );
+
+    // // Update workflow statuses
+    dispatch(updateWorkflowDefinitions(updatedWorkflows));
     dispatch(cancelTriggeredWorkflow(workflow.id));
-    setOptionsOpen(false);
+
+    setLoadingWorkflow({ id: '', isLoading: false });
+    setDropdownOptions({ id: '', isOpen: false });
   };
 
   const listStyles = {
@@ -107,15 +128,19 @@ const WorkflowList = ({ items, interactionType, isLoading }) => {
 
         <div className={styles.list} style={items.length >= 2 ? listStyles : {}}>
           {items.map((item, idx) => (
-            <div key={`${item.name}${idx}`} className="list-group-item list-group-item-action">
-              <div style={{ display: 'flex', flexDirection: 'row', gap: '16px' }}>
-                <WorkflowStatusPill status={item.instanceState} />
+            <div key={`${item.name}${idx}`} className={`list-group-item list-group-item-action ${styles.listRow}`}>
+              <div className={styles.cell1}>
+                {loadingWorkflow.isLoading && loadingWorkflow.id === item.id ? (
+                  <StatusLoader />
+                ) : (
+                  <WorkflowStatusPill status={item.instanceState} />
+                )}
                 <h4>{WorkflowItemsInteractionType.TRIGGER ? item.name : item.instanceName}</h4>
               </div>
               <p>{item.type}</p>
 
               {interactionType === WorkflowItemsInteractionType.TRIGGER && (
-                <button onClick={() => navigate(`${ROUTE.TRIGGERFORM}/${item.id}`)}>
+                <button onClick={() => navigate(`${ROUTE.TRIGGERFORM}/${item.id}?type=${item.type}`)}>
                   {textContent.buttons.triggerWorkflow}
                 </button>
               )}
@@ -139,7 +164,7 @@ const WorkflowList = ({ items, interactionType, isLoading }) => {
                   </button>
                   <div
                     className={`dropdown-menu dropdown-menu-right ${styles.dropdownMenu}`}
-                    style={isOptionsOpen && dropdownIdx === idx ? { display: 'block' } : {}}
+                    style={dropdownOptions.isOpen && dropdownOptions.id === idx ? { display: 'block' } : {}}
                   >
                     <a
                       className={`dropdown-item ${styles.dropdownItem}`}

@@ -5,6 +5,12 @@ import { clearAllState } from '../store/actions';
 const isDev = process.env.NODE_ENV === 'development';
 const apiUrl = isDev ? process.env.BACKEND_DEV_HOST : process.env.BACKEND_PROD_HOST;
 
+const clearState = async () => {
+  store.dispatch(clearAllState());
+  await persistor.purge();
+  localStorage.clear();
+};
+
 const instance = axios.create({
   baseURL: apiUrl,
   withCredentials: true,
@@ -12,9 +18,9 @@ const instance = axios.create({
 
 instance.interceptors.response.use(
   response => response,
-  err => {
+  async err => {
     if (err?.response?.status === 401) {
-      store.dispatch(clearAllState());
+      await clearState();
     }
     throw err;
   }
@@ -35,8 +41,7 @@ export const api = Object.freeze({
     },
     logout: async () => {
       await instance.get('/auth/jwt/logout');
-      await persistor.purge();
-      localStorage.clear();
+      await clearState();
     },
     loginStatus: async () => {
       const response = await instance.get('/auth/jwt/login-status');
@@ -51,8 +56,7 @@ export const api = Object.freeze({
     },
     logout: async () => {
       await instance.get('/auth/passport/logout');
-      await persistor.purge();
-      localStorage.clear();
+      await clearState();
     },
     callbackExecute: async code => {
       const response = await instance.get(`/auth/passport/callback?code=${code}`);
@@ -80,7 +84,7 @@ export const api = Object.freeze({
         const response = await instance.put(`/workflows/${workflow.id}/instances/${workflow.instanceId}/cancel`);
         return response;
       } catch (error) {
-        console.log(error);
+        return error.response;
       }
     },
     publishWorkflow: async workflowId => {
@@ -96,6 +100,7 @@ export const api = Object.freeze({
             return published;
           } catch (error) {
             console.log(error);
+            return error.response;
           }
         }
 
@@ -107,9 +112,9 @@ export const api = Object.freeze({
         throw error;
       }
     },
-    triggerWorkflow: async (workflowId, body) => {
+    triggerWorkflow: async (workflowId, templateType, body) => {
       try {
-        const response = await instance.put(`/workflows/${workflowId}/trigger`, body);
+        const response = await instance.put(`/workflows/${workflowId}/trigger?type=${templateType}`, body);
         return response;
       } catch (error) {
         console.log(error);
@@ -129,7 +134,7 @@ export const api = Object.freeze({
     },
     downloadWorkflowTemplate: async templateName => {
       try {
-        const response = await fetch(`/workflows/download/${templateName}`);
+        const response = await fetch(`${apiUrl}/workflows/download/${templateName}`);
         const blob = await response.blob();
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');

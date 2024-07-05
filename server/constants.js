@@ -14,13 +14,10 @@ const METHOD = {
   ACG: 'grand-auth',
 };
 
-const MAESTRO_SCOPES = ['signature', 'aow_manage', 'impersonation'];
-const WEBFORMS_SCOPES = ['webforms_read', 'webforms_instance_read', 'webforms_instance_write'];
-
-const scopes = [...MAESTRO_SCOPES, ...WEBFORMS_SCOPES];
+const MAESTRO_SCOPES = ['signature', 'aow_manage'];
 
 module.exports = {
-  scopes,
+  scopes: MAESTRO_SCOPES,
   BACKEND_ROUTE,
   TEMPLATE_TYPE,
   METHOD,

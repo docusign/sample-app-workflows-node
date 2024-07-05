@@ -21,17 +21,27 @@
   "triggerForm": {
     "formTitle": "Fill in details",
     "formName": "Participant Information",
-    "fields": {
-      "instanceName": "Instance Name",
-      "signerName": "Signer Name",
-      "signerEmail": "Signer Email",
-      "ccName": "CC Name",
-      "ccEmail": "CC Email"
+    "fieldsI9": {
+      "field1": "Preparer Name",
+      "field2": "Preparer Email",
+      "field3": "Employee Name",
+      "field4": "Employee Email",
+      "field5": "HR Approver Name",
+      "field6": "HR Approver Email"
+    },
+    "fieldsOffer": {
+      "field1": "HR Manager Name",
+      "field2": "HR Manager Email",
+      "field3": "Company"
+    },
+    "fieldsNda": {
+      "field1": "HR Manager Name",
+      "field2": "HR Manager Email"
     }
   },
   "home": {
     "card1": {
-      "title": "'Create a workflow'",
+      "title": "Create a workflow",
       "description": "Create workflow definitions from the dropdown list below"
     },
     "card2": {
@@ -119,7 +129,8 @@
     "updateWorkflow": "Update workflow status",
     "cancelWorkflow": "Cancel workflow",
     "getStarted": "Get Started",
-    "moreInfo": "More Info"
+    "moreInfo": "More Info",
+    "backHome": "← Back to home"
   },
   "links": {
     "github": "https://github.com/docusign/sample-app-mymaestro-node",

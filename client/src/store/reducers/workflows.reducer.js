@@ -8,7 +8,8 @@
  * @property {string} type - The type of the workflow.
  * @property {string} instanceState - The state of the workflow instance.
  * @property {string|undefined} instanceId - The instance ID of the workflow, if any.
- * @property {boolean|undefined} isTriggered - Indicates if the workflow is triggered.
+ * @property {boolean|undefined} isTriggered - Indicates if the workflow was triggered.
+ * @property {boolean|undefined} isCancelled - Indicates if the workflow was cancelled.
  *
  * Workflow, workflowDefinition - this is the same
  */
@@ -60,7 +61,7 @@ export const workflowsReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         workflows: state.workflows.map(workflow => {
-          if (workflow.id === payload.workflowId) return { ...workflow, isTriggered: false, instanceId: undefined };
+          if (workflow.id === payload.workflowId) return { ...workflow, isTriggered: false, isCancelled: true };
           return { ...workflow };
         }),
       };

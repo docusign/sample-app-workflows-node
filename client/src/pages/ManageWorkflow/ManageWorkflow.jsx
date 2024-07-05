@@ -18,7 +18,8 @@ const ManageWorkflow = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const workflows = useSelector(state => state.workflows.workflows);
-  const triggeredWorkflowDefinitions = workflows.filter(w => w.isTriggered);
+
+  const triggeredAndCancelledWorkflows = workflows.filter(workflow => workflow.isTriggered || workflow.isCancelled);
 
   useEffect(() => {
     const updateWorkflowStatuses = async () => {
@@ -27,7 +28,6 @@ const ManageWorkflow = () => {
         workflows.map(async workflow => {
           const { data } = await api.workflows.getWorkflowInstances(workflow.id);
           const relevantInstanceState = data.length > 0 ? data[data.length - 1].instanceState : WorkflowStatus.NotRun;
-
           return {
             ...workflow,
             instanceState: relevantInstanceState,
@@ -54,7 +54,7 @@ const ManageWorkflow = () => {
           backRoute={ROUTE.HOME}
         />
         <WorkflowList
-          items={triggeredWorkflowDefinitions}
+          items={triggeredAndCancelledWorkflows}
           interactionType={WorkflowItemsInteractionType.MANAGE}
           isLoading={isWorkflowListLoading}
         />
