@@ -1,10 +1,10 @@
 const workflowNda = (templateId, accountId) => ({
   id: '0acc8f91-7042-4de2-8f28-df66dd22c282',
   name: 'MyMaestro: NDA',
-  userId: '8cb9aa3f-ceb6-4424-bdfc-f6ce2e16dad1',
+  userId: '8cb9aa3f-xxxx-xxxx-xxxx-f6ce2e16dad1',
   accountId: accountId,
   createdDate: '2024-05-20T20:59:22.267Z',
-  createdByName: 'Paige Test',
+  createdByName: 'Test User',
   lastUpdatedDate: '2024-07-02T18:58:08.967Z',
   triggerUrl:
     'https://apps-d.docusign.com/api/maestro/v1/accounts/0820f9c5-0d81-489a-bcc9-8a0df87f44aa/workflow_definitions/0acc8f91-7042-4de2-8f28-df66dd22c282/trigger?mtid=489b8dae-ed30-4eea-8a19-be2d08a7e174&mtsec=tiUnhW_fOm_pHtGd61Lqg5DrWz2eS3JtFTWVdu8fnUU',

@@ -1,10 +1,10 @@
 const workflowOfferLetter = (templateId, accountId) => ({
   id: 'ad547613-0ccf-4bbf-9493-a886c43e488e',
   name: 'MyMaestro: Offer Letter',
-  userId: '8cb9aa3f-ceb6-4424-bdfc-f6ce2e16dad1',
+  userId: '8cb9aa3f-xxxx-xxxx-xxxx-f6ce2e16dad1',
   accountId: accountId,
   createdDate: '2024-05-17T19:52:15.696Z',
-  createdByName: 'Paige Test',
+  createdByName: 'Test User',
   lastUpdatedDate: '2024-06-17T22:42:29.009Z',
   triggerUrl:
     'https://apps-d.docusign.com/api/maestro/v1/accounts/0820f9c5-0d81-489a-bcc9-8a0df87f44aa/workflow_definitions/ad547613-0ccf-4bbf-9493-a886c43e488e/trigger?mtid=f6039de4-069f-4d39-8eb2-523076f4027c&mtsec=K4JTLY_jcSDuuO6-p0P_r1WjpUqEn2JZynhIht0FC7s',
