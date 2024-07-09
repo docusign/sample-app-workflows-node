@@ -22,6 +22,8 @@ const TriggerBehindTheScenes = () => {
       <p>{textContent.behindTheScenes.triggerWorkflow.step1Description}</p>
       <h4>{textContent.behindTheScenes.titles.step2}</h4>
       <p>{textContent.behindTheScenes.triggerWorkflow.step2Description}</p>
+      <h4>{textContent.behindTheScenes.titles.step3}</h4>
+      <p>{textContent.behindTheScenes.triggerWorkflow.step3Description}</p>
     </div>
   );
 };

@@ -1,56 +1,56 @@
 {
   "hero": {
     "title": "Welcome to the MyMaestro Sample Application",
-    "paragraph": "Discover the power of Docusign Maestro API. Experiment with Maestro API calls in an interactive environment.",
+    "paragraph": "Discover the power of the Docusign Maestro API. Experiment with Maestro API calls in an interactive environment.",
     "tryButton": "Try the App",
     "GitHub": "Go to GitHub",
     "footer": {
-      "title": "DocuSign: it’s time to agree better",
-      "paragraph": "DocuSign helps organizations connect and automate how they prepare, sign, act on, and manage agreements.",
-      "copyright": "© 2024 DocuSign Inc.",
+      "title": "Docusign: Build the future of agreements",
+      "paragraph": "Powering the world's agreements with Docusign APIs",
+      "copyright": "© 2024 Docusign Inc.",
       "createButton": "Create developer account",
-      "learnButton": "Learn more ->"
+      "learnButton": "Learn more"
     }
   },
   "login": {
     "acg": "Authorization Code Grant",
-    "acgDescription": "This authentication type provides functionality of creating, triggering and managing workflows.",
+    "acgDescription": "This authentication type lets you create, trigger, and manage workflows in your own account.",
     "jwt": "JSON Web Token",
-    "jwtDescription": "This authentication type provides functionality of only triggering and managing workflows."
+    "jwtDescription": "This authentication type lets you trigger and manage workflows in our preconfigured account."
   },
   "triggerForm": {
     "formTitle": "Fill in details",
     "formName": "Participant Information",
     "fieldsI9": {
-      "field1": "Preparer Name",
-      "field2": "Preparer Email",
-      "field3": "Employee Name",
-      "field4": "Employee Email",
-      "field5": "HR Approver Name",
-      "field6": "HR Approver Email"
+      "field1": "Preparer name",
+      "field2": "Preparer email",
+      "field3": "Employee name",
+      "field4": "Employee email",
+      "field5": "HR Approver name",
+      "field6": "HR Approver email"
     },
     "fieldsOffer": {
-      "field1": "HR Manager Name",
-      "field2": "HR Manager Email",
+      "field1": "HR manager name",
+      "field2": "HR manager email",
       "field3": "Company"
     },
     "fieldsNda": {
-      "field1": "HR Manager Name",
-      "field2": "HR Manager Email"
+      "field1": "HR manager name",
+      "field2": "HR manager email"
     }
   },
   "home": {
     "card1": {
       "title": "Create a workflow",
-      "description": "Create workflow definitions from the dropdown list below"
+      "description": "Create a new workflow definition"
     },
     "card2": {
       "title": "Trigger a workflow",
-      "description": "Get list of workflow definitions created and trigger workflows"
+      "description": "Get a list of workflow definitions and trigger a workflow instance"
     },
     "card3": {
-      "title": "Manage a workflow",
-      "description": "Get list of workflow instances, update their status and cancel them"
+      "title": "Manage workflows",
+      "description": "Get the status of existing workflow instances and cancel instances"
     }
   },
   "loader": {
@@ -58,7 +58,7 @@
   },
   "behindTheScenes": {
     "titles": {
-      "main": "This sample features",
+      "main": "Scenario overview",
       "code": "Code flow",
       "step1": "Step 1",
       "step2": "Step 2",
@@ -68,25 +68,25 @@
       "codeDescription": "See the source code: "
     },
     "createWorkflow": {
-      "mainDescription": "- Creation of 1-9 workflow\n            - Creation of Offer Letter workflow\n            - Creation of NDA workflow",
-      "step1Description": "Using the Envelopes:list API method, check that template is imported to the account, otherwise give an ability to download needed template.",
-      "step2Description": "Using the WorkflowManagement:create API method, create a workflow definition with all the data from the template.",
-      "step3Description": "Using the WorkflowManagement:publish API method, publish the created workflow definition to the account to make it visible and usable."
+      "mainDescription": "This scenario creates a new workflow definition in the user's account. These workflows depend on eSignature templates that need to exist in the user's account before the workflows can be created. If the necessary templates do not exist in the user's account, the sample app will prompt them to download the relevant template definitions and create them in their account.",
+      "step1Description": "The WorkflowManagement: createWorkflowDefinition method is used to create a new workflow definition in the user's account. The steps for this workflow are defined in the sample app's source code.",
+      "step2Description": "After the new workflow definition has been created it needs to be published using the WorkflowManagement: publishOrUnPublishWorkflow method. Once the workflow has been published, new instances of that workflow can be triggered through the Trigger a workflow scenario."
     },
     "triggerWorkflow": {
-      "mainDescription": "- Gets published workflow definitions from the account\n        - Gets last run status of workflow definition used in this sample app\n        - Triggers workflow definition",
-      "step1Description": "Using the WorkflowManagement:getWorkflowDefinitions API method, gets workflow definitions created on user account and filters last published definitions used in this app.",
-      "step2Description": "Using the WorkflowTrigger:triggerWorkflow API method, triggers chosen workflow definition with data parsed from the form"
+      "mainDescription": "This scenario gets a list of published workflow definitions, gets the status of the last workflow instance triggered from each workflow definition, and triggers a new workflow instance.",
+      "step1Description": "Display all of the workflow definitions in the user's account by calling the WorkflowManagment: getWorkflowDefinitions endpoint. Each row on this page represents a workflow definition.",
+      "step2Description": "After the user chooses a workflow to trigger, the next step is to get the workflow definition by calling the WorkflowMangement: getWorkflowDefinition endpoint. The response for this API call includes a triggerURL property that will be used in the next step.",
+  "step3Description": "Finally, call the WorkflowTrigger: triggerWorkflow endpoint to trigger the workflow instance. The response of this call includes the workflowInstanceUrl where the workflow participant can complete the workflow steps."
     },
     "manageWorkflow": {
-      "mainDescription": "- Gets triggered workflow instances of sample app workflow definitions\n        - Gets status of workflow instances created using Trigger Workflow functionality\n        - Cancels chosen workflow instance",
-      "step1Description": "Using the WorkflowInstanceManagement:getWorkflowInstances API method, gets workflow instances triggered from workflow definition used for this sample app and filters only created in this user session4.",
-      "step2Description": "Using the WorkflowInstanceManagement:getWorkflowInstance API method, gets the status of the chosen workflow instance.",
-      "step3Description": "Using the WorkflowInstanceManagement:cancelWorkflowInstance API method, cancels the chosen workflow instance."
+      "mainDescription": "This scenario displays a list of workflow instances, the status of those instances, and the option to cancel them.",
+      "step1Description": "The WorkflowInstanceManagement: getWorkflowInstances endpoint is called to get a list of the workflow instances that have been triggered by the sample app.",
+      "step2Description": "To get the status of a given workflow instance, the WorkflowInstanceManagement: getWorkflowInstance method is called.",
+      "step3Description": "If a user chooses to cancel a workflow instance, the WorkflowInstanceManagement: cancelWorkflowInstance method is called."
     }
   },
   "workflowList": {
-    "doNotHaveWorkflow": "You don't have any workflows",
+    "doNotHaveWorkflow": "You do not have any workflows in your account",
     "columns": {
       "lastRunStatus": "Status of last run",
       "workflowName": "Workflow name",
@@ -95,25 +95,25 @@
   },
   "pageTitles": {
     "manageWorkflow": "Manage workflows",
-    "triggerWorkflow": "Trigger a workflow"
+    "triggerWorkflow": "Trigger a workflow instance"
   },
   "popups": {
     "workflowTriggered": {
-      "title": "Workflow Triggered",
-      "description": "To complete the workflow steps click the button below"
+      "title": "Workflow triggered",
+      "description": "To complete the workflow steps, select Continue"
     },
     "workflowDefinitionCreated": {
       "publish": {
-        "description": "To publish the workflow, proceed with the button below",
-        "button": "Publish the workflow"
+        "description": "To publish the workflow, proceed with the Publish button",
+        "button": "Publish"
       },
       "published": {
         "title": "Done",
         "description": "Workflow successfully published"
       },
       "error": {
-        "title": "Workflow creation was unsuccessful",
-        "button": "Download Template"
+        "title": "Workflow creation was unsuccessful; your account is missing the required workflow template",
+        "button": "Download the template"
       }
     }
   },
@@ -123,13 +123,13 @@
     "behindTheScenes": "Behind the scenes",
     "continue": "Continue",
     "cancel": "Cancel",
-    "createWorkflow": "Create a new workflow ->",
+    "createWorkflow": "Create new workflow ->",
     "triggerWorkflow": "Trigger workflow",
     "triggerNewWorkflow": "Trigger new workflow ->",
     "updateWorkflow": "Update workflow status",
     "cancelWorkflow": "Cancel workflow",
-    "getStarted": "Get Started",
-    "moreInfo": "More Info",
+    "getStarted": "Get started",
+    "moreInfo": "More info",
     "backHome": "← Back to home"
   },
   "links": {
@@ -137,4 +137,4 @@
     "createsandbox": "https://go.docusign.com/o/sandbox/",
     "learnmore": "https://developers.docusign.com/"
   }
-}
+ }
