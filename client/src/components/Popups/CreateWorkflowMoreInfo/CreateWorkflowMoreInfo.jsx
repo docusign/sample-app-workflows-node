@@ -24,8 +24,6 @@ const CreateWorkflowMoreinfo = () => {
         <p>{textContent.behindTheScenes.createWorkflow.step1Description}</p>
         <h4>{textContent.behindTheScenes.titles.step2}</h4>
         <p>{textContent.behindTheScenes.createWorkflow.step2Description}</p>
-        <h4>{textContent.behindTheScenes.titles.step3}</h4>
-        <p>{textContent.behindTheScenes.createWorkflow.step3Description}</p>
       </div>
     </div>
   );
