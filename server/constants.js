@@ -14,7 +14,7 @@ const METHOD = {
   ACG: 'grand-auth',
 };
 
-const MAESTRO_SCOPES = ['signature', 'aow_manage'];
+const MAESTRO_SCOPES = ['signature', 'aow_manage', 'impersonation'];
 
 module.exports = {
   scopes: MAESTRO_SCOPES,
