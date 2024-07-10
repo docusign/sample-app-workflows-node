@@ -112,7 +112,7 @@
         "description": "Workflow successfully published"
       },
       "error": {
-        "title": "Workflow creation was unsuccessful; your account is missing the required workflow template",
+        "title": "Workflow creation was unsuccessful",
         "button": "Download the template"
       }
     }
