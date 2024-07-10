@@ -37,7 +37,7 @@ const TriggerWorkflow = () => {
 
           return {
             id: definition.id,
-            name: `WF ${TemplateType[foundKey]?.name}`,
+            name: `${TemplateType[foundKey]?.name}`,
             type: TemplateType[foundKey]?.type,
           };
         })
