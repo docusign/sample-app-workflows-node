@@ -14,6 +14,9 @@ const docusignEsign = require('docusign-esign');
 const workflowI9 = require('../assets/workflows/I9.workflow');
 const workflowOfferLetter = require('../assets/workflows/offerLetter.workflow');
 const workflowNda = require('../assets/workflows/nda.workflow');
+const templateI9 = require('../assets/templates/I9.template');
+const templateOfferLetter = require('../assets/templates/offerLetter.template');
+const templateNda = require('../assets/templates/nda.template');
 const { TEMPLATE_TYPE } = require('../constants');
 
 const oAuth = docusign.ApiClient.OAuth;
@@ -62,30 +65,34 @@ class WorkflowsService {
 
   static selectWorkflow = templateType => {
     let workflowCaller = null;
+    let templateCaller = null;
 
     switch (templateType) {
       case TEMPLATE_TYPE.I9:
         workflowCaller = workflowI9;
+        templateCaller = templateI9;
         break;
 
       case TEMPLATE_TYPE.OFFER:
         workflowCaller = workflowOfferLetter;
+        templateCaller = templateOfferLetter;
         break;
 
       case TEMPLATE_TYPE.NDA:
         workflowCaller = workflowNda;
+        templateCaller = templateNda;
         break;
 
       default:
         throw new Error('selectWorkflow: TemplateType is not correct or not found');
     }
 
-    return workflowCaller;
+    return { workflowCaller, templateCaller };
   };
 
   static getTemplate = async args => {
-    const workflowCaller = this.selectWorkflow(args.templateType);
-    const templateName = workflowCaller(null, null).name;
+    const { templateCaller } = this.selectWorkflow(args.templateType);
+    const templateName = templateCaller().name;
 
     this.dsApiClient.setBasePath(args.basePath);
     this.dsApiClient.addDefaultHeader('Authorization', `Bearer ${args.accessToken}`);
@@ -110,8 +117,25 @@ class WorkflowsService {
     };
   };
 
+  static createTemplate = async args => {
+    const { templateCaller } = this.selectWorkflow(args.templateType);
+
+    this.dsApiClient.setBasePath(args.basePath);
+    this.dsApiClient.addDefaultHeader('Authorization', `Bearer ${args.accessToken}`);
+    const templatesApi = new docusignEsign.TemplatesApi(this.dsApiClient);
+    const template = await templatesApi.createTemplate(args.accountId, {
+      envelopeTemplate: templateCaller(),
+    });
+
+    return {
+      templateId: template.templateId,
+      templateName: template.name,
+      createdNewTemplate: false,
+    };
+  };
+
   static createWorkflow = async ({ templateId, accessToken, basePath, accountId, templateType }) => {
-    const workflowCaller = this.selectWorkflow(templateType);
+    const { workflowCaller } = this.selectWorkflow(templateType);
     const workflowTemplate = workflowCaller(templateId, accountId);
     workflowTemplate.workflowDefinition.workflowName += ` - ${this.workflowSuffix}`;
 
