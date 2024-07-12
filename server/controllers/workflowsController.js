@@ -33,25 +33,22 @@ class WorkflowsController {
    */
   static createWorkflow = async (req, res) => {
     try {
-      const templateResponse = await WorkflowsService.getTemplate({
+      const args = {
         basePath: this.basePath,
         accessToken: req.user.accessToken,
         accountId: req.session.accountId,
         templateType: req?.body?.templateType,
-      });
+      };
+      let templateResponse = await WorkflowsService.getTemplate(args);
 
       if (!templateResponse.templateId) {
-        this.logger.info("createWorkflow: templateResponse doesn't have templateId, returns 400 status");
-        res.status(400).send(templateResponse);
-        return;
+        templateResponse = await WorkflowsService.createTemplate(args);
       }
 
       const workflow = await WorkflowsService.createWorkflow({
+        ...args,
         templateId: templateResponse.templateId,
-        accessToken: req.user.accessToken,
         basePath: config.maestroApiUrl,
-        accountId: req.session.accountId,
-        templateType: req?.body?.templateType,
       });
 
       res.json({ workflowDefinitionId: workflow.workflowDefinitionId });
