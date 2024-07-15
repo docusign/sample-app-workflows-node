@@ -1223,6 +1223,25 @@ const workflow1_9 = (templateId, accountId) => ({
         },
       },
       {
+        id: '7578825c-b950-4a94-9561-8ff228a099ea',
+        name: 'Show a Confirmation Screen',
+        moduleName: 'ShowConfirmationScreen',
+        configurationProgress: 'Completed',
+        type: 'DS-ShowScreenStep',
+        config: { participantId: '2195eeb5-d97e-4c9e-932a-fe97d0373a54' },
+        input: {
+          httpType: 'Post',
+          payload: {
+            participantId: '2195eeb5-d97e-4c9e-932a-fe97d0373a54',
+            confirmationMessage: {
+              title: 'Check your email to continue',
+              description: 'Check your email to complete the workflow'
+            }
+          }
+        },
+        output: {}
+      },
+      {
         id: '2627d128-f715-4677-93f5-7be9db4e4cce',
         name: 'Get Signatures',
         moduleName: 'ESign',
