@@ -4,7 +4,7 @@ const BACKEND_ROUTE = {
 };
 
 const TEMPLATE_TYPE = {
-  I9: '1-9 document',
+  I9: 'I-9 document',
   OFFER: 'Offer letter',
   NDA: 'NDA document',
 };

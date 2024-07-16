@@ -24,7 +24,7 @@ export const WorkflowStatus = {
 };
 
 export const TemplateType = {
-  I9: { name: 'MyMaestro: I-9', type: '1-9 document' },
+  I9: { name: 'MyMaestro: I-9', type: 'I-9 document' },
   OFFER: { name: 'MyMaestro: Offer Letter', type: 'Offer letter' },
   NDA: { name: 'MyMaestro: NDA', type: 'NDA document' },
 };
@@ -33,7 +33,7 @@ export const WorkflowOptions = [
   {
     value: `Create ${TemplateType.I9.type}`,
     type: TemplateType.I9.type,
-    message: "You've successfully created a 1-9 workflow",
+    message: "You've successfully created an I-9 workflow",
   },
   {
     value: `Create ${TemplateType.OFFER.type}`,
