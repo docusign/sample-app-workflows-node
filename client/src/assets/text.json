@@ -135,6 +135,6 @@
   "links": {
     "github": "https://github.com/docusign/sample-app-mymaestro-node",
     "createsandbox": "https://go.docusign.com/o/sandbox/",
-    "learnmore": "https://developers.docusign.com/"
+    "learnmore": "https://developers.docusign.com/docs/maestro-api/"
   }
  }
