@@ -1,7 +1,7 @@
 {
   "hero": {
-    "title": "Welcome to the MyMaestro Sample Application",
-    "paragraph": "Discover the power of the Docusign Maestro API (beta). Experiment with Maestro API calls in an interactive environment.",
+    "title": "Welcome to the MyMaestro Sample App",
+    "paragraph": "Discover the power of the Docusign Maestro API (beta). Create, trigger, and manage Maestro workflows in an interactive environment.",
     "tryButton": "Try the App",
     "GitHub": "Go to GitHub",
     "footer": {

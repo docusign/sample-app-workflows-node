@@ -1,4 +1,4 @@
-# Node.js and React: MyMaestro Sample Application
+# Node.js and React: MyMaestro Sample App
 
 ## Introduction
 
