@@ -2,7 +2,7 @@ version: "3.9"
 services:
   frontend:
     container_name: nginx-frontend-app
-    image: dssaregistry.azurecr.io/mymaestro:frontlatest
+    image: dssaregistry.azurecr.io/maestro:frontlatest
     restart: always
     build:
       context: .
@@ -17,7 +17,7 @@ services:
 
   backend:
     container_name: node-app
-    image: dssaregistry.azurecr.io/mymaestro:backlatest
+    image: dssaregistry.azurecr.io/maestro:backlatest
     restart: always
     build:
       context: .

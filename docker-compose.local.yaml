@@ -2,7 +2,7 @@ version: "3.9"
 services:
   frontend:
     container_name: nginx-frontend-app
-    image: mymaestro_frontend
+    image: maestro_frontend
     restart: always
     build:
       context: .
@@ -22,7 +22,7 @@ services:
 
   backend:
     container_name: node-app
-    image: mymaestro_backend
+    image: maestro_backend
     restart: always
     build:
       context: .

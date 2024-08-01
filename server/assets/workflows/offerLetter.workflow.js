@@ -1,6 +1,6 @@
 const workflowOfferLetter = (templateId, accountId) => ({
   id: 'ad547613-0ccf-4bbf-9493-a886c43e488e',
-  name: 'MyMaestro: Offer Letter',
+  name: 'Maestro: Offer Letter',
   userId: '8cb9aa3f-xxxx-xxxx-xxxx-f6ce2e16dad1',
   accountId: accountId,
   createdDate: '2024-05-17T19:52:15.696Z',
@@ -13,7 +13,7 @@ const workflowOfferLetter = (templateId, accountId) => ({
   isDraft: false,
   status: 'active',
   workflowDefinition: {
-    workflowName: 'MyMaestro: Offer Letter',
+    workflowName: 'Maestro: Offer Letter',
     workflowDescription: '',
     accountId: accountId,
     documentVersion: '1.0.0',

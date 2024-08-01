@@ -1,7 +1,7 @@
 const templateI9 = () => ({
   templateId: '3f500586-6911-4755-8b87-84b570efc9db',
   uri: '/templates/3f500586-6911-4755-8b87-84b570efc9db',
-  name: 'MyMaestro: I-9',
+  name: 'Maestro: I-9',
   shared: 'true',
   passwordProtected: 'false',
   description:

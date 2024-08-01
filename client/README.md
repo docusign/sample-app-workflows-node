@@ -1,4 +1,4 @@
-# MyMaestro Frontend
+# Maestro Sample App Frontend
 
 ![React + Vite](./src/assets/img/favicon.png) ![React + Vite](./src/assets/img/logo.svg)
 
@@ -6,7 +6,7 @@ Created with React + Vite! This setup provides a minimal yet powerful environmen
 
 ## Table of Contents
 
-- [MyMaestro Frontend](#mymaestro-frontend)
+- [Maestro Sample App Frontend](#maestro-frontend)
   - [Table of Contents](#table-of-contents)
   - [Available Scripts](#available-scripts)
     - [`npm run dev`](#npm-run-dev)

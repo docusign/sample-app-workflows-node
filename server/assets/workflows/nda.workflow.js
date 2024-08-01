@@ -1,6 +1,6 @@
 const workflowNda = (templateId, accountId) => ({
   id: '0acc8f91-7042-4de2-8f28-df66dd22c282',
-  name: 'MyMaestro: NDA',
+  name: 'Maestro: NDA',
   userId: '8cb9aa3f-xxxx-xxxx-xxxx-f6ce2e16dad1',
   accountId: accountId,
   createdDate: '2024-05-20T20:59:22.267Z',
@@ -12,7 +12,7 @@ const workflowNda = (templateId, accountId) => ({
   lastDeployedVersion: '1.0.0',
   isDraft: false,
   workflowDefinition: {
-    workflowName: 'MyMaestro: NDA',
+    workflowName: 'Maestro: NDA',
     workflowDescription: '',
     accountId: accountId,
     documentVersion: '1.0.0',

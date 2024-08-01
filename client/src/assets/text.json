@@ -1,6 +1,6 @@
 {
   "hero": {
-    "title": "Welcome to the MyMaestro Sample App",
+    "title": "Welcome to the Maestro Sample App",
     "paragraph": "Discover the power of the Docusign Maestro API (beta). Create, trigger, and manage Maestro workflows in an interactive environment.",
     "tryButton": "Try the App",
     "GitHub": "Go to GitHub",
@@ -133,7 +133,7 @@
     "backHome": "← Back to home"
   },
   "links": {
-    "github": "https://github.com/docusign/sample-app-mymaestro-node",
+    "github": "https://github.com/docusign/sample-app-maestro-node",
     "createsandbox": "https://go.docusign.com/o/sandbox/",
     "learnmore": "https://developers.docusign.com/docs/maestro-api/"
   }
