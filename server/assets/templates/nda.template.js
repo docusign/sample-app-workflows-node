@@ -1,7 +1,7 @@
 const templateNda = () => ({
   templateId: '4bf2cc6c-ef2d-4d4b-bb8c-9b3b77d1323b',
   uri: '/templates/4bf2cc6c-ef2d-4d4b-bb8c-9b3b77d1323b',
-  name: 'MyMaestro: NDA',
+  name: 'Maestro: NDA',
   shared: 'true',
   passwordProtected: 'false',
   description:

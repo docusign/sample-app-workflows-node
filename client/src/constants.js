@@ -24,9 +24,9 @@ export const WorkflowStatus = {
 };
 
 export const TemplateType = {
-  I9: { name: 'MyMaestro: I-9', type: 'I-9 document' },
-  OFFER: { name: 'MyMaestro: Offer Letter', type: 'Offer letter' },
-  NDA: { name: 'MyMaestro: NDA', type: 'NDA document' },
+  I9: { name: 'Maestro: I-9', type: 'I-9 document' },
+  OFFER: { name: 'Maestro: Offer Letter', type: 'Offer letter' },
+  NDA: { name: 'Maestro: NDA', type: 'NDA document' },
 };
 
 export const WorkflowOptions = [

@@ -1,7 +1,7 @@
 const templateOfferLetter = () => ({
   templateId: 'fc4c3ef6-2886-4357-9207-33f8dbe57094',
   uri: '/templates/fc4c3ef6-2886-4357-9207-33f8dbe57094',
-  name: 'MyMaestro: Offer Letter',
+  name: 'Maestro: Offer Letter',
   shared: 'true',
   passwordProtected: 'false',
   description:
