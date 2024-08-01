@@ -20,7 +20,6 @@ Before you can run this sample app on your local machine, you must first create 
       - Save the **integration key** and **private RSA key pair** somewhere safe as you will need these later.
 5. Add redirect URIs for your app. There are several variables from the **.env** file that are used in the code and configured for redirect urls. Find variables below in the **.env** file and add the values of these variables in the Docusign account settings in the appropriate **Redirect URIs** section:
     - FRONTEND_DEV_HOST (http://localhost:3000)
-    - FRONTEND_PROD_HOST (https://maestro.azurewebsites.net)
     - JWT_REDIRECT_URI (https://developers.docusign.com/platform/auth/consent)
 
 If you run this project in Docker using the **docker-compose.local.yml** file, the variable FRONTEND_DEV_HOST there changes to the value **http://localhost:80**. Keep in mind that in this case this value will also have to be added to the **Redirect URIs** section.
