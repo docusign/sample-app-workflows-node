@@ -12,7 +12,7 @@ Before you can run this sample app on your local machine, you must first create 
 
 ### Create a new integration
 
-1. If you don't already have one, create a [free developer account](https://go.docusign.com/o/sandbox/).
+1. If you don't already have one, create a [free developer account](https://www.docusign.com/developers/sandbox).
 2. Log in to your developer account and navigate to [My Apps & Keys](https://admindemo.docusign.com/apps-and-keys).
 3. Select **Add App and Integration Key**.
 4. Create a new integration that is configured to use **JSON Web Token (JWT) Grant** and **Authorization Code Grant (ACG)**.
