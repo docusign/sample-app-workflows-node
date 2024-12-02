@@ -30,7 +30,7 @@ const Header = () => {
   return (
     <header className={styles.Header} role="banner">
       <nav className={styles.navBar}>
-        <Link className={styles.logo} to={ROUTE.ROOT}>
+        <Link className={styles.logo} to={ROUTE.ROOT} onClick={handleLogOut}>
           <img src={logo} alt="logo" />
         </Link>
         <div className={styles.headerEnd}>

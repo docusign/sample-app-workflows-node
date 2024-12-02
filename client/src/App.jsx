@@ -32,7 +32,7 @@ function App() {
 
       const { data: userInfo } = await api.acg.callbackExecute(code);
       dispatch(authorizeUser(LoginStatus.ACG, userInfo.name, userInfo.email));
-      navigate(ROUTE.HOME);
+      navigate(ROUTE.TRIGGER);
       dispatch(closePopupWindow());
       dispatch(closeLoadingCircleInPopup());
     };
@@ -43,9 +43,7 @@ function App() {
   return (
     <Routes>
       <Route path={ROUTE.ROOT} element={<Hero />} />
-      <Route path={ROUTE.HOME} element={<HomeAuthenticated />} />
       <Route path={ROUTE.TRIGGER} element={<TriggerWorkflowAuthenticated />} />
-      <Route path={ROUTE.MANAGE} element={<ManageWorkflowAuthenticated />} />
       <Route path={`${ROUTE.TRIGGERFORM}/:workflowId`} element={<TriggerWorkflowFormAuthenticated />} />
     </Routes>
   );

@@ -51,7 +51,6 @@ const ManageWorkflow = () => {
         <WorkflowDescription
           title={textContent.pageTitles.manageWorkflow}
           behindTheScenesComponent={<ManageBehindTheScenes />}
-          backRoute={ROUTE.HOME}
         />
         <WorkflowList
           items={triggeredAndCancelledWorkflows}

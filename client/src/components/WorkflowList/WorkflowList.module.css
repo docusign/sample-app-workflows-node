@@ -88,6 +88,11 @@
   display: flex;
   flex-direction: row;
   gap: 16px;
+  margin-left: 10px;
+}
+
+.listRow .cell3 {
+  margin-right: 10px;
 }
 
 .headerRow {
@@ -180,10 +185,12 @@
   display: flex;
   flex-direction: column;
   justify-items: center;
-  align-items: center;
   padding-top: 15rem;
   padding-left: 5rem;
-  width: 80%;
+}
+
+.resetStyle {
+  all: unset;
 }
 
 .loaderContainer {

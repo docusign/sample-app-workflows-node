@@ -91,14 +91,8 @@ const WorkflowList = ({ items, interactionType, isLoading }) => {
     return (
       <div className={`list-group ${styles.listGroup}`}>
         <div className={styles.emptyListContainer}>
-          <h1>{textContent.workflowList.doNotHaveWorkflow}</h1>
-          <Link to={ROUTE.HOME}>
-            <button className={styles.defaultButton} type="button">
-              {interactionType === WorkflowItemsInteractionType.TRIGGER
-                ? textContent.buttons.createWorkflow
-                : textContent.buttons.triggerNewWorkflow}
-            </button>
-          </Link>
+          <h2>{textContent.workflowList.doNotHaveWorkflow}</h2>
+          <h4 className={styles.resetStyle} dangerouslySetInnerHTML={{ __html: textContent.workflowList.pleaseCreateWorkflow }}></h4>
         </div>
       </div>
     );
@@ -109,7 +103,6 @@ const WorkflowList = ({ items, interactionType, isLoading }) => {
         {interactionType === WorkflowItemsInteractionType.TRIGGER && (
           <div className={styles.headerRow}>
             <div>
-              <p>{textContent.workflowList.columns.lastRunStatus}</p>
               <p>{textContent.workflowList.columns.workflowName}</p>
             </div>
             <div className={styles.typeHeader}>
@@ -118,65 +111,19 @@ const WorkflowList = ({ items, interactionType, isLoading }) => {
           </div>
         )}
 
-        {interactionType === WorkflowItemsInteractionType.MANAGE && (
-          <div className={styles.headerAction}>
-            <button type="button" onClick={() => navigate(ROUTE.TRIGGER)}>
-              {textContent.buttons.triggerNewWorkflow}
-            </button>
-          </div>
-        )}
-
         <div className={styles.list} style={items.length >= 2 ? listStyles : {}}>
           {items.map((item, idx) => (
             <div key={`${item.name}${idx}`} className={`list-group-item list-group-item-action ${styles.listRow}`}>
               <div className={styles.cell1}>
-                {loadingWorkflow.isLoading && loadingWorkflow.id === item.id ? (
-                  <StatusLoader />
-                ) : (
-                  <WorkflowStatusPill status={item.instanceState} />
-                )}
                 <h4>{WorkflowItemsInteractionType.TRIGGER ? item.name : item.instanceName}</h4>
               </div>
+
               <p>{item.type}</p>
 
               {interactionType === WorkflowItemsInteractionType.TRIGGER && (
-                <button onClick={() => navigate(`${ROUTE.TRIGGERFORM}/${item.id}?type=${item.type}`)}>
+                <button className={styles.cell3} onClick={() => navigate(`${ROUTE.TRIGGERFORM}/${item.id}?type=${item.type}`)}>
                   {textContent.buttons.triggerWorkflow}
                 </button>
-              )}
-
-              {interactionType === WorkflowItemsInteractionType.MANAGE && (
-                <div
-                  className="dropdown"
-                  style={{ position: 'relative !important' }}
-                  onFocus={() => handleFocusDropdown(idx)}
-                  onBlur={() => handleBlurDropdown(idx)}
-                >
-                  <button
-                    className={styles.dropdownButton}
-                    type="button"
-                    id="dropdownMenuButton"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  >
-                    <img src={dropdownSvg} alt="More actions" />
-                  </button>
-                  <div
-                    className={`dropdown-menu dropdown-menu-right ${styles.dropdownMenu}`}
-                    style={dropdownOptions.isOpen && dropdownOptions.id === idx ? { display: 'block' } : {}}
-                  >
-                    <a
-                      className={`dropdown-item ${styles.dropdownItem}`}
-                      onClick={() => handleUpdateWorkflowStatus(item)}
-                    >
-                      {textContent.buttons.updateWorkflow}
-                    </a>
-                    <a className={`dropdown-item ${styles.dropdownItem}`} onClick={() => handleCancelWorkflow(item)}>
-                      {textContent.buttons.cancelWorkflow}
-                    </a>
-                  </div>
-                </div>
               )}
             </div>
           ))}

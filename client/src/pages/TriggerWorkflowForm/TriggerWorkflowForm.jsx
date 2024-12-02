@@ -23,7 +23,6 @@ const TriggerWorkflowForm = () => {
         <WorkflowDescription
           title={textContent.pageTitles.triggerWorkflow}
           behindTheScenesComponent={<TriggerBehindTheScenes />}
-          backRoute={ROUTE.TRIGGER}
         />
         <TriggerForm workflowId={workflowId} templateType={type} />
       </div>

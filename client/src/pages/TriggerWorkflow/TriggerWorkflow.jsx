@@ -71,7 +71,6 @@ const TriggerWorkflow = () => {
         <WorkflowDescription
           title={textContent.pageTitles.triggerWorkflow}
           behindTheScenesComponent={<TriggerBehindTheScenes />}
-          backRoute={ROUTE.HOME}
         />
         <WorkflowList
           items={workflows}
