@@ -18,6 +18,7 @@ const templateI9 = require('../assets/templates/I9.template');
 const templateOfferLetter = require('../assets/templates/offerLetter.template');
 const templateNda = require('../assets/templates/nda.template');
 const { TEMPLATE_TYPE } = require('../constants');
+const { initMaestroApi } = require('../api');
 
 const oAuth = docusign.ApiClient.OAuth;
 const restApi = docusign.ApiClient.RestApi;
@@ -90,64 +91,6 @@ class WorkflowsService {
     return { workflowCaller, templateCaller };
   };
 
-  static getTemplate = async args => {
-    const { templateCaller } = this.selectWorkflow(args.templateType);
-    const templateName = templateCaller().name;
-
-    this.dsApiClient.setBasePath(args.basePath);
-    this.dsApiClient.addDefaultHeader('Authorization', `Bearer ${args.accessToken}`);
-    const templatesApi = new docusignEsign.TemplatesApi(this.dsApiClient);
-
-    const results = await templatesApi.listTemplates(args.accountId, {
-      searchText: templateName,
-    });
-
-    if (!results?.resultSetSize || Number(results.resultSetSize) <= 0) {
-      return {
-        message:
-          'This template is missing on your Docusign account. Download the template, login to your account, go to "Templates / Start / Envelope Templates / Upload Template", upload it there and try again',
-        templateName: this.selectTemplate(args.templateType),
-      };
-    }
-
-    return {
-      templateId: results.envelopeTemplates[0].templateId,
-      templateName: results.envelopeTemplates[0].name,
-      createdNewTemplate: false,
-    };
-  };
-
-  static createTemplate = async args => {
-    const { templateCaller } = this.selectWorkflow(args.templateType);
-
-    this.dsApiClient.setBasePath(args.basePath);
-    this.dsApiClient.addDefaultHeader('Authorization', `Bearer ${args.accessToken}`);
-    const templatesApi = new docusignEsign.TemplatesApi(this.dsApiClient);
-    const template = await templatesApi.createTemplate(args.accountId, {
-      envelopeTemplate: templateCaller(),
-    });
-
-    return {
-      templateId: template.templateId,
-      templateName: template.name,
-      createdNewTemplate: false,
-    };
-  };
-
-  static createWorkflow = async ({ templateId, accessToken, basePath, accountId, templateType }) => {
-    const { workflowCaller } = this.selectWorkflow(templateType);
-    const workflowTemplate = workflowCaller(templateId, accountId);
-    workflowTemplate.workflowDefinition.workflowName += ` - ${this.workflowSuffix}`;
-
-    this.dsApiClient.setBasePath(basePath);
-    this.dsApiClient.addDefaultHeader('Authorization', `Bearer ${accessToken}`);
-
-    const workflowManagementApi = new docusign.WorkflowManagementApi(this.dsApiClient);
-    const workflow = await workflowManagementApi.createWorkflowDefinition(workflowTemplate, accountId);
-
-    return workflow;
-  };
-
   static getWorkflowDefinition = async args => {
     this.dsApiClient.setBasePath(args.basePath);
     this.dsApiClient.addDefaultHeader('Authorization', `Bearer ${args.accessToken}`);
@@ -156,93 +99,31 @@ class WorkflowsService {
   };
 
   static getWorkflowDefinitions = async args => {
-    this.dsApiClient.setBasePath(args.basePath);
-    this.dsApiClient.addDefaultHeader('Authorization', `Bearer ${args.accessToken}`);
-
-    const definitions = await this.workflowManagementApi.getWorkflowDefinitions(args.accountId, {
+    const api = initMaestroApi(args.accountId, args.basePath, args.accessToken);
+    const definitions = await api.getWorkflowDefinitions({
       status: 'active',
     });
+
     return definitions;
   };
 
-  static getWorkflowInstance = async args => {
-    this.dsApiClient.setBasePath(args.basePath);
-    this.dsApiClient.addDefaultHeader('Authorization', `Bearer ${args.accessToken}`);
+  static getWorkflowTriggerRequirements = async args => {
+    const api = initMaestroApi(args.accountId, args.basePath, args.accessToken);
+    const triggerRequirements = await api.getTriggerRequirements(args.workflowId);
 
-    return await this.workflowInstanceManagementApi.getWorkflowInstance(
-      args.accountId,
-      args.definitionId,
-      args.instanceId
-    );
+    return triggerRequirements;
   };
 
-  static getWorkflowInstances = async args => {
-    this.dsApiClient.setBasePath(args.basePath);
-    this.dsApiClient.addDefaultHeader('Authorization', `Bearer ${args.accessToken}`);
-
-    return await this.workflowInstanceManagementApi.getWorkflowInstances(args.accountId, args.definitionId);
-  };
-
-  static publishWorkflow = async (args, workflowId) => {
-    this.dsApiClient.setBasePath(args.basePath);
-    this.dsApiClient.addDefaultHeader('Authorization', `Bearer ${args.accessToken}`);
-
-    try {
-      const publishedWorkflow = await this.workflowManagementApi.publishOrUnPublishWorkflowDefinition(
-        new docusign.DeployRequest(),
-        args.accountId,
-        workflowId
-      );
-      return publishedWorkflow;
-    } catch (error) {
-      const isConsentRequired = error?.response?.body?.message === 'Consent required';
-
-      if (isConsentRequired) {
-        throw {
-          errorMessage: 'Consent required',
-          consentUrl: error.response.body.consentUrl,
-        };
-      }
-
-      throw error;
-    }
-  };
-
-  static triggerWorkflowInstance = async args => {
-    this.dsApiClient.setBasePath(args.basePath);
-    this.dsApiClient.addDefaultHeader('Authorization', `Bearer ${args.accessToken}`);
-
-    const workflowTriggerApi = new docusign.WorkflowTriggerApi(this.dsApiClient);
-
-    const mtid = args.mtid;
-    const mtsec = args.mtsec;
-
-    const payload = {};
-    if (args.templateType === TEMPLATE_TYPE.I9) {
-      payload.preparerName = args.preparerName;
-      payload.preparerEmail = args.preparerEmail;
-      payload.employeeName = args.employeeName;
-      payload.employeeEmail = args.employeeEmail;
-      payload.hrApproverName = args.hrApproverName;
-      payload.hrApproverEmail = args.hrApproverEmail;
-    }
-    if (args.templateType === TEMPLATE_TYPE.OFFER) {
-      payload.hrManagerName = args.hrManagerName;
-      payload.hrManagerEmail = args.hrManagerEmail;
-      payload.Company = args.Company;
-    }
-    if (args.templateType === TEMPLATE_TYPE.NDA) {
-      payload.hrManagerName = args.hrManagerName;
-      payload.hrManagerEmail = args.hrManagerEmail;
-    }
-
-    const triggerPayload = docusign.TriggerPayload.constructFromObject({
+  static triggerWorkflowInstance = async (args, payload, triggerRequirements) => {
+    const api = initMaestroApi(args.accountId, args.basePath, args.accessToken);
+    const triggerPayload = {
       participant: {},
-      payload: payload,
       metadata: {},
-    });
+      payload,
+    };
+    const triggerResponse = await api.triggerWorkflow(triggerPayload, triggerRequirements.trigger_http_config.url);
 
-    return await workflowTriggerApi.triggerWorkflow(triggerPayload, args.accountId, { mtid, mtsec });
+    return triggerResponse;
   };
 }
 
