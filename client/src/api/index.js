@@ -126,7 +126,7 @@ export const api = Object.freeze({
     },
     getWorkflowTriggerRequirements: async workflowId => {
       try {
-        const response = await instance.put(`/workflows/${workflowId}/requirements`);
+        const response = await instance.get(`/workflows/${workflowId}/requirements`);
         return response;
       } catch (error) {
         return error.response;

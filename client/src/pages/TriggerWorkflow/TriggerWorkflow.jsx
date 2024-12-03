@@ -9,7 +9,7 @@ import withAuth from '../../hocs/withAuth/withAuth.jsx';
 import WorkflowList from '../../components/WorkflowList/WorkflowList.jsx';
 import WorkflowDescription from '../../components/WorkflowDescription/WorkflowDescription.jsx';
 import TriggerBehindTheScenes from '../../components/WorkflowDescription/BehindTheScenes/TriggerBehindTheScenes.jsx';
-import { ROUTE, TemplateType, WorkflowItemsInteractionType, WorkflowStatus } from '../../constants.js';
+import { LoginStatus, TemplateType, WorkflowItemsInteractionType } from '../../constants.js';
 import { api } from '../../api';
 import { updateWorkflowDefinitions } from '../../store/actions';
 
@@ -18,13 +18,13 @@ const TriggerWorkflow = () => {
   const location = useLocation();
   const [isWorkflowListLoading, setWorkflowListLoading] = useState(false);
   const workflows = useSelector(state => state.workflows.workflows);
+  const authType = useSelector(state => state.auth.authType);
 
   useEffect(() => {
     const getWorkflowDefinitions = async () => {
       setWorkflowListLoading(true);
       const definitionsResponse = await api.workflows.getWorkflowDefinitions();
-
-      const workflowDefinitions = definitionsResponse.data.value
+      const workflowDefinitions = definitionsResponse.data.data.workflows.filter(definition => definition.status !== 'inactive')
         .map(definition => {
           if (workflows.length) {
             const foundWorkflow = workflows.find(workflow => workflow.id === definition.id);
@@ -33,7 +33,16 @@ const TriggerWorkflow = () => {
 
           const templateKeys = Object.keys(TemplateType);
           const foundKey = templateKeys.find(key => definition.name.startsWith(TemplateType[key].name));
-          if (!foundKey) return null;
+          if (!foundKey) {
+            if(authType === LoginStatus.JWT)
+              return null;
+
+            return {
+              id: definition.id,
+              name: definition.name,
+              type: "-",
+            };
+          }
 
           return {
             id: definition.id,
@@ -43,20 +52,7 @@ const TriggerWorkflow = () => {
         })
         .filter(definition => !!definition);
 
-      const workflowsWithState = await Promise.all(
-        workflowDefinitions.map(async definition => {
-          const { data } = await api.workflows.getWorkflowInstances(definition.id);
-          const relevantInstanceState = data.length > 0 ? data[data.length - 1].instanceState : WorkflowStatus.NotRun;
-
-          return {
-            ...definition,
-            instanceState: relevantInstanceState,
-          };
-        })
-      );
-
-      // Set workflow definitions with their statuses downloaded from docusign server
-      dispatch(updateWorkflowDefinitions(workflowsWithState));
+      dispatch(updateWorkflowDefinitions(workflowDefinitions));
       setWorkflowListLoading(false);
     };
 
