@@ -49,7 +49,6 @@ const TriggerForm = ({ workflowId, templateType }) => {
       case "-":
         try {
           api.workflows.getWorkflowTriggerRequirements(workflowId).then(data => {
-            console.log(data.data.trigger_input_schema);
             setRelevantFormFields(generateDynamicForm(data.data.trigger_input_schema, 'Custom'));
           });
         } catch (error) {

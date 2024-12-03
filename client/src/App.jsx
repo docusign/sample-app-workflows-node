@@ -2,8 +2,6 @@ import { useEffect } from 'react';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import Hero from './pages/Hero/Hero.jsx';
-import HomeAuthenticated from './pages/Home/Home.jsx';
-import ManageWorkflowAuthenticated from './pages/ManageWorkflow/ManageWorkflow.jsx';
 import TriggerWorkflowAuthenticated from './pages/TriggerWorkflow/TriggerWorkflow.jsx';
 import TriggerWorkflowFormAuthenticated from './pages/TriggerWorkflowForm/TriggerWorkflowForm.jsx';
 import { LoginStatus, ROUTE } from './constants.js';

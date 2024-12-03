@@ -68,50 +68,6 @@ export const api = Object.freeze({
     },
   },
   workflows: {
-    createWorkflowDefinition: async templateType => {
-      try {
-        const response = await instance.post('/workflows/create', { templateType: templateType });
-        return response;
-      } catch (error) {
-        if (error.response && error.response.status === 400) {
-          return error.response;
-        }
-        throw error;
-      }
-    },
-    cancelWorkflowInstance: async workflow => {
-      try {
-        const response = await instance.put(`/workflows/${workflow.id}/instances/${workflow.instanceId}/cancel`);
-        return response;
-      } catch (error) {
-        return error.response;
-      }
-    },
-    publishWorkflow: async workflowId => {
-      try {
-        const response = await instance.post('/workflows/publish', { workflowId });
-
-        if (response.status === 210) {
-          try {
-            window.open(response.data, 'newTab', 'width=600,height=400');
-            await new Promise(r => setTimeout(r, 3000));
-
-            const published = await instance.post('/workflows/publish', { workflowId });
-            return published;
-          } catch (error) {
-            console.log(error);
-            return error.response;
-          }
-        }
-
-        return response;
-      } catch (error) {
-        if (error.response && error.response.status >= 400) {
-          return error.response;
-        }
-        throw error;
-      }
-    },
     triggerWorkflow: async (workflowId, templateType, body) => {
       try {
         const response = await instance.put(`/workflows/${workflowId}/trigger?type=${templateType}`, body);
@@ -130,29 +86,6 @@ export const api = Object.freeze({
         return response;
       } catch (error) {
         return error.response;
-      }
-    },
-    getWorkflowInstance: async workflow => {
-      const response = await instance.get(`/workflows/${workflow.id}/instances/${workflow.instanceId}`);
-      return response;
-    },
-    getWorkflowInstances: async workflowId => {
-      const response = await instance.get(`/workflows/${workflowId}/instances`);
-      return response;
-    },
-    downloadWorkflowTemplate: async templateName => {
-      try {
-        const response = await fetch(`${apiUrl}/workflows/download/${templateName}`);
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = templateName;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-      } catch (error) {
-        console.log(error);
       }
     },
   },

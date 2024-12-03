@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import styles from './WorkflowDescription.module.css';
 import textContent from '../../assets/text.json';
 

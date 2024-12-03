@@ -1,8 +1,0 @@
-.contentContainer {
-    display: flex;
-    flex-direction: row;
-    margin-left: 5%;
-    margin-right: 5%;
-    width: 90%;
-    justify-content: space-between;
-}
