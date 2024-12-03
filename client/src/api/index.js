@@ -124,6 +124,14 @@ export const api = Object.freeze({
       const response = await instance.get(`/workflows/definitions`);
       return response;
     },
+    getWorkflowTriggerRequirements: async workflowId => {
+      try {
+        const response = await instance.put(`/workflows/${workflowId}/requirements`);
+        return response;
+      } catch (error) {
+        return error.response;
+      }
+    },
     getWorkflowInstance: async workflow => {
       const response = await instance.get(`/workflows/${workflow.id}/instances/${workflow.instanceId}`);
       return response;
