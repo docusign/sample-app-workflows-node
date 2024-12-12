@@ -19,7 +19,6 @@
     "cors": "^2.8.5",
     "dayjs": "^1.11.11",
     "docusign-esign": "^7.0.1",
-    "docusign-maestro": "^1.0.0-rc3",
     "dotenv": "^16.4.5",
     "dotenv-cli": "^7.4.2",
     "express": "^4.19.2",
