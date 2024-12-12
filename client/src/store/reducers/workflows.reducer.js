@@ -14,14 +14,7 @@
  * Workflow, workflowDefinition - this is the same
  */
 
-import {
-  CREATED_WORKFLOW,
-  PUBLISHED_LAST_WORKFLOW,
-  CLEAR_CREATED_WORKFLOW,
-  UPDATE_WORKFLOWS,
-  CANCEL_WORKFLOW,
-  CLEAR_STATE,
-} from '../types';
+import { UPDATE_WORKFLOWS, CLEAR_STATE } from '../types';
 
 const initialState = {
   workflows: [],
@@ -33,37 +26,10 @@ const initialState = {
 
 export const workflowsReducer = (state = initialState, { type, payload }) => {
   switch (type) {
-    case CREATED_WORKFLOW:
-      return {
-        ...state,
-        lastCreatedWorkflow: { id: payload.workflowId, isPublished: false },
-      };
-
-    case PUBLISHED_LAST_WORKFLOW:
-      return {
-        ...state,
-        lastCreatedWorkflow: { ...state.lastCreatedWorkflow, isPublished: true },
-      };
-
-    case CLEAR_CREATED_WORKFLOW:
-      return {
-        ...state,
-        lastCreatedWorkflow: initialState.lastCreatedWorkflow,
-      };
-
     case UPDATE_WORKFLOWS:
       return {
         ...state,
         workflows: payload.workflows,
-      };
-
-    case CANCEL_WORKFLOW:
-      return {
-        ...state,
-        workflows: state.workflows.map(workflow => {
-          if (workflow.id === payload.workflowId) return { ...workflow, isTriggered: false, isCancelled: true };
-          return { ...workflow };
-        }),
       };
 
     case CLEAR_STATE:
