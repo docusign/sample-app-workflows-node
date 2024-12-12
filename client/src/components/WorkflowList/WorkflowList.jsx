@@ -112,9 +112,6 @@ const WorkflowList = ({ items, interactionType, isLoading }) => {
               <p>{textContent.workflowList.columns.lastRunStatus}</p>
               <p>{textContent.workflowList.columns.workflowName}</p>
             </div>
-            <div className={styles.typeHeader}>
-              <p>{textContent.workflowList.columns.workflowType}</p>
-            </div>
           </div>
         )}
 
@@ -137,7 +134,6 @@ const WorkflowList = ({ items, interactionType, isLoading }) => {
                 )}
                 <h4>{WorkflowItemsInteractionType.TRIGGER ? item.name : item.instanceName}</h4>
               </div>
-              <p>{item.type}</p>
 
               {interactionType === WorkflowItemsInteractionType.TRIGGER && (
                 <button onClick={() => navigate(`${ROUTE.TRIGGERFORM}/${item.id}?type=${item.type}`)}>
