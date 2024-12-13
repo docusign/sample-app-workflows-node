@@ -20,6 +20,7 @@
   },
   "triggerForm": {
     "formTitle": "Fill in details",
+    "formTitleWithoutInputs": "Continue to trigger the workflow instance",
     "formName": "Participant Information",
     "fieldsI9": {
       "field1": "Preparer name",
@@ -39,20 +40,6 @@
       "field2": "HR manager email"
     }
   },
-  "home": {
-    "card1": {
-      "title": "Create a workflow",
-      "description": "Create a new workflow definition"
-    },
-    "card2": {
-      "title": "Trigger a workflow",
-      "description": "Get a list of workflow definitions and trigger a workflow instance"
-    },
-    "card3": {
-      "title": "Manage workflows",
-      "description": "Get the status of existing workflow instances and cancel instances"
-    }
-  },
   "loader": {
     "title": "Waiting for log in"
   },
@@ -67,26 +54,16 @@
     "descriptions": {
       "codeDescription": "See the source code: "
     },
-    "createWorkflow": {
-      "mainDescription": "This scenario creates a new workflow definition in the user's account. These workflows depend on eSignature templates that need to exist in the user's account before the workflows can be created. If the necessary templates do not exist in the user's account, the sample app will prompt them to download the relevant template definitions and create them in their account.",
-      "step1Description": "The WorkflowManagement: createWorkflowDefinition method is used to create a new workflow definition in the user's account. The steps for this workflow are defined in the sample app's source code.",
-      "step2Description": "After the new workflow definition has been created it needs to be published using the WorkflowManagement: publishOrUnPublishWorkflow method. Once the workflow has been published, new instances of that workflow can be triggered through the Trigger a workflow scenario."
-    },
     "triggerWorkflow": {
       "mainDescription": "This scenario gets a list of published workflow definitions, gets the status of the last workflow instance triggered from each workflow definition, and triggers a new workflow instance.",
       "step1Description": "Display all of the workflow definitions in the user's account by calling the WorkflowManagment: getWorkflowDefinitions endpoint. Each row on this page represents a workflow definition.",
       "step2Description": "After the user chooses a workflow to trigger, the next step is to get the workflow definition by calling the WorkflowMangement: getWorkflowDefinition endpoint. The response for this API call includes a triggerURL property that will be used in the next step.",
-  "step3Description": "Finally, call the WorkflowTrigger: triggerWorkflow endpoint to trigger the workflow instance. The response of this call includes the workflowInstanceUrl where the workflow participant can complete the workflow steps."
-    },
-    "manageWorkflow": {
-      "mainDescription": "This scenario displays a list of workflow instances, the status of those instances, and the option to cancel them.",
-      "step1Description": "The WorkflowInstanceManagement: getWorkflowInstances endpoint is called to get a list of the workflow instances that have been triggered by the sample app.",
-      "step2Description": "To get the status of a given workflow instance, the WorkflowInstanceManagement: getWorkflowInstance method is called.",
-      "step3Description": "If a user chooses to cancel a workflow instance, the WorkflowInstanceManagement: cancelWorkflowInstance method is called."
+      "step3Description": "Finally, call the WorkflowTrigger: triggerWorkflow endpoint to trigger the workflow instance. The response of this call includes the workflowInstanceUrl where the workflow participant can complete the workflow steps."
     }
   },
   "workflowList": {
     "doNotHaveWorkflow": "You do not have any workflows in your account",
+    "pleaseCreateWorkflow": "Please <a href=''>manually create a workflow</a> in your account before using the sample app.",
     "columns": {
       "lastRunStatus": "Status of last run",
       "workflowName": "Workflow name",
@@ -101,20 +78,6 @@
     "workflowTriggered": {
       "title": "Workflow triggered",
       "description": "To complete the workflow steps, select Continue"
-    },
-    "workflowDefinitionCreated": {
-      "publish": {
-        "description": "To publish the workflow, proceed with the Publish button",
-        "button": "Publish"
-      },
-      "published": {
-        "title": "Done",
-        "description": "Workflow successfully published"
-      },
-      "error": {
-        "title": "Workflow creation was unsuccessful",
-        "button": "Download the template"
-      }
     }
   },
   "buttons": {
@@ -123,11 +86,8 @@
     "behindTheScenes": "Behind the scenes",
     "continue": "Continue",
     "cancel": "Cancel",
-    "createWorkflow": "Create new workflow ->",
     "triggerWorkflow": "Trigger workflow",
     "triggerNewWorkflow": "Trigger new workflow ->",
-    "updateWorkflow": "Update workflow status",
-    "cancelWorkflow": "Cancel workflow",
     "getStarted": "Get started",
     "moreInfo": "More info",
     "backHome": "← Back to home"
@@ -137,4 +97,4 @@
     "createsandbox": "https://go.docusign.com/o/sandbox/",
     "learnmore": "https://developers.docusign.com/docs/maestro-api/"
   }
- }
+}
