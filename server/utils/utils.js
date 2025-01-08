@@ -15,14 +15,4 @@ const extractPortFromUrl = url => {
   return null;
 };
 
-const getPayloadBySchema = (data, schema) => {
-  return schema.reduce((acc, field) => {
-    const fieldName = field.field_name;
-    if (fieldName in data) {
-      acc[fieldName] = data[fieldName];
-    }
-    return acc;
-  }, {});
-};
-
-module.exports = { getParameterValueFromUrl, extractPortFromUrl, getPayloadBySchema };
+module.exports = { getParameterValueFromUrl, extractPortFromUrl };

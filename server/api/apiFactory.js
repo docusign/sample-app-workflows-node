@@ -39,12 +39,12 @@ const createMaestroApi = (axios, basePath, accountId, accessToken) => {
   const api = createAPI(axios, accessToken);
 
   const getWorkflowDefinitions = async params => {
-    const response = await api.get(`${basePath}/accounts/${accountId}/workflows`, { params });
+    const response = await api.get(`${basePath}/accounts/${accountId}/management/workflow_definitions`, { params });
     return response.data;
   };
 
   const getTriggerRequirements = async workflowId => {
-    const response = await api.get(`${basePath}/accounts/${accountId}/workflows/${workflowId}/trigger-requirements`);
+    const response = await api.get(`${basePath}/accounts/${accountId}/management/workflow_definitions/${workflowId}`);
     return response.data;
   };
 

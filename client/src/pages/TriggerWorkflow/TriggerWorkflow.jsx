@@ -24,7 +24,7 @@ const TriggerWorkflow = () => {
     const getWorkflowDefinitions = async () => {
       setWorkflowListLoading(true);
       const definitionsResponse = await api.workflows.getWorkflowDefinitions();
-      const workflowDefinitions = definitionsResponse.data.data.workflows.filter(definition => definition.status !== 'inactive')
+      const workflowDefinitions = definitionsResponse.data.value.filter(definition => definition.status !== 'inactive')
         .map(definition => {
           if (workflows.length) {
             const foundWorkflow = workflows.find(workflow => workflow.id === definition.id);
@@ -41,6 +41,7 @@ const TriggerWorkflow = () => {
               id: definition.id,
               name: definition.name,
               type: "-",
+              triggerType: definition.triggerType
             };
           }
 
@@ -48,6 +49,7 @@ const TriggerWorkflow = () => {
             id: definition.id,
             name: `${TemplateType[foundKey]?.name}`,
             type: TemplateType[foundKey]?.type,
+            triggerType: definition.triggerType
           };
         })
         .filter(definition => !!definition);

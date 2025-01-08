@@ -15,8 +15,6 @@ const docusign = require('docusign-esign');
 const config = require('../config');
 const WorkflowsService = require('../services/workflowsService');
 const createPrefixedLogger = require('../utils/logger');
-const { TEMPLATE_TYPE } = require('../constants');
-const { getPayloadBySchema } = require('../utils/utils');
 
 const oAuth = docusign.ApiClient.OAuth;
 const restApi = docusign.ApiClient.RestApi;
@@ -77,9 +75,7 @@ class WorkflowsController {
 
     try {
       const triggerRequirements = await WorkflowsService.getWorkflowTriggerRequirements(args);
-      const payload = getPayloadBySchema(body, triggerRequirements.trigger_input_schema);
-
-      const result = await WorkflowsService.triggerWorkflowInstance(args, payload, triggerRequirements);
+      const result = await WorkflowsService.triggerWorkflowInstance(args, body, triggerRequirements);
       res.status(200).send(result);
     } catch (error) {
       this.handleErrorResponse(error, res);

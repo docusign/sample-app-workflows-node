@@ -35,7 +35,7 @@ class WorkflowsService {
       metadata: {},
       payload,
     };
-    const triggerResponse = await api.triggerWorkflow(triggerPayload, triggerRequirements.trigger_http_config.url);
+    const triggerResponse = await api.triggerWorkflow(triggerPayload, triggerRequirements.triggerUrl);
 
     return triggerResponse;
   };

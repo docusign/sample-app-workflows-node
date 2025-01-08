@@ -8,7 +8,7 @@ import { ROUTE, TemplateType } from '../../constants.js';
 import { api } from '../../api';
 import { openPopupWindow, closePopupWindow, updateWorkflowDefinitions } from '../../store/actions';
 
-const TriggerForm = ({ workflowId, templateType }) => {
+const TriggerForm = ({ workflowId, templateType, triggerType }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isPopupOpened = useSelector(state => state.popup.isOpened);
@@ -49,7 +49,14 @@ const TriggerForm = ({ workflowId, templateType }) => {
       case "-":
         try {
           api.workflows.getWorkflowTriggerRequirements(workflowId).then(data => {
-            setRelevantFormFields(generateDynamicForm(data.data.trigger_input_schema, 'Custom'));
+            const result = Object.values(data.data.workflowDefinition.trigger.input.payload)
+                .filter(entry => entry.propertyName !== "id" && entry.propertyName !== "dacId")
+                .map(entry => ({
+                  field_name: entry.propertyName,
+                  field_data_type: entry.type
+                }));
+
+            setRelevantFormFields(generateDynamicForm(result, 'Custom'));
           });
         } catch (error) {
           console.error("Failed to fetch trigger requirements:", error);
@@ -80,35 +87,45 @@ const TriggerForm = ({ workflowId, templateType }) => {
   const handleSubmit = async event => {
     event.preventDefault();
 
-    const body = relevantFormFields.reduce((acc, current) => {
+    let body = relevantFormFields.reduce((acc, current) => {
       acc[current.fieldName] = current.value;
       return acc;
     }, {});
 
-    if (!Object.keys(body).length) {
+    if (!Object.keys(body).length && relevantFormFields.length) {
       navigate(ROUTE.TRIGGER);
       return;
     }
 
     setDataSending(true);
+
+    if(!relevantFormFields.length) {
+      body = {};
+    }
+
     const { data: triggeredWorkflow } = await api.workflows.triggerWorkflow(workflowId, templateType, body);
-    setWorkflowInstanceUrl(triggeredWorkflow.instance_url);
+    setWorkflowInstanceUrl(triggeredWorkflow.workflowInstanceUrl);
 
-    // Update workflowDefinitions. "...workflow" creates new workflow-object to avoid mutation in redux
-    const updatedWorkflowDefinitions = workflows.map(w => {
-      if (w.id !== workflowId) return { ...w };
+    if(triggerType === "Url") {
+      navigate(`${ROUTE.TRIGGERFORM}/${workflowId}?type=${templateType}&triggerType=${triggerType}&triggerUrl=${triggeredWorkflow.workflowInstanceUrl}`)
+    } else {
+      // Update workflowDefinitions. "...workflow" creates new workflow-object to avoid mutation in redux
+      const updatedWorkflowDefinitions = workflows.map(w => {
+        if (w.id !== workflowId) return { ...w };
 
-      return {
-        ...w,
-        instanceId: triggeredWorkflow.instanceId,
-        isTriggered: true,
-      };
-    });
+        return {
+          ...w,
+          instanceId: triggeredWorkflow.instanceId,
+          isTriggered: true,
+        };
+      });
 
-    dispatch(updateWorkflowDefinitions(updatedWorkflowDefinitions));
-    setDataSending(false);
-    dispatch(openPopupWindow());
+      dispatch(updateWorkflowDefinitions(updatedWorkflowDefinitions));
+      setDataSending(false);
+      dispatch(openPopupWindow());
+    }
   };
+
   if (!relevantFormFields.length)
     return (
       <div className={styles.formContainer}>

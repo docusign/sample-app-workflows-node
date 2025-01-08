@@ -48,7 +48,7 @@ const WorkflowList = ({ items, interactionType, isLoading }) => {
               </div>
 
               {interactionType === WorkflowItemsInteractionType.TRIGGER && (
-                <button className={styles.cell3} onClick={() => navigate(`${ROUTE.TRIGGERFORM}/${item.id}?type=${item.type}`)}>
+                <button className={styles.cell3} onClick={() => navigate(`${ROUTE.TRIGGERFORM}/${item.id}?type=${item.type}&triggerType=${item.triggerType}`)}>
                   {textContent.buttons.triggerWorkflow}
                 </button>
               )}
