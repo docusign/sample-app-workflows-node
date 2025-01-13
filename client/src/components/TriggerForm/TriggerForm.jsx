@@ -8,7 +8,7 @@ import { ROUTE, TemplateType } from '../../constants.js';
 import { api } from '../../api';
 import { openPopupWindow, closePopupWindow, updateWorkflowDefinitions } from '../../store/actions';
 
-const TriggerForm = ({ workflowId, templateType, triggerType }) => {
+const TriggerForm = ({ workflowId, templateType }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isPopupOpened = useSelector(state => state.popup.isOpened);
@@ -106,24 +106,20 @@ const TriggerForm = ({ workflowId, templateType, triggerType }) => {
     const { data: triggeredWorkflow } = await api.workflows.triggerWorkflow(workflowId, templateType, body);
     setWorkflowInstanceUrl(triggeredWorkflow.workflowInstanceUrl);
 
-    if(triggerType === "Url") {
-      navigate(`${ROUTE.TRIGGERFORM}/${workflowId}?type=${templateType}&triggerType=${triggerType}&triggerUrl=${triggeredWorkflow.workflowInstanceUrl}`)
-    } else {
-      // Update workflowDefinitions. "...workflow" creates new workflow-object to avoid mutation in redux
-      const updatedWorkflowDefinitions = workflows.map(w => {
-        if (w.id !== workflowId) return { ...w };
+    // Update workflowDefinitions. "...workflow" creates new workflow-object to avoid mutation in redux
+    const updatedWorkflowDefinitions = workflows.map(w => {
+      if (w.id !== workflowId) return { ...w };
 
-        return {
-          ...w,
-          instanceId: triggeredWorkflow.instanceId,
-          isTriggered: true,
-        };
-      });
+      return {
+        ...w,
+        instanceId: triggeredWorkflow.instanceId,
+        isTriggered: true,
+      };
+    });
 
-      dispatch(updateWorkflowDefinitions(updatedWorkflowDefinitions));
-      setDataSending(false);
-      dispatch(openPopupWindow());
-    }
+    dispatch(updateWorkflowDefinitions(updatedWorkflowDefinitions));
+    setDataSending(false);
+    dispatch(openPopupWindow());
   };
 
   if (!relevantFormFields.length)

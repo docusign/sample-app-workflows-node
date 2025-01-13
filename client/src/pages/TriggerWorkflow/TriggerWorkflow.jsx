@@ -41,7 +41,6 @@ const TriggerWorkflow = () => {
               id: definition.id,
               name: definition.name,
               type: "-",
-              triggerType: definition.triggerType
             };
           }
 
@@ -49,7 +48,6 @@ const TriggerWorkflow = () => {
             id: definition.id,
             name: `${TemplateType[foundKey]?.name}`,
             type: TemplateType[foundKey]?.type,
-            triggerType: definition.triggerType
           };
         })
         .filter(definition => !!definition);

@@ -15,29 +15,6 @@ const TriggerWorkflowForm = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const type = searchParams.get('type');
-  const triggerType = searchParams.get('triggerType');
-  const triggerUrl = searchParams.get('triggerUrl');
-
-  if(triggerUrl !== null){
-    return (
-      <div className="page-box">
-        <Header />
-        <div className={styles.contentContainer}>
-          <WorkflowDescription
-            title={textContent.pageTitles.completeWorkflow}
-            behindTheScenesComponent={<TriggerBehindTheScenes />}
-            backRoute={ROUTE.TRIGGER}
-          />
-
-          <div className={styles.formContainer}>
-            <iframe src={triggerUrl} width="800" height="600">
-            </iframe>
-          </div>
-        </div>
-        <Footer withContent={false} />
-      </div>
-    );
-  }
 
   return (
     <div className="page-box">
@@ -48,7 +25,7 @@ const TriggerWorkflowForm = () => {
           behindTheScenesComponent={<TriggerBehindTheScenes />}
           backRoute={ROUTE.TRIGGER}
         />
-        <TriggerForm workflowId={workflowId} templateType={type} triggerType={triggerType} />
+        <TriggerForm workflowId={workflowId} templateType={type} />
       </div>
       <Footer withContent={false} />
     </div>
