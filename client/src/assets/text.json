@@ -20,7 +20,7 @@
   },
   "triggerForm": {
     "formTitle": "Fill in details",
-    "formTitleWithoutInputs": "This workflow does not require additional fields",
+    "formTitleWithoutInputs": "Continue to trigger the workflow instance",
     "formName": "Participant Information",
     "fieldsI9": {
       "field1": "Preparer name",
