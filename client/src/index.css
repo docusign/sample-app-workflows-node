@@ -48,7 +48,7 @@ body {
   margin: 0;
   display: flex;
   place-items: center;
-  background: url('assets/img/hero-background.png') center;
+  background: #fff url('assets/img/hero-background.png') center;
   background-size: cover;
 }
 

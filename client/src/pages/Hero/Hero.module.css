@@ -3,6 +3,12 @@
     color: var(--black-main);
     margin: 80px auto;
     padding: 0;
+
+    @media screen and (max-width: 991.98px) {
+        width: 100%;
+        padding: 1rem;
+        margin: 0;
+    }
 }
 
 .messageBox {

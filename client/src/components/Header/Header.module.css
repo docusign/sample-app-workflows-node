@@ -5,14 +5,20 @@
 
 .navBar {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    flex-direction: column;
     background: rgba(0, 0, 0, 0);
-    padding-top: 1.5rem;
-    min-height: 80px;
     margin-left: 0;
     margin-right: 0;
     width: 100%;
+    padding:1.5rem 5%;
+
+    @media screen and (min-width: 992px) {
+        padding-bottom: 0;
+        min-height: 80px;
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: space-between;
+    }
 }
 
 .navBar p {
@@ -34,6 +40,7 @@
     border: transparent !important;
     box-shadow: none !important;
     color: var(--black-main) !important;
+    padding: 0;
 }
 
 .dropDown {
@@ -70,7 +77,6 @@
 
 .logo {
     display: flex;
-    padding-left: 5%;
     justify-content: start;
     height: 28px;
     width: 140px;
@@ -79,8 +85,17 @@
 
 .headerEnd {
     display: flex;
-    flex-direction: row;
-    padding-right: 5%;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: .5rem;
+    margin-top: -24px;
+
+    @media screen and (min-width: 992px) {
+        flex-direction: row;
+        gap: 0;
+        padding-right: 5%;
+        margin-top: 0;
+    }
 }
 
 .navLink {

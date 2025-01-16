@@ -14,8 +14,6 @@
   align-items: center;
   justify-content: center;
   background-color: var(--white-main);
-  min-height: 342px;
-  min-width: 660px;
   position: absolute;
   left: 50%;
   top: 50%;
@@ -24,6 +22,11 @@
   box-shadow: 0 0 10px 0 var(--black-main);
   max-width: 100%;
   max-height: 100%;
+
+  @media screen and (min-width: 992px) {
+    min-height: 342px;
+    min-width: 660px;
+  }
 }
 
 .inner h2 {
