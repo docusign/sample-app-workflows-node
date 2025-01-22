@@ -49,14 +49,7 @@ const TriggerForm = ({ workflowId, templateType }) => {
       case "-":
         try {
           api.workflows.getWorkflowTriggerRequirements(workflowId).then(data => {
-            const result = Object.values(data.data.workflowDefinition.trigger.input.payload)
-                .filter(entry => entry.propertyName !== "id" && entry.propertyName !== "dacId")
-                .map(entry => ({
-                  field_name: entry.propertyName,
-                  field_data_type: entry.type
-                }));
-
-            setRelevantFormFields(generateDynamicForm(result, 'Custom'));
+            setRelevantFormFields(generateDynamicForm(data.data.trigger_input_schema, 'Custom'));
           });
         } catch (error) {
           console.error("Failed to fetch trigger requirements:", error);
@@ -104,7 +97,7 @@ const TriggerForm = ({ workflowId, templateType }) => {
     }
 
     const { data: triggeredWorkflow } = await api.workflows.triggerWorkflow(workflowId, templateType, body);
-    setWorkflowInstanceUrl(triggeredWorkflow.workflowInstanceUrl);
+    setWorkflowInstanceUrl(triggeredWorkflow.instance_url);
 
     // Update workflowDefinitions. "...workflow" creates new workflow-object to avoid mutation in redux
     const updatedWorkflowDefinitions = workflows.map(w => {
