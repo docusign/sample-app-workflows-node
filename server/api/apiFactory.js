@@ -49,7 +49,7 @@ const createMaestroApi = (axios, basePath, accountId, accessToken) => {
   };
 
   const triggerWorkflow = async (args, triggerUrl) => {
-    const response = await api.post(triggerUrl);
+    const response = await api.post(triggerUrl, args);
     return response.data;
   };
 
