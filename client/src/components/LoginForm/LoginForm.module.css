@@ -48,29 +48,42 @@ input[type=radio] {
     line-height: 16px;
     font-size: 12px;
     font-weight: 400;
-    width: 100%;
-    margin-left: 6.25rem;
+    margin-left: 3.25rem;
     padding-right: 2rem;
     margin-top: -0.25rem;
 
     display: inline-block;
     color: var(--black-extralight);
     text-align: left;
+
+    @media screen and (min-width: 992px) {
+        width: 100%;
+        margin-left: 6.25rem;
+    }
 }
 
 .authVariants {
     gap: 24px;
     width: 100%;
     display: flex;
-    flex-direction: row;
+    padding: 0 1rem;
+    flex-direction: column;
     justify-content: center;
+
+    @media screen and (min-width: 992px) {
+        flex-direction: row;
+        padding: 0;
+    }
 }
 
 .formButtons {
-    margin-top: 40px;
+    margin: 40px 0;
     display: flex;
     gap: 8px;
     justify-content: center;
+    @media screen and (min-width: 992px) {
+        margin-bottom: 0;
+    }
 }
 
 .formButtons button {

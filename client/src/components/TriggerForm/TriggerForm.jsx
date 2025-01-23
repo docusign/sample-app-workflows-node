@@ -80,17 +80,22 @@ const TriggerForm = ({ workflowId, templateType }) => {
   const handleSubmit = async event => {
     event.preventDefault();
 
-    const body = relevantFormFields.reduce((acc, current) => {
+    let body = relevantFormFields.reduce((acc, current) => {
       acc[current.fieldName] = current.value;
       return acc;
     }, {});
 
-    if (!Object.keys(body).length) {
+    if (!Object.keys(body).length && relevantFormFields.length) {
       navigate(ROUTE.TRIGGER);
       return;
     }
 
     setDataSending(true);
+
+    if(!relevantFormFields.length) {
+      body = {};
+    }
+
     const { data: triggeredWorkflow } = await api.workflows.triggerWorkflow(workflowId, templateType, body);
     setWorkflowInstanceUrl(triggeredWorkflow.instance_url);
 
@@ -109,6 +114,7 @@ const TriggerForm = ({ workflowId, templateType }) => {
     setDataSending(false);
     dispatch(openPopupWindow());
   };
+
   if (!relevantFormFields.length)
     return (
       <div className={styles.formContainer}>

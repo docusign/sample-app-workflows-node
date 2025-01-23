@@ -72,7 +72,8 @@
   },
   "pageTitles": {
     "manageWorkflow": "Manage workflows",
-    "triggerWorkflow": "Trigger a workflow instance"
+    "triggerWorkflow": "Trigger a workflow instance",
+    "completeWorkflow": "Complete the workflow"
   },
   "popups": {
     "workflowTriggered": {
@@ -90,7 +91,7 @@
     "triggerNewWorkflow": "Trigger new workflow ->",
     "getStarted": "Get started",
     "moreInfo": "More info",
-    "backHome": "← Back to home"
+    "backHome": "← Back to workflows"
   },
   "links": {
     "github": "https://github.com/docusign/sample-app-maestro-node",

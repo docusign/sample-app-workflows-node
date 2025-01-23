@@ -1,13 +1,17 @@
 .formContainer {
-  margin: 6rem 10rem 0 0;
   padding: 0 0 1rem 3rem;
-  width: 50%;
-  min-width: 500px;
+  width: 100%;
   background-color: var(--white-main);
   border-radius: 8px;
   box-shadow: 0 4px 16px 0 #0800143d !important;
   display: flex;
   flex-direction: column;
+
+  @media screen and (min-width: 992px) {
+    min-width: 500px;
+    margin: 6rem 10rem 0 0;
+    width: 50%;
+  }
 }
 
 .formContainer h2 {

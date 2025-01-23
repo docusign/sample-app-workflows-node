@@ -7,6 +7,7 @@ import withAuth from '../../hocs/withAuth/withAuth.jsx';
 import WorkflowDescription from '../../components/WorkflowDescription/WorkflowDescription.jsx';
 import TriggerBehindTheScenes from '../../components/WorkflowDescription/BehindTheScenes/TriggerBehindTheScenes.jsx';
 import TriggerForm from '../../components/TriggerForm/TriggerForm.jsx';
+import { ROUTE } from '../../constants.js';
 
 const TriggerWorkflowForm = () => {
   const { workflowId } = useParams();
@@ -22,6 +23,7 @@ const TriggerWorkflowForm = () => {
         <WorkflowDescription
           title={textContent.pageTitles.triggerWorkflow}
           behindTheScenesComponent={<TriggerBehindTheScenes />}
+          backRoute={ROUTE.TRIGGER}
         />
         <TriggerForm workflowId={workflowId} templateType={type} />
       </div>

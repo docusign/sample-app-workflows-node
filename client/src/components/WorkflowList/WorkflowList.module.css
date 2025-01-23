@@ -1,11 +1,17 @@
 .listGroup {
   width: 100%;
-  margin-left: 34px;
-  max-height: 62vh;
+  @media screen and (min-width: 992px) {
+    margin-left: 34px;
+    max-height: 62vh;
+  }
 }
 
 .listContainer {
-  padding-top: 6.25rem;
+  padding-top: 1rem;
+
+  @media screen and (min-width: 992px) {
+    padding-top: 6.25rem;
+  }
 }
 
 .listGroup a {
@@ -196,6 +202,10 @@
   position: static;
   padding-top: 7.5rem;
   padding-right: 30rem;
+
+  @media screen and (max-width: 991.98px) {
+    padding: 1rem;
+  }
 }
 
 .emptyListContainer h1 {
