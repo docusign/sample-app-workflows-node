@@ -6,8 +6,6 @@ const Footer = ({ withContent = true }) => (
     {withContent && (
       <section className={styles.container}>
         <div>
-          <h2 className={styles.header}>{textContent.hero.footer.title}</h2>
-          <div className={styles.text}>{textContent.hero.footer.paragraph}</div>
         </div>
         <div className={styles.buttons}>
           <a href={textContent.links.createsandbox} rel="noopener noreferrer" target="_blank">
@@ -24,7 +22,6 @@ const Footer = ({ withContent = true }) => (
         </div>
       </section>
     )}
-    <span className={styles.copyright}>{textContent.hero.footer.copyright}</span>
   </footer>
 );
 
