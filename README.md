@@ -1,8 +1,8 @@
-# Node.js and React: Maestro Sample App
+# Node.js and React: Workflows Sample App
 
 ## Introduction
 
-Welcome to the Maestro Sample App! The app is written using Node.js and React. Docusign Maestro lets you easily build and deploy customized workflows that automate and accelerate your agreement processes without writing any code. Maestro connects all the tools and activities in your workflow so that agreement processes are more efficient, more uniform, and have better visibility.
+Welcome to the Workflows Sample App! The app is written using Node.js and React. Docusign Maestro lets you easily build and deploy customized workflows that automate and accelerate your agreement processes without writing any code. Maestro connects all the tools and activities in your workflow so that agreement processes are more efficient, more uniform, and have better visibility.
 
 With Docusign Maestro, you can combine Docusign features such as ID Verification, Web Forms, and eSignature with third-party extensions to automate your workflows from end to end.
 
@@ -34,8 +34,8 @@ If you run this project in Docker using the **docker-compose.local.yml** file, t
 
 ### Install dependencies locally
 
-1. Download or clone this repository to your workstation in a new folder named **sample-app-maestro-node**.
-2. Navigate to that folder: **`cd sample-app-maestro-node`**
+1. Download or clone this repository to your workstation in a new folder named **sample-app-workflows-node**.
+2. Navigate to that folder: **`cd sample-app-workflows-node`**
 3. Navigate to the **client** folder: **`cd client`**
 4. Install dependencies using the [npm](https://www.npmjs.com/) package manager: **`npm install`**
 5. Navigate to the **server** folder: **`cd ../server`**
@@ -44,20 +44,20 @@ If you run this project in Docker using the **docker-compose.local.yml** file, t
   > **Note:** Protect your integration key and client secret. You should make sure that the **.env** file will not be stored in your source code repository.
 8. Rename the **example_private.key** file to **private.key**, and paste your complete private RSA key into this file (including the header and footer of the key). This should be the private RSA you should have gotten when you created your Docusign account.
 
-## Running the Maestro Sample App in development mode
+## Running the Workflows Sample App in development mode
 
-1. Navigate to the application folder: **`cd sample-app-maestro-node`**
+1. Navigate to the application folder: **`cd sample-app-workflows-node`**
 2. To start the server and client at the same time: **`npm run concurrently:dev`**
 3. **Or,** to run the server and client separately:
     - In one terminal, run **`npm run client:dev`**
     - In a separate terminal, run **`npm run server:dev`**
 4. Open a browser to **http://localhost:3000**
 
-## Running the Maestro Sample App in Docker
+## Running the Workflows Sample App in Docker
 
 You can run the application in Docker locally in production mode:
 
-1. Navigate to the application folder: **`cd sample-app-maestro-node`**
+1. Navigate to the application folder: **`cd sample-app-workflows-node`**
 2. Make sure that you configured **.env** file and saved your **private.key** in the root of the folder. Make sure that you have Docker installed.
 3. Run **`docker-compose -f docker-compose.local.yaml up -d`**
 4. To stop containers, run **`docker compose -f docker-compose.local.yaml down`**

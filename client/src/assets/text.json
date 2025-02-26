@@ -1,7 +1,7 @@
 {
   "hero": {
-    "title": "Welcome to the Maestro Sample App",
-    "paragraph": "Discover the power of the Docusign Maestro API (beta). Create, trigger, and manage Maestro workflows in an interactive environment.",
+    "title": "Welcome to the Workflows Sample App",
+    "paragraph": "Discover the power of the Docusign Maestro API (beta). Trigger and manage Maestro workflows in an interactive environment.",
     "tryButton": "Try the App",
     "GitHub": "Go to GitHub",
     "footer": {
@@ -14,7 +14,7 @@
   },
   "login": {
     "acg": "Authorization Code Grant",
-    "acgDescription": "This authentication type lets you create, trigger, and manage workflows in your own account.",
+    "acgDescription": "This authentication type lets you trigger and manage workflows in your own account.",
     "jwt": "JSON Web Token",
     "jwtDescription": "This authentication type lets you trigger and manage workflows in our preconfigured account."
   },
@@ -94,7 +94,7 @@
     "backHome": "← Back to workflows"
   },
   "links": {
-    "github": "https://github.com/docusign/sample-app-maestro-node",
+    "github": "https://github.com/docusign/sample-app-workflows-node",
     "createsandbox": "https://go.docusign.com/o/sandbox/",
     "learnmore": "https://developers.docusign.com/docs/maestro-api/"
   }
