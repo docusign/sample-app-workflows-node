@@ -14,9 +14,7 @@ const { initMaestroApi } = require('../api');
 class WorkflowsService {
   static getWorkflowDefinitions = async args => {
     const api = initMaestroApi(args.accountId, args.basePath, args.accessToken);
-    const definitions = await api.getWorkflowDefinitions({
-      status: 'active',
-    });
+    const definitions = await api.getWorkflowDefinitions({});
 
     return definitions;
   };
