@@ -16,7 +16,7 @@ const config = {
   userId: readRequiredEnvVariable('USER_ID'),
   clientId: readRequiredEnvVariable('DS_CLIENT_ID'),
   clientSecret: readRequiredEnvVariable('DS_CLIENT_SECRET'),
-  targetAccountId: readRequiredEnvVariable('TARGET_ACCOUNT_ID'),
+  targetAccountId: JSON.parse(readRequiredEnvVariable('TARGET_ACCOUNT_ID')),
   sessionSecret: readRequiredEnvVariable('SESSION_SECRET'),
   frontendHost:
     nodeEnv === 'development'
