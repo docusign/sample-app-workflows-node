@@ -38,6 +38,7 @@ const Hero = () => {
         <div className={styles.messageBox}>
           <h1>{textContent.hero.title}</h1>
           <p>{textContent.hero.paragraph}</p>
+          <p><strong><em>{textContent.hero.authentication}</em></strong></p>
         </div>
         <div className={styles.buttonGroup}>
           <button className="btn btn-secondary" onClick={togglePopup}>

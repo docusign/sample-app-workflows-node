@@ -2,6 +2,7 @@
   "hero": {
     "title": "Welcome to the Workflows Sample App",
     "paragraph": "Discover the power of the Docusign Maestro API (beta). Trigger and manage Maestro workflows in an interactive environment.",
+    "authentication": "Supports both Authorization Code Grant and JSON Web Token (JWT) authentication.",
     "tryButton": "Try the App",
     "GitHub": "Go to GitHub",
     "footer": {
