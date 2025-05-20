@@ -78,8 +78,9 @@
   },
   "popups": {
     "workflowTriggered": {
-      "title": "Workflow triggered",
-      "description": "To complete the workflow steps, select Continue"
+      "title": "Incompatible workflow",
+      "descriptiona": "See  and redirect the user back to the workflows page",
+      "description": "See <a href='https://developers.docusign.com/docs/maestro-api/maestro101/embed-workflow/#embedded-workflow-instance-recommendations-and-restrictions' target='_blank'>Embedded workflow instance recommendations and restrictions</a> and redirect the user back to the workflows page"
     }
   },
   "buttons": {

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styles from './TriggerForm.module.css';
 import WorkflowTriggerResultPopup from '../Popups/WorkflowTriggerResult/WorkflowTriggerResult.jsx';
 import { triggerForm, buttons } from '../../assets/text.json';
-import { ROUTE, TemplateType } from '../../constants.js';
+import { ROUTE, TemplateType, WorkflowTriggerResponse } from '../../constants.js';
 import { api } from '../../api';
 import { openPopupWindow, closePopupWindow, updateWorkflowDefinitions } from '../../store/actions';
 
@@ -49,7 +49,13 @@ const TriggerForm = ({ workflowId, templateType }) => {
       case "-":
         try {
           api.workflows.getWorkflowTriggerRequirements(workflowId).then(data => {
-            setRelevantFormFields(generateDynamicForm(data.data.trigger_input_schema, 'Custom'));
+            const result = Object.values(data.data.trigger_input_schema)
+              .filter(entry => entry.field_name !== "startDate")
+              .map(entry => ({
+                field_name: entry.field_name,
+              }));
+
+            setRelevantFormFields(generateDynamicForm(result, 'Custom'));
           });
         } catch (error) {
           console.error("Failed to fetch trigger requirements:", error);
@@ -92,44 +98,50 @@ const TriggerForm = ({ workflowId, templateType }) => {
 
     setDataSending(true);
 
-    if(!relevantFormFields.length) {
+    if (!relevantFormFields.length) {
       body = {};
     }
 
     const { data: triggeredWorkflow } = await api.workflows.triggerWorkflow(workflowId, templateType, body);
     setWorkflowInstanceUrl(triggeredWorkflow.instance_url);
 
-    // Update workflowDefinitions. "...workflow" creates new workflow-object to avoid mutation in redux
-    const updatedWorkflowDefinitions = workflows.map(w => {
-      if (w.id !== workflowId) return { ...w };
+    if (triggeredWorkflow.instance_url !== undefined) {
+      navigate(`${ROUTE.TRIGGERFORM}/${workflowId}?type=${templateType}&triggerUrl=${triggeredWorkflow.instance_url}`)
+    }
 
-      return {
-        ...w,
-        instanceId: triggeredWorkflow.instanceId,
-        isTriggered: true,
-      };
-    });
+    if (triggeredWorkflow === WorkflowTriggerResponse.TRIGGER_ISSUE) {
+      // Update workflowDefinitions. "...workflow" creates new workflow-object to avoid mutation in redux
+      const updatedWorkflowDefinitions = workflows.map(w => {
+        if (w.id !== workflowId) return { ...w };
 
-    dispatch(updateWorkflowDefinitions(updatedWorkflowDefinitions));
-    setDataSending(false);
-    dispatch(openPopupWindow());
+        return {
+          ...w,
+          instanceId: triggeredWorkflow.instanceId,
+          isTriggered: true,
+        };
+      });
+
+      dispatch(updateWorkflowDefinitions(updatedWorkflowDefinitions));
+      setDataSending(false);
+      dispatch(openPopupWindow());
+    }
   };
 
   if (!relevantFormFields.length)
     return (
       <div className={styles.formContainer}>
-      <h2>{triggerForm.formTitleWithoutInputs}</h2>
-      
-      <form className={styles.triggerForm} onSubmit={handleSubmit}>
-        <button className="btn btn-primary" type="submit" disabled={isDataSending}>
-          <span className="sr-only">{buttons.triggerWorkflow}</span>
-          {isDataSending ? <span className="spinner-border spinner-border-sm" /> : null}
-        </button>
-      </form>
-      {isPopupOpened && (
-        <WorkflowTriggerResultPopup workflowInstanceUrl={workflowInstanceUrl} togglePopup={handleCloseTriggerPopup} />
-      )}
-    </div>
+        <h2>{triggerForm.formTitleWithoutInputs}</h2>
+
+        <form className={styles.triggerForm} onSubmit={handleSubmit}>
+          <button className="btn btn-primary" type="submit" disabled={isDataSending}>
+            <span className="sr-only">{buttons.triggerWorkflow}</span>
+            {isDataSending ? <span className="spinner-border spinner-border-sm" /> : null}
+          </button>
+        </form>
+        {isPopupOpened && (
+          <WorkflowTriggerResultPopup workflowInstanceUrl={workflowInstanceUrl} togglePopup={handleCloseTriggerPopup} />
+        )}
+      </div>
     );
 
   return (

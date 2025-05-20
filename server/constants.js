@@ -14,6 +14,10 @@ const METHOD = {
   ACG: 'grand-auth',
 };
 
+const ISSUES = {
+  TRIGGER_ISSUE: 'Incompatible workflow',
+};
+
 const MAESTRO_SCOPES = ['signature', 'aow_manage', 'impersonation'];
 
 module.exports = {
@@ -21,4 +25,5 @@ module.exports = {
   BACKEND_ROUTE,
   TEMPLATE_TYPE,
   METHOD,
+  ISSUES,
 };

@@ -29,7 +29,7 @@ class WorkflowsService {
   static triggerWorkflowInstance = async (args, payload, triggerRequirements) => {
     const api = initMaestroApi(args.accountId, args.basePath, args.accessToken);
     const triggerPayload = {
-      instance_name: '',
+      instance_name: 'test',
       trigger_inputs: payload,
     };
     const triggerResponse = await api.triggerWorkflow(triggerPayload, triggerRequirements.trigger_http_config.url);
