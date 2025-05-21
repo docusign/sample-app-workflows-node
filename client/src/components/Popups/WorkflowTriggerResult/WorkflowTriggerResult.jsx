@@ -20,11 +20,11 @@ const WorkflowTriggerResult = ({ workflowInstanceUrl }) => {
     <div className={styles.popupContainer}>
       <img src={imgSuccess} alt="" />
       <h2>{textContent.popups.workflowTriggered.title}</h2>
-      <p>{textContent.popups.workflowTriggered.description}</p>
+      <p className={styles.popupMessageContainer} dangerouslySetInnerHTML={{ __html: textContent.popups.workflowTriggered.description }}></p>
       <a href={workflowInstanceUrl} target="_blank" rel="noreferrer" onClick={handleFinishTrigger}>
         {textContent.buttons.continue}
       </a>
-    </div>
+    </div >
   );
 };
 const WorkflowTriggerResultPopup = withPopup(WorkflowTriggerResult);

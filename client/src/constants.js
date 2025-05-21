@@ -13,6 +13,10 @@ export const WorkflowItemsInteractionType = {
   TRIGGER: 'Trigger',
 };
 
+export const WorkflowTriggerResponse = {
+  TRIGGER_ISSUE: 'Incompatible workflow',
+};
+
 export const TemplateType = {
   I9: { name: 'Maestro: I-9', type: 'I-9 document' },
   OFFER: { name: 'Maestro: Offer Letter', type: 'Offer letter' },
