@@ -106,7 +106,7 @@ const TriggerForm = ({ workflowId, templateType }) => {
     setWorkflowInstanceUrl(triggeredWorkflow.instance_url);
 
     if (triggeredWorkflow.instance_url !== undefined) {
-      navigate(`${ROUTE.TRIGGERFORM}/${workflowId}?type=${templateType}&triggerUrl=${triggeredWorkflow.instance_url}`)
+      navigate(`${ROUTE.TRIGGERFORM}/${workflowId}?type=${templateType}&triggerUrl=${encodeURIComponent(triggeredWorkflow.instance_url)}`)
     }
 
     if (triggeredWorkflow === WorkflowTriggerResponse.TRIGGER_ISSUE) {
