@@ -24,7 +24,7 @@ const WorkflowList = ({ items, interactionType, isLoading }) => {
       <div className={`list-group ${styles.listGroup}`}>
         <div className={styles.emptyListContainer}>
           <h2>{textContent.workflowList.doNotHaveWorkflow}</h2>
-          <h4 className={styles.resetStyle} dangerouslySetInnerHTML={{ __html: textContent.workflowList.pleaseCreateWorkflow }}></h4>
+          <p>Please <a href=''>manually create a workflow</a> in your account before using the sample app.</p>
         </div>
       </div>
     );

@@ -20,7 +20,9 @@ const WorkflowTriggerResult = ({ workflowInstanceUrl }) => {
     <div className={styles.popupContainer}>
       <img src={imgSuccess} alt="" />
       <h2>{textContent.popups.workflowTriggered.title}</h2>
-      <p className={styles.popupMessageContainer} dangerouslySetInnerHTML={{ __html: textContent.popups.workflowTriggered.description }}></p>
+      <p className={styles.popupMessageContainer}>
+        See <a href='https://developers.docusign.com/docs/maestro-api/maestro101/embed-workflow/#embedded-workflow-instance-recommendations-and-restrictions' target='_blank'>Embedded workflow instance recommendations and restrictions</a>.
+      </p>
       <a href={workflowInstanceUrl} target="_blank" rel="noreferrer" onClick={handleFinishTrigger}>
         {textContent.buttons.continue}
       </a>
