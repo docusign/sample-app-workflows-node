@@ -17,7 +17,18 @@ const TriggerWorkflowForm = () => {
   const type = searchParams.get('type');
   const triggerUrl = searchParams.get('triggerUrl');
 
-  if (triggerUrl !== null) {
+  const triggerUrlPattern = /^https:\/\/(?!.*javascript)[^()]+$/i;
+  
+  function isValidTriggerUrl(url) {
+    try {
+      // Check if it's a valid URL and matches the pattern
+      return triggerUrlPattern.test(decodeURIComponent(url)) && new URL(url);
+    } catch {
+      return false;
+    }
+  }
+  
+  if (triggerUrl !== null && isValidTriggerUrl(triggerUrl)) {
     return (
       <div className="page-box">
         <Header />
