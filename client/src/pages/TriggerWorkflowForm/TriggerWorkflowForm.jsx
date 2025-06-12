@@ -19,14 +19,19 @@ const TriggerWorkflowForm = () => {
 
   const triggerUrlPattern = /^https:\/\/(?!.*javascript)[^()]+$/i;
   
-  function isValidTriggerUrl(url) {
-    try {
-      // Check if it's a valid URL and matches the pattern
-      return triggerUrlPattern.test(decodeURIComponent(url)) && new URL(url);
-    } catch {
-      return false;
-    }
+function isValidTriggerUrl(url) {
+  try {
+    const decoded = decodeURIComponent(url);
+    const parsedUrl = new URL(decoded);
+    // Only allow https and the exact hostname
+    return (
+      parsedUrl.protocol === 'https:' &&
+      parsedUrl.hostname === 'apps-d.docusign.com'
+    );
+  } catch {
+    return false;
   }
+}
   
   if (triggerUrl !== null && isValidTriggerUrl(triggerUrl)) {
     return (
