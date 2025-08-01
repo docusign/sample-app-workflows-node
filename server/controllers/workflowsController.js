@@ -83,6 +83,67 @@ class WorkflowsController {
     }
   };
 
+  static pauseWorkflow = async (req, res) => {
+    try {
+      const args = {
+        workflowId: req.params.definitionId,
+        accessToken: req?.user?.accessToken || req?.session?.accessToken,
+        accountId: req.session.accountId,
+      };
+
+      const result = await WorkflowsService.pauseWorkflow(args);
+      res.status(200).send(result);
+    } catch (error) {
+      this.handleErrorResponse(error, res);
+    }
+  };
+
+  static resumePausedWorkflow = async (req, res) => {
+    try {
+      const args = {
+        workflowId: req.params.definitionId,
+        accessToken: req?.user?.accessToken || req?.session?.accessToken,
+        accountId: req.session.accountId,
+      };
+
+      const result = await WorkflowsService.resumePausedWorkflow(args);
+      res.status(200).send(result);
+    } catch (error) {
+      this.handleErrorResponse(error, res);
+    }
+  };
+
+  static getInstances = async (req, res) => {
+    try {
+      const args = {
+        workflowId: req.params.definitionId,
+        accessToken: req?.user?.accessToken || req?.session?.accessToken,
+        accountId: req.session.accountId,
+      };
+
+      const result = await WorkflowsService.getInstances(args);
+      res.status(200).send(result);
+    } catch (error) {
+      this.handleErrorResponse(error, res);
+    }
+  };
+
+  static cancelWorkflow = async (req, res) => {
+    try {
+      const args = {
+        workflowId: req.params.definitionId,
+        instanceId: req.params.instanceId,
+        accessToken: req?.user?.accessToken || req?.session?.accessToken,
+        accountId: req.session.accountId,
+      };
+
+      const result = await WorkflowsService.pauseWorkflow(args);
+      res.status(200).send(result);
+    } catch (error) {
+      this.handleErrorResponse(error, res);
+    }
+  };
+
   static handleErrorResponse(error, res) {
     this.logger.error(`handleErrorResponse: ${error}`);
 

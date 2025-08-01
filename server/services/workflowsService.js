@@ -41,6 +41,43 @@ class WorkflowsService {
 
     return triggerResponse;
   };
+
+  static pauseWorkflow = async args => {
+    const client = new iam.IamClient({ accessToken: args.accessToken });
+
+    return await client.maestro.workflows.pauseNewWorkflowInstances({
+      accountId: args.accountId,
+      workflowId: args.workflowId,
+    });
+  };
+
+  static resumePausedWorkflow = async args => {
+    const client = new iam.IamClient({ accessToken: args.accessToken });
+
+    return await client.maestro.workflows.resumePausedWorkflow({
+      accountId: args.accountId,
+      workflowId: args.workflowId,
+    });
+  };
+
+  static getInstances = async args => {
+    const client = new iam.IamClient({ accessToken: args.accessToken });
+
+    return await client.maestro.workflowInstanceManagement.getWorkflowInstancesList({
+      accountId: args.accountId,
+      workflowId: args.workflowId,
+    });
+  };
+
+  static cancelWorkflow = async args => {
+    const client = new iam.IamClient({ accessToken: args.accessToken });
+
+    return await client.maestro.workflowInstanceManagement.cancelWorkflowInstance({
+      accountId: args.accountId,
+      workflowId: args.workflowId,
+      instanceId: args.instanceId,
+    });
+  };
 }
 
 module.exports = WorkflowsService;
