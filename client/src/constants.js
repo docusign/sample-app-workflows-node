@@ -1,6 +1,8 @@
 export const ROUTE = {
   ROOT: '/',
+  HOME: '/home',
   TRIGGER: '/trigger-workflow',
+  MANAGE: '/manage-workflow',
   TRIGGERFORM: '/trigger-workflow/form',
 };
 
@@ -11,6 +13,14 @@ export const LoginStatus = {
 
 export const WorkflowItemsInteractionType = {
   TRIGGER: 'Trigger',
+  MANAGE: 'Manage',
+};
+
+export const WorkflowStatus = {
+  Failed: 'Failed',
+  InProgress: 'In Progress',
+  Completed: 'Completed',
+  NotRun: 'Not Run',
 };
 
 export const WorkflowTriggerResponse = {

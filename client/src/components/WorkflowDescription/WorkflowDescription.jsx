@@ -2,15 +2,15 @@ import { Link } from 'react-router-dom';
 import styles from './WorkflowDescription.module.css';
 import textContent from '../../assets/text.json';
 
-const WorkflowDescription = ({ title, behindTheScenesComponent, backRoute }) => {
+const WorkflowDescription = ({ title, behindTheScenesComponent, backRoute, backText }) => {
   return (
     <div className={styles.descriptionContainer}>
       {backRoute && (
         <Link to={backRoute}>
-          <button className={styles.backButton}>{textContent.buttons.backHome}</button>
+          <button className={styles.backButton}>{backText}</button>
         </Link>
       )}
-      
+
       <h2>{title}</h2>
       <div className={`dropdown ${styles.dropDown}`}>
         <button
