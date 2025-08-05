@@ -17,10 +17,8 @@ export const WorkflowItemsInteractionType = {
 };
 
 export const WorkflowStatus = {
-  Failed: 'Failed',
-  InProgress: 'In Progress',
-  Completed: 'Completed',
-  NotRun: 'Not Run',
+  active: 'active',
+  paused: 'paused',
 };
 
 export const WorkflowTriggerResponse = {

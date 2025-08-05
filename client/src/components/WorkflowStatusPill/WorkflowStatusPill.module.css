@@ -1,0 +1,18 @@
+.workflowStatusPill {
+    height: 20px;
+    width: 80px;
+    border-radius: 100px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.active {
+    background-color: var(--green-light);
+    color: var(--green-main);
+}
+
+.paused {
+    background-color: var(--grey-light);
+    color: var(--black-main);
+}
