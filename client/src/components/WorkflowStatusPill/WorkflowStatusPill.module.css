@@ -13,6 +13,6 @@
 }
 
 .paused {
-    background-color: var(--grey-light);
-    color: var(--black-main);
+    background-color: var(--red-light);
+    color: var(--error-main);
 }

@@ -33,11 +33,10 @@ const WorkflowList = ({ items, interactionType, isLoading }) => {
   const handlePauseWorkflow = async workflow => {
     setLoadingWorkflow({ id: workflow.id, isLoading: true });
     const { data: workflowInstance } = await api.workflows.pauseWorkflow(workflow);
-
-    if (workflowInstance.instanceState !== workflow.instanceState) {
+    if (workflowInstance.status !== workflow.instanceState) {
       const updatedWorkflows = workflows.map(w => {
         if (w.id !== workflow.id) return { ...w };
-        return { ...w, instanceState: workflowInstance.instanceState };
+        return { ...w, instanceState: workflowInstance.status };
       });
       dispatch(updateWorkflowDefinitions(updatedWorkflows));
     }
@@ -48,14 +47,12 @@ const WorkflowList = ({ items, interactionType, isLoading }) => {
 
   const handleResumeWorkflow = async workflow => {
     setLoadingWorkflow({ id: workflow.id, isLoading: true });
-    console.log("Resuming");
     const { data: workflowInstance } = await api.workflows.resumeWorkflow(workflow);
 
-    console.log(workflowInstance);
-    if (workflowInstance.instanceState !== workflow.instanceState) {
+    if (workflowInstance.status !== workflow.instanceState) {
       const updatedWorkflows = workflows.map(w => {
         if (w.id !== workflow.id) return { ...w };
-        return { ...w, instanceState: workflowInstance.instanceState };
+        return { ...w, instanceState: workflowInstance.status };
       });
       dispatch(updateWorkflowDefinitions(updatedWorkflows));
     }
