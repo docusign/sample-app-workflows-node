@@ -13,7 +13,7 @@ const WorkflowTriggerResult = ({ workflowInstanceUrl }) => {
 
   const handleFinishTrigger = async () => {
     dispatch(closePopupWindow());
-    navigate(ROUTE.TRIGGER);
+    navigate(ROUTE.HOME);
   };
 
   return (

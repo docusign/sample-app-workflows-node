@@ -18,7 +18,7 @@ const ISSUES = {
   TRIGGER_ISSUE: 'Incompatible workflow',
 };
 
-const MAESTRO_SCOPES = ['signature', 'aow_manage', 'impersonation'];
+const MAESTRO_SCOPES = ['signature', 'aow_manage'];
 
 module.exports = {
   scopes: MAESTRO_SCOPES,

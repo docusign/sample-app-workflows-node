@@ -23,11 +23,11 @@ const Hero = () => {
 
     if (authType === LoginStatus.ACG) {
       const isLoggedIn = await api.acg.loginStatus();
-      isLoggedIn && navigate(ROUTE.TRIGGER);
+      isLoggedIn && navigate(ROUTE.HOME);
     }
     if (authType === LoginStatus.JWT) {
       const isLoggedIn = await api.jwt.loginStatus();
-      isLoggedIn && navigate(ROUTE.TRIGGER);
+      isLoggedIn && navigate(ROUTE.HOME);
     }
   };
 
