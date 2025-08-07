@@ -88,6 +88,14 @@
       "workflowStatus": "Workflow status"
     }
   },
+  "instanceList": {
+    "cancelButton": "Cancel",
+    "columns": {
+      "instance": "Instance",
+      "progress": "Progress",
+      "startedBy": "Started by"
+    }
+  },
   "pageTitles": {
     "manageWorkflow": "Manage workflows",
     "triggerWorkflow": "Trigger a workflow instance",

@@ -103,11 +103,15 @@
   justify-self: end;
 }
 
-.listRow .cell1 {
+.listRow .cell1, .dropdownCell {
   display: flex;
   flex-direction: row;
   gap: 16px;
   margin-left: 10px;
+}
+
+.listRow .dropdownCell:hover {
+  cursor: pointer;
 }
 
 .listRow .cell2 {
@@ -121,6 +125,10 @@
   margin-right: 10px;
 }
 
+.listRow .instanceListRow {
+  grid-column: 1 / -1;
+}
+
 .headerRow {
   flex-direction: row;
   width: 100%;
@@ -131,6 +139,10 @@
   align-items: center;
   gap: 14px;
   margin-bottom: 0.5rem;
+}
+
+.headerRow .nameHeader {
+  justify-self: center;
 }
 
 .headerRow .statusHeader {

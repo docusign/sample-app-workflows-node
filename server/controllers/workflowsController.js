@@ -137,7 +137,7 @@ class WorkflowsController {
         accountId: req.session.accountId,
       };
 
-      const result = await WorkflowsService.pauseWorkflow(args);
+      const result = await WorkflowsService.cancelWorkflow(args);
       res.status(200).send(result);
     } catch (error) {
       this.handleErrorResponse(error, res);
@@ -147,8 +147,8 @@ class WorkflowsController {
   static handleErrorResponse(error, res) {
     this.logger.error(`handleErrorResponse: ${error}`);
 
-    const errorCode = error?.response?.statusCode;
-    const errorMessage = error?.response?.body?.message;
+    const errorCode = error?.response?.statusCode || error?.statusCode;
+    const errorMessage = error?.response?.body?.message || error?.message || error?.rawMessage;
 
     // use custom error message if Maestro is not enabled for the account
     if (errorCode === 403) {

@@ -7,9 +7,11 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import WorkflowStatusPill from '../WorkflowStatusPill/WorkflowStatusPill.jsx';
 import dropdownSvg from '../../assets/img/dropdown.svg';
+import dropdownArrowSvg from '../../assets/img/dropdown-arrow.svg';
 import { api } from '../../api';
 import { updateWorkflowDefinitions } from '../../store/actions';
 import StatusLoader from '../StatusLoader/StatusLoader.jsx';
+import InstanceList from '../InstanceList/InstanceList.jsx';
 
 const WorkflowList = ({ items, interactionType, isLoading }) => {
   const dispatch = useDispatch();
@@ -17,6 +19,7 @@ const WorkflowList = ({ items, interactionType, isLoading }) => {
   const workflows = useSelector(state => state.workflows.workflows);
   const [loadingWorkflow, setLoadingWorkflow] = useState({ id: '', isLoading: false });
   const [dropdownOptions, setDropdownOptions] = useState({ id: '', isOpen: false });
+  const [openLists, setOpenLists] = useState(new Set());
 
   const handleFocusDropdown = idx => {
     setTimeout(() => {
@@ -28,6 +31,18 @@ const WorkflowList = ({ items, interactionType, isLoading }) => {
     setTimeout(() => {
       setDropdownOptions({ id: '', isOpen: false });
     }, 100);
+  };
+
+  const toggleDropdown = (index) => {
+    setOpenLists((prev) => {
+      const updated = new Set(prev);
+      if (updated.has(index)) {
+        updated.delete(index);
+      } else {
+        updated.add(index);
+      }
+      return updated;
+    });
   };
 
   const handlePauseWorkflow = async workflow => {
@@ -96,7 +111,7 @@ const WorkflowList = ({ items, interactionType, isLoading }) => {
 
         {interactionType === WorkflowItemsInteractionType.MANAGE && (
           <div className={`${styles.headerRow}`}>
-            <p>{textContent.workflowList.columns.workflowName}</p>
+            <p className={styles.nameHeader}>{textContent.workflowList.columns.workflowName}</p>
             <p className={styles.statusHeader}>{textContent.workflowList.columns.workflowStatus}</p>
           </div>
         )}
@@ -109,7 +124,10 @@ const WorkflowList = ({ items, interactionType, isLoading }) => {
           }`} style={items.length >= 2 ? listStyles : {}}>
           {items.map((item, idx) => (
             <div key={`${item.name}${idx}`} className={`list-group-item list-group-item-action ${styles.listRow}`}>
-              <div className={styles.cell1}>
+              <div className={interactionType === WorkflowItemsInteractionType.MANAGE ? styles.dropdownCell: styles.cell1} onClick={() => toggleDropdown(idx)}>
+                {interactionType === WorkflowItemsInteractionType.MANAGE && (
+                  <img src={dropdownArrowSvg} style={{rotate: openLists.has(idx) ? '180deg' : '0deg'}} />
+                )}
                 <h4>{WorkflowItemsInteractionType.TRIGGER ? item.name : item.instanceName}</h4>
               </div>
 
@@ -166,6 +184,12 @@ const WorkflowList = ({ items, interactionType, isLoading }) => {
                       {textContent.buttons.resumeWorkflow}
                     </a>
                   </div>
+                </div>
+              )}
+              
+              {interactionType === WorkflowItemsInteractionType.MANAGE && openLists.has(idx) && (
+                <div className={styles.instanceListRow}>
+                  <InstanceList key={`${item.name}-${idx}-instances`} workflowId={item.id} items={item.instances} />
                 </div>
               )}
             </div>

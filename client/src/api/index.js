@@ -108,5 +108,9 @@ export const api = Object.freeze({
       const response = await instance.get(`/workflows/${workflowId}/instances`);
       return response;
     },
+    cancelWorkflowInstance: async (workflowId, instanceId) => {
+      const response = await instance.post(`/workflows/${workflowId}/instances/${instanceId}/cancel`);
+      return response;
+    }
   },
 });

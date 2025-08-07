@@ -24,12 +24,24 @@ const ManageWorkflow = () => {
         const getWorkflowDefinitions = async () => {
             setWorkflowListLoading(true);
             const definitionsResponse = await api.workflows.getWorkflowDefinitions();
-            const workflowDefinitions = definitionsResponse.data.data.filter(definition => definition.status !== 'inactive')
-                .map(definition => {
+            const workflowDefinitions = await Promise.all(definitionsResponse.data.data.filter(definition => definition.status !== 'inactive')
+                .map(async definition => {
                     if (workflows.length) {
                         const foundWorkflow = workflows.find(workflow => workflow.id === definition.id);
                         if (foundWorkflow) return foundWorkflow;
                     }
+
+                    const instancesResponse = await api.workflows.getWorkflowInstances(definition.id);
+                    const instances = instancesResponse.data.data.map(instance => {
+                        return {
+                            id: instance.id,
+                            name: instance.name,
+                            lastCompletedStep: instance.lastCompletedStep,
+                            totalSteps: instance.totalSteps,
+                            workflowStatus: instance.workflowStatus,
+                            startedByName: instance.startedByName,
+                        };
+                    });
 
                     const templateKeys = Object.keys(TemplateType);
                     const foundKey = templateKeys.find(key => definition.name.startsWith(TemplateType[key].name));
@@ -41,6 +53,7 @@ const ManageWorkflow = () => {
                             id: definition.id,
                             name: definition.name,
                             instanceState: definition.status,
+                            instances: instances,
                         };
                     }
 
@@ -48,9 +61,10 @@ const ManageWorkflow = () => {
                         id: definition.id,
                         name: `${TemplateType[foundKey]?.name}`,
                         instanceState: definition.status,
+                        instances: instances,
                     };
                 })
-                .filter(definition => !!definition);
+                .filter(definition => !!definition));
 
             dispatch(updateWorkflowDefinitions(workflowDefinitions));
             setWorkflowListLoading(false);
