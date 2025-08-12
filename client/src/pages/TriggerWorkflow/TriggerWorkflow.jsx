@@ -24,7 +24,7 @@ const TriggerWorkflow = () => {
     const getWorkflowDefinitions = async () => {
       setWorkflowListLoading(true);
       const definitionsResponse = await api.workflows.getWorkflowDefinitions();
-      const workflowDefinitions = definitionsResponse.data.data.workflows.filter(definition => definition.status !== 'inactive')
+      const workflowDefinitions = definitionsResponse.data.data.filter(definition => definition.status !== 'inactive')
         .map(definition => {
           if (workflows.length) {
             const foundWorkflow = workflows.find(workflow => workflow.id === definition.id);

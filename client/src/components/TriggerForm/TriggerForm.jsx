@@ -49,10 +49,10 @@ const TriggerForm = ({ workflowId, templateType }) => {
       case "-":
         try {
           api.workflows.getWorkflowTriggerRequirements(workflowId).then(data => {
-            const result = Object.values(data.data.trigger_input_schema)
-              .filter(entry => entry.field_name !== "startDate")
+            const result = Object.values(data.data.triggerInputSchema)
+              .filter(entry => entry.fieldName !== "startDate")
               .map(entry => ({
-                field_name: entry.field_name,
+                fieldName: entry.fieldName,
               }));
 
             setRelevantFormFields(generateDynamicForm(result, 'Custom'));
@@ -66,8 +66,8 @@ const TriggerForm = ({ workflowId, templateType }) => {
 
   const generateDynamicForm = (fieldNames) => {
     return fieldNames.map((field) => ({
-      fieldHeader: field.field_name,
-      fieldName: field.field_name,
+      fieldHeader: field.fieldName,
+      fieldName: field.fieldName,
       value: '',
     }));
   };
@@ -103,10 +103,10 @@ const TriggerForm = ({ workflowId, templateType }) => {
     }
 
     const { data: triggeredWorkflow } = await api.workflows.triggerWorkflow(workflowId, templateType, body);
-    setWorkflowInstanceUrl(triggeredWorkflow.instance_url);
+    setWorkflowInstanceUrl(triggeredWorkflow.instanceUrl);
 
-    if (triggeredWorkflow.instance_url !== undefined) {
-      navigate(`${ROUTE.TRIGGERFORM}/${workflowId}?type=${templateType}&triggerUrl=${encodeURIComponent(triggeredWorkflow.instance_url)}`)
+    if (triggeredWorkflow.instanceUrl !== undefined) {
+      navigate(`${ROUTE.TRIGGERFORM}/${workflowId}?type=${templateType}&triggerUrl=${encodeURIComponent(triggeredWorkflow.instanceUrl)}`)
     }
 
     if (triggeredWorkflow === WorkflowTriggerResponse.TRIGGER_ISSUE) {
