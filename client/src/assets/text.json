@@ -41,6 +41,16 @@
       "field2": "HR manager email"
     }
   },
+  "home": {
+    "card1": {
+      "title": "Trigger a workflow",
+      "description": "Get a list of workflow definitions and trigger a workflow instance"
+    },
+    "card2": {
+      "title": "Manage workflows",
+      "description": "Get the status of existing workflow instances and cancel instances"
+    }
+  },
   "loader": {
     "title": "Waiting for log in"
   },
@@ -60,6 +70,12 @@
       "step1Description": "Display all of the workflow definitions in the user's account by calling the WorkflowManagment: getWorkflowDefinitions endpoint. Each row on this page represents a workflow definition.",
       "step2Description": "After the user chooses a workflow to trigger, the next step is to get the workflow definition by calling the WorkflowMangement: getWorkflowDefinition endpoint. The response for this API call includes a triggerURL property that will be used in the next step.",
       "step3Description": "Finally, call the WorkflowTrigger: triggerWorkflow endpoint to trigger the workflow instance. The response of this call includes the workflowInstanceUrl where the workflow participant can complete the workflow steps."
+    },
+    "manageWorkflow": {
+      "mainDescription": "This scenario displays a list of workflow instances, the status of those instances, and the option to cancel them.",
+      "step1Description": "The WorkflowInstanceManagement: getWorkflowInstances endpoint is called to get a list of the workflow instances that have been triggered by the sample app.",
+      "step2Description": "To get the status of a given workflow instance, the WorkflowInstanceManagement: getWorkflowInstance method is called.",
+      "step3Description": "If a user chooses to cancel a workflow instance, the WorkflowInstanceManagement: cancelWorkflowInstance method is called."
     }
   },
   "workflowList": {
@@ -68,7 +84,16 @@
     "columns": {
       "lastRunStatus": "Status of last run",
       "workflowName": "Workflow name",
-      "workflowType": "Workflow type"
+      "workflowType": "Workflow type",
+      "workflowStatus": "Workflow status"
+    }
+  },
+  "instanceList": {
+    "cancelButton": "Cancel",
+    "columns": {
+      "instance": "Instance",
+      "progress": "Progress",
+      "startedBy": "Started by"
     }
   },
   "pageTitles": {
@@ -93,7 +118,12 @@
     "triggerNewWorkflow": "Trigger new workflow ->",
     "getStarted": "Get started",
     "moreInfo": "More info",
-    "backHome": "← Back to workflows"
+    "backToWorkflows": "← Back to workflows",
+    "updateWorkflow": "Update workflow status",
+    "cancelWorkflow": "Cancel workflow",
+    "backHome": "← Back to home",
+    "pauseWorkflow": "Pause the creation of instances",
+    "resumeWorkflow": "Resume the creation of instances"
   },
   "links": {
     "github": "https://github.com/docusign/sample-app-workflows-node",

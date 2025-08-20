@@ -1,0 +1,23 @@
+.instanceList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.headerRow {
+  position: sticky;
+  top: -1rem;
+  background-color: var(--white-main);
+  flex-direction: row;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  height: 30px;
+  width: 100%;
+  justify-items: center;
+  justify-self: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
