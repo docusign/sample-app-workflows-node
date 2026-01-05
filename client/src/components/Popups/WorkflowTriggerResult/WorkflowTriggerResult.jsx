@@ -19,8 +19,7 @@ const WorkflowTriggerResult = ({ workflowInstanceUrl }) => {
   return (
     <div className={styles.popupContainer}>
       <img src={imgSuccess} alt="" />
-      {/* <h2>{textContent.popups.workflowTriggered.title}</h2> */}
-      <h2>This workflow type cannot be triggered in an embedded window.</h2>
+      <h2>{textContent.popups.workflowTriggered.title}</h2>
       <br />  
       <p className={styles.popupMessageContainer}>
         See <a href='https://developers.docusign.com/docs/maestro-api/maestro101/embed-workflow/#embedded-workflow-instance-recommendations-and-restrictions' target='_blank'>Embedded workflow instance recommendations and restrictions</a> for more information.
