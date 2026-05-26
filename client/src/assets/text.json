@@ -1,7 +1,7 @@
 {
   "hero": {
     "title": "Welcome to the Workflows Sample App",
-    "paragraph": "Discover the power of the Docusign Workflow Builder API (beta). Trigger and manage Workflow Builder workflows in an interactive environment.",
+    "paragraph": "Discover the power of the Docusign Workflow Builder API. Trigger and manage Workflow Builder workflows in an interactive environment.",
     "authentication": "Supports both Authorization Code Grant and JSON Web Token (JWT) authentication.",
     "tryButton": "Try the App",
     "GitHub": "Go to GitHub",
