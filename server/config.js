@@ -23,7 +23,6 @@ const config = {
       ? readRequiredEnvVariable('FRONTEND_DEV_HOST')
       : readRequiredEnvVariable('FRONTEND_PROD_HOST'),
   workflowBuilderApiUrl: readRequiredEnvVariable('WORKFLOW_BUILDER_API'),
-  maestroApiUrl: readRequiredEnvVariable('WORKFLOW_BUILDER_API'),
 };
 
 module.exports = config;

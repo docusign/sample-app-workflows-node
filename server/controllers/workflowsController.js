@@ -70,7 +70,7 @@ class WorkflowsController {
       templateType: req.query.type,
       workflowId: req.params.definitionId,
       accessToken: req?.user?.accessToken || req?.session?.accessToken,
-      basePath: config.maestroApiUrl,
+      basePath: config.workflowBuilderApiUrl,
       accountId: req.session.accountId,
     };
 
