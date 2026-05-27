@@ -86,8 +86,8 @@ class WorkflowsController {
   static handleErrorResponse(error, res) {
     this.logger.error(`handleErrorResponse: ${error}`);
 
-    const errorCode = error?.response?.statusCode;
-    const errorMessage = error?.response?.body?.message;
+    const errorCode = error?.statusCode || error?.response?.statusCode || 500;
+    const errorMessage = error?.message || error?.response?.body?.message;
 
     // use custom error message if Workflow Builder is not enabled for the account
     if (errorCode === 403) {
