@@ -34,7 +34,7 @@ class WorkflowsController {
     try {
       const results = await WorkflowsService.getWorkflowDefinitions({
         accessToken: req?.user?.accessToken || req?.session?.accessToken,
-        basePath: config.maestroApiUrl,
+        basePath: config.workflowBuilderApiUrl,
         accountId: req.session.accountId,
       });
       res.status(200).send(results);
@@ -50,7 +50,7 @@ class WorkflowsController {
     try {
       const results = await WorkflowsService.getWorkflowTriggerRequirements({
         accessToken: req?.user?.accessToken || req?.session?.accessToken,
-        basePath: config.maestroApiUrl,
+        basePath: config.workflowBuilderApiUrl,
         accountId: req.session.accountId,
         workflowId: req.params.definitionId,
       });
@@ -70,7 +70,7 @@ class WorkflowsController {
       templateType: req.query.type,
       workflowId: req.params.definitionId,
       accessToken: req?.user?.accessToken || req?.session?.accessToken,
-      basePath: config.maestroApiUrl,
+      basePath: config.workflowBuilderApiUrl,
       accountId: req.session.accountId,
     };
 
@@ -89,7 +89,7 @@ class WorkflowsController {
     const errorCode = error?.response?.statusCode;
     const errorMessage = error?.response?.body?.message;
 
-    // use custom error message if Maestro is not enabled for the account
+    // use custom error message if Workflow Builder is not enabled for the account
     if (errorCode === 403) {
       res.status(403).send({ err: error, errorMessage, errorInfo: 'Contact Support to enable this Feature' });
       return;

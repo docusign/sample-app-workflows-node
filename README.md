@@ -2,9 +2,9 @@
 
 ## Introduction
 
-Welcome to the Workflows Sample App! The app is written using Node.js and React. Docusign Maestro lets you easily build and deploy customized workflows that automate and accelerate your agreement processes without writing any code. Maestro connects all the tools and activities in your workflow so that agreement processes are more efficient, more uniform, and have better visibility.
+Welcome to the Workflows Sample App! The app is written using Node.js and React. Docusign Workflow Builder lets you easily build and deploy customized workflows that automate and accelerate your agreement processes without writing any code. Workflow Builder connects all the tools and activities in your workflow so that agreement processes are more efficient, more uniform, and have better visibility.
 
-With Docusign Maestro, you can combine Docusign features such as ID Verification, Web Forms, and eSignature with third-party extensions to automate your workflows from end to end.
+With Docusign Workflow Builder, you can combine Docusign features such as ID Verification, Web Forms, and eSignature with third-party extensions to automate your workflows from end to end.
 
 ## Configuring your integration
 
