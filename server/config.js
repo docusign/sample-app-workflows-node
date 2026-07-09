@@ -6,6 +6,12 @@ function readRequiredEnvVariable(variableName) {
   return value;
 }
 
+function readEnvVariableWithFallback(primaryName, fallbackName) {
+  const value = process.env[primaryName] || process.env[fallbackName];
+  if (!value) throw new Error(`Can not read the ${primaryName} (or legacy ${fallbackName}) from the env variables`);
+  return value;
+}
+
 const nodeEnv = readRequiredEnvVariable('NODE_ENV');
 
 const config = {
@@ -22,7 +28,7 @@ const config = {
     nodeEnv === 'development'
       ? readRequiredEnvVariable('FRONTEND_DEV_HOST')
       : readRequiredEnvVariable('FRONTEND_PROD_HOST'),
-  maestroApiUrl: readRequiredEnvVariable('MAESTRO_API'),
+  workflowBuilderApiUrl: readEnvVariableWithFallback('WORKFLOW_BUILDER_API', 'MAESTRO_API'),
 };
 
 module.exports = config;

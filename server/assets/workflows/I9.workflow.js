@@ -1,6 +1,6 @@
 const workflow1_9 = (templateId, accountId) => ({
   id: 'f291fb8c-214f-4b71-a152-bd672f8ac5c1',
-  name: 'Maestro: I-9',
+  name: 'Workflow Builder: I-9',
   userId: '8cb9aa3f-xxxx-xxxx-xxxx-f6ce2e16dad1',
   accountId: accountId,
   createdDate: '2024-05-15T20:33:03.380Z',
@@ -13,7 +13,7 @@ const workflow1_9 = (templateId, accountId) => ({
   isDraft: true,
   status: 'active',
   workflowDefinition: {
-    workflowName: 'Maestro: I-9',
+    workflowName: 'Workflow Builder: I-9',
     workflowDescription: '',
     accountId: accountId,
     documentVersion: '1.0.0',
@@ -953,8 +953,8 @@ const workflow1_9 = (templateId, accountId) => ({
           templateType: 'WorkflowParticipantNotification',
           templateVersion: 1,
           language: 'en',
-          sender_name: 'Docusign Maestro',
-          sender_alias: 'Maestro',
+          sender_name: 'Docusign Workflow Builder',
+          sender_alias: 'Workflow Builder',
           participantId: '2195eeb5-d97e-4c9e-932a-fe97d0373a54',
         },
         input: {

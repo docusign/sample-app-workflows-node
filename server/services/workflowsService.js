@@ -30,8 +30,8 @@ class WorkflowsService {
   static triggerWorkflowInstance = async (args, payload) => {
     const client = new iam.IamClient({ accessToken: args.accessToken });
     const triggerPayload = {
-      instance_name: 'test',
-      trigger_inputs: payload,
+      instanceName: 'test',
+      triggerInputs: payload,
     };
     const triggerResponse = await client.maestro.workflows.triggerWorkflow({
       accountId: args.accountId,

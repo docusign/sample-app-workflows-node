@@ -26,7 +26,7 @@ export const WorkflowTriggerResponse = {
 };
 
 export const TemplateType = {
-  I9: { name: 'Maestro: I-9', type: 'I-9 document' },
-  OFFER: { name: 'Maestro: Offer Letter', type: 'Offer letter' },
-  NDA: { name: 'Maestro: NDA', type: 'NDA document' },
+  I9: { name: 'Workflow Builder: I-9', type: 'I-9 document' },
+  OFFER: { name: 'Workflow Builder: Offer Letter', type: 'Offer letter' },
+  NDA: { name: 'Workflow Builder: NDA', type: 'NDA document' },
 };

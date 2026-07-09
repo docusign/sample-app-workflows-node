@@ -1,7 +1,7 @@
 {
   "hero": {
     "title": "Welcome to the Workflows Sample App",
-    "paragraph": "Discover the power of the Docusign Maestro API (beta). Trigger and manage Maestro workflows in an interactive environment.",
+    "paragraph": "Discover the power of the Docusign Workflow Builder API. Trigger and manage Workflow Builder workflows in an interactive environment.",
     "authentication": "Supports both Authorization Code Grant and JSON Web Token (JWT) authentication.",
     "tryButton": "Try the App",
     "GitHub": "Go to GitHub",
@@ -103,9 +103,9 @@
   },
   "popups": {
     "workflowTriggered": {
-      "title": "Incompatible workflow",
+      "title": "This workflow type cannot be triggered in an embedded window.",
       "descriptiona": "See  and redirect the user back to the workflows page",
-      "description": "See <a href='https://developers.docusign.com/docs/maestro-api/maestro101/embed-workflow/#embedded-workflow-instance-recommendations-and-restrictions' target='_blank'>Embedded workflow instance recommendations and restrictions</a> and redirect the user back to the workflows page"
+      "description": "See <a href='https://developers.docusign.com/docs/workflow-builder-api/workflow-builder101/embed-workflow/#embedded-workflow-instance-recommendations-and-restrictions' target='_blank' rel='noopener noreferrer'>Embedded workflow instance recommendations and restrictions</a> and redirect the user back to the workflows page"
     }
   },
   "buttons": {
@@ -128,6 +128,6 @@
   "links": {
     "github": "https://github.com/docusign/sample-app-workflows-node",
     "createsandbox": "https://go.docusign.com/o/sandbox/",
-    "learnmore": "https://developers.docusign.com/docs/maestro-api/"
+    "learnmore": "https://developers.docusign.com/docs/workflow-builder-api/"
   }
 }

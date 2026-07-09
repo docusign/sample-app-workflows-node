@@ -6,7 +6,7 @@ Created with React + Vite! This setup provides a minimal yet powerful environmen
 
 ## Table of Contents
 
-- [Workflows Sample App Frontend](#maestro-frontend)
+- [Workflows Sample App Frontend](#workflows-sample-app-frontend)
   - [Table of Contents](#table-of-contents)
   - [Available Scripts](#available-scripts)
     - [`npm run dev`](#npm-run-dev)

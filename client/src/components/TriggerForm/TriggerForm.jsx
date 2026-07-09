@@ -103,10 +103,10 @@ const TriggerForm = ({ workflowId, templateType }) => {
     }
 
     const { data: triggeredWorkflow } = await api.workflows.triggerWorkflow(workflowId, templateType, body);
-    setWorkflowInstanceUrl(triggeredWorkflow.instance_url);
+    setWorkflowInstanceUrl(triggeredWorkflow.instanceUrl);
 
-    if (triggeredWorkflow.instance_url !== undefined) {
-      navigate(`${ROUTE.TRIGGERFORM}/${workflowId}?type=${templateType}&triggerUrl=${encodeURIComponent(triggeredWorkflow.instance_url)}`)
+    if (triggeredWorkflow.instanceUrl !== undefined) {
+      navigate(`${ROUTE.TRIGGERFORM}/${workflowId}?type=${templateType}&triggerUrl=${encodeURIComponent(triggeredWorkflow.instanceUrl)}`)
     }
 
     if (triggeredWorkflow === WorkflowTriggerResponse.TRIGGER_ISSUE) {
