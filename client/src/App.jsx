@@ -4,8 +4,10 @@ import { useDispatch } from 'react-redux';
 import Hero from './pages/Hero/Hero.jsx';
 import TriggerWorkflowAuthenticated from './pages/TriggerWorkflow/TriggerWorkflow.jsx';
 import TriggerWorkflowFormAuthenticated from './pages/TriggerWorkflowForm/TriggerWorkflowForm.jsx';
+import ManageWorkflowAuthenticated from './pages/ManageWorkflow/ManageWorkflow.jsx';
 import { LoginStatus, ROUTE } from './constants.js';
 import { api } from './api';
+import HomeAuthenticated from './pages/Home/Home.jsx';
 import {
   authorizeUser,
   closeLoadingCircleInPopup,
@@ -30,7 +32,7 @@ function App() {
 
       const { data: userInfo } = await api.acg.callbackExecute(code);
       dispatch(authorizeUser(LoginStatus.ACG, userInfo.name, userInfo.email));
-      navigate(ROUTE.TRIGGER);
+      navigate(ROUTE.HOME);
       dispatch(closePopupWindow());
       dispatch(closeLoadingCircleInPopup());
     };
@@ -41,7 +43,9 @@ function App() {
   return (
     <Routes>
       <Route path={ROUTE.ROOT} element={<Hero />} />
+      <Route path={ROUTE.HOME} element={<HomeAuthenticated />} />
       <Route path={ROUTE.TRIGGER} element={<TriggerWorkflowAuthenticated />} />
+      <Route path={ROUTE.MANAGE} element={<ManageWorkflowAuthenticated />} />
       <Route path={`${ROUTE.TRIGGERFORM}/:workflowId`} element={<TriggerWorkflowFormAuthenticated />} />
     </Routes>
   );

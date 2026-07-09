@@ -26,7 +26,7 @@ const LoginForm = ({ togglePopup }) => {
       if (authType === LoginStatus.JWT) {
         const { data: userInfo } = await api.jwt.login();
         dispatch(authorizeUser(authType, userInfo.name, userInfo.email));
-        navigate(ROUTE.TRIGGER);
+        navigate(ROUTE.HOME);
         dispatch(closePopupWindow());
         dispatch(closeLoadingCircleInPopup());
       }

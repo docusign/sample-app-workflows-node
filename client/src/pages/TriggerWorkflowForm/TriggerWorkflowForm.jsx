@@ -18,21 +18,21 @@ const TriggerWorkflowForm = () => {
   const triggerUrl = searchParams.get('triggerUrl');
 
   const triggerUrlPattern = /^https:\/\/(?!.*javascript)[^()]+$/i;
-  
-function isValidTriggerUrl(url) {
-  try {
-    const decoded = decodeURIComponent(url);
-    const parsedUrl = new URL(decoded);
-    // Only allow https and the exact hostname
-    return (
-      parsedUrl.protocol === 'https:' &&
-      parsedUrl.hostname === 'apps-d.docusign.com'
-    );
-  } catch {
-    return false;
+
+  function isValidTriggerUrl(url) {
+    try {
+      const decoded = decodeURIComponent(url);
+      const parsedUrl = new URL(decoded);
+      // Only allow https and the exact hostname
+      return (
+        parsedUrl.protocol === 'https:' &&
+        parsedUrl.hostname === 'apps-d.docusign.com'
+      );
+    } catch {
+      return false;
+    }
   }
-}
-  
+
   if (triggerUrl !== null && isValidTriggerUrl(triggerUrl)) {
     return (
       <div className="page-box">
@@ -42,6 +42,7 @@ function isValidTriggerUrl(url) {
             title={textContent.pageTitles.completeWorkflow}
             behindTheScenesComponent={<TriggerBehindTheScenes />}
             backRoute={ROUTE.TRIGGER}
+            backText={textContent.buttons.backToWorkflows}
           />
 
           <div className={styles.formContainer}>
@@ -62,6 +63,7 @@ function isValidTriggerUrl(url) {
           title={textContent.pageTitles.triggerWorkflow}
           behindTheScenesComponent={<TriggerBehindTheScenes />}
           backRoute={ROUTE.TRIGGER}
+          backText={textContent.buttons.backToWorkflows}
         />
         <TriggerForm workflowId={workflowId} templateType={type} />
       </div>

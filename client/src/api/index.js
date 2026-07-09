@@ -88,5 +88,29 @@ export const api = Object.freeze({
         return error.response;
       }
     },
+    pauseWorkflow: async workflow => {
+      try {
+        const response = await instance.post(`/workflows/${workflow.id}/pause`);
+        return response;
+      } catch (error) {
+        return error.response;
+      }
+    },
+    resumeWorkflow: async workflow => {
+      try {
+        const response = await instance.post(`/workflows/${workflow.id}/resume`);
+        return response;
+      } catch (error) {
+        return error.response;
+      }
+    },
+    getWorkflowInstances: async workflowId => {
+      const response = await instance.get(`/workflows/${workflowId}/instances`);
+      return response;
+    },
+    cancelWorkflowInstance: async (workflowId, instanceId) => {
+      const response = await instance.post(`/workflows/${workflowId}/instances/${instanceId}/cancel`);
+      return response;
+    }
   },
 });

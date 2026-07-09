@@ -13,7 +13,7 @@ const WorkflowTriggerResult = ({ workflowInstanceUrl }) => {
 
   const handleFinishTrigger = async () => {
     dispatch(closePopupWindow());
-    navigate(ROUTE.TRIGGER);
+    navigate(ROUTE.HOME);
   };
 
   return (
@@ -22,7 +22,7 @@ const WorkflowTriggerResult = ({ workflowInstanceUrl }) => {
       <h2>{textContent.popups.workflowTriggered.title}</h2>
       <br />  
       <p className={styles.popupMessageContainer}>
-        See <a href='https://developers.docusign.com/docs/maestro-api/maestro101/embed-workflow/#embedded-workflow-instance-recommendations-and-restrictions' target='_blank'>Embedded workflow instance recommendations and restrictions</a> for more information.
+        See <a href='https://developers.docusign.com/docs/workflow-builder-api/workflow-builder101/embed-workflow/#embedded-workflow-instance-recommendations-and-restrictions' target='_blank'>Embedded workflow instance recommendations and restrictions</a> for more information.
       </p>
       <a href={workflowInstanceUrl} target="_blank" rel="noreferrer" onClick={handleFinishTrigger}>
         {textContent.buttons.continue}

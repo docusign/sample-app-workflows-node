@@ -12,6 +12,7 @@ import TriggerBehindTheScenes from '../../components/WorkflowDescription/BehindT
 import { LoginStatus, TemplateType, WorkflowItemsInteractionType } from '../../constants.js';
 import { api } from '../../api';
 import { updateWorkflowDefinitions } from '../../store/actions';
+import { ROUTE } from '../../constants.js';
 
 const TriggerWorkflow = () => {
   const dispatch = useDispatch();
@@ -34,7 +35,7 @@ const TriggerWorkflow = () => {
           const templateKeys = Object.keys(TemplateType);
           const foundKey = templateKeys.find(key => definition.name.startsWith(TemplateType[key].name));
           if (!foundKey) {
-            if(authType === LoginStatus.JWT)
+            if (authType === LoginStatus.JWT)
               return null;
 
             return {
@@ -67,6 +68,8 @@ const TriggerWorkflow = () => {
         <WorkflowDescription
           title={textContent.pageTitles.triggerWorkflow}
           behindTheScenesComponent={<TriggerBehindTheScenes />}
+          backRoute={ROUTE.HOME}
+          backText={textContent.buttons.backHome}
         />
         <WorkflowList
           items={workflows}

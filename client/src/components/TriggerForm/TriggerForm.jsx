@@ -80,7 +80,7 @@ const TriggerForm = ({ workflowId, templateType }) => {
 
   const handleCloseTriggerPopup = () => {
     dispatch(closePopupWindow());
-    navigate(ROUTE.TRIGGER);
+    navigate(ROUTE.HOME);
   };
 
   const handleSubmit = async event => {

@@ -1,0 +1,34 @@
+.messageBox {
+    display: flex;
+    flex-direction: column;
+    margin-top: 2.5%;
+}
+
+.messageBox h1 {
+    text-align: center;
+    margin-bottom: 25px;
+
+    color: var(--black-main);
+    line-height: 72px;
+    font-size: 36px;
+    font-weight: 600;
+}
+
+.messageBox p {
+    text-align: center;
+    line-height: 28px;
+    margin-top: -1.5em;
+
+    color: var(--black-light);
+    font-size: 18px;
+    font-weight: 300;
+}
+
+.cardContainer {
+    margin: 2em auto 2.8em auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 24px;
+    overflow: visible;
+}
