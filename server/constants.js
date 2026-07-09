@@ -18,10 +18,10 @@ const ISSUES = {
   TRIGGER_ISSUE: 'Incompatible workflow',
 };
 
-const MAESTRO_SCOPES = ['signature', 'aow_manage'];
+const WORKFLOW_BUILDER_SCOPES = ['signature', 'aow_manage'];
 
 module.exports = {
-  scopes: MAESTRO_SCOPES,
+  scopes: WORKFLOW_BUILDER_SCOPES,
   BACKEND_ROUTE,
   TEMPLATE_TYPE,
   METHOD,

@@ -1,6 +1,6 @@
 /**
  * @file
- * This file handles work with docusign maestro and esign services.
+ * This file handles work with docusign workflow builder and esign services.
  * Scenarios implemented:
  * - Workflow definition triggering, which create workflow instance.
  * - Workflow definitions fetching.
@@ -12,14 +12,14 @@ const iam = require('@docusign/iam-sdk');
 class WorkflowsService {
   static getWorkflowDefinitions = async args => {
     const client = new iam.IamClient({ accessToken: args.accessToken });
-    const definitions = await client.maestro.workflows.getWorkflowsList({ accountId: args.accountId });
+    const definitions = await client.workflowBuilder.workflows.getWorkflowsList({ accountId: args.accountId });
 
     return definitions;
   };
 
   static getWorkflowTriggerRequirements = async args => {
     const client = new iam.IamClient({ accessToken: args.accessToken });
-    const triggerRequirements = await client.maestro.workflows.getWorkflowTriggerRequirements({
+    const triggerRequirements = await client.workflowBuilder.workflows.getWorkflowTriggerRequirements({
       accountId: args.accountId,
       workflowId: args.workflowId,
     });
@@ -33,7 +33,7 @@ class WorkflowsService {
       instanceName: 'test',
       triggerInputs: payload,
     };
-    const triggerResponse = await client.maestro.workflows.triggerWorkflow({
+    const triggerResponse = await client.workflowBuilder.workflows.triggerWorkflow({
       accountId: args.accountId,
       workflowId: args.workflowId,
       triggerWorkflow: triggerPayload,
@@ -45,7 +45,7 @@ class WorkflowsService {
   static pauseWorkflow = async args => {
     const client = new iam.IamClient({ accessToken: args.accessToken });
 
-    return await client.maestro.workflows.pauseNewWorkflowInstances({
+    return await client.workflowBuilder.workflows.pauseNewWorkflowInstances({
       accountId: args.accountId,
       workflowId: args.workflowId,
     });
@@ -54,7 +54,7 @@ class WorkflowsService {
   static resumePausedWorkflow = async args => {
     const client = new iam.IamClient({ accessToken: args.accessToken });
 
-    return await client.maestro.workflows.resumePausedWorkflow({
+    return await client.workflowBuilder.workflows.resumePausedWorkflow({
       accountId: args.accountId,
       workflowId: args.workflowId,
     });
@@ -63,7 +63,7 @@ class WorkflowsService {
   static getInstances = async args => {
     const client = new iam.IamClient({ accessToken: args.accessToken });
 
-    return await client.maestro.workflowInstanceManagement.getWorkflowInstancesList({
+    return await client.workflowBuilder.workflowInstanceManagement.getWorkflowInstancesList({
       accountId: args.accountId,
       workflowId: args.workflowId,
     });
@@ -72,7 +72,7 @@ class WorkflowsService {
   static cancelWorkflow = async args => {
     const client = new iam.IamClient({ accessToken: args.accessToken });
 
-    return await client.maestro.workflowInstanceManagement.cancelWorkflowInstance({
+    return await client.workflowBuilder.workflowInstanceManagement.cancelWorkflowInstance({
       accountId: args.accountId,
       workflowId: args.workflowId,
       instanceId: args.instanceId,
