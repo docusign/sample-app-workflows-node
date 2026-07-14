@@ -83,6 +83,22 @@ class WorkflowsController {
     }
   };
 
+  static getWorkflowInstance = async (req, res) => {
+    try {
+      const args = {
+        workflowId: req.params.definitionId,
+        instanceId: req.params.instanceId,
+        accessToken: req?.user?.accessToken || req?.session?.accessToken,
+        accountId: req.session.accountId,
+      };
+
+      const result = await WorkflowsService.getWorkflowInstance(args);
+      res.status(200).send(result);
+    } catch (error) {
+      this.handleErrorResponse(error, res);
+    }
+  };
+
   static handleErrorResponse(error, res) {
     this.logger.error(`handleErrorResponse: ${error}`);
 

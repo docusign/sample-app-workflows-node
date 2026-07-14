@@ -9,3 +9,22 @@
         flex-direction: row;
     }
 }
+
+.doneButton {
+    margin-top: 1.5rem;
+    height: 40px;
+    border-radius: 2px;
+    color: var(--white-main);
+    background-color: var(--primary-main);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    align-self: end;
+    border: none;
+    padding: 0 1.5rem;
+    cursor: pointer;
+}
+
+.doneButton:hover {
+    background-color: var(--secondary-main);
+}
