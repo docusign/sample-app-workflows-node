@@ -103,27 +103,17 @@ const TriggerForm = ({ workflowId, templateType }) => {
     }
 
     const { data: triggeredWorkflow } = await api.workflows.triggerWorkflow(workflowId, templateType, body);
+
+    if (triggeredWorkflow === WorkflowTriggerResponse.TRIGGER_ISSUE) {
+      setDataSending(false);
+      dispatch(openPopupWindow());
+      return;
+    }
+
     setWorkflowInstanceUrl(triggeredWorkflow.instanceUrl);
 
     if (triggeredWorkflow.instanceUrl !== undefined) {
       navigate(`${ROUTE.TRIGGERFORM}/${workflowId}?type=${templateType}&triggerUrl=${encodeURIComponent(triggeredWorkflow.instanceUrl)}`)
-    }
-
-    if (triggeredWorkflow === WorkflowTriggerResponse.TRIGGER_ISSUE) {
-      // Update workflowDefinitions. "...workflow" creates new workflow-object to avoid mutation in redux
-      const updatedWorkflowDefinitions = workflows.map(w => {
-        if (w.id !== workflowId) return { ...w };
-
-        return {
-          ...w,
-          instanceId: triggeredWorkflow.instanceId,
-          isTriggered: true,
-        };
-      });
-
-      dispatch(updateWorkflowDefinitions(updatedWorkflowDefinitions));
-      setDataSending(false);
-      dispatch(openPopupWindow());
     }
   };
 

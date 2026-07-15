@@ -88,5 +88,9 @@ export const api = Object.freeze({
         return error.response;
       }
     },
+    getWorkflowInstance: async (workflowId, instanceId) => {
+      const response = await instance.get(`/workflows/${workflowId}/instances/${instanceId}`);
+      return response;
+    },
   },
 });

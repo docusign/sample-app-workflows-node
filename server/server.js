@@ -27,7 +27,7 @@ const app = express()
   .use(
     session({
       secret: config.sessionSecret,
-      name: 'my-maestro-session',
+      name: 'my-workflow-builder-session',
       cookie: { maxAge: maxSessionAge },
       saveUninitialized: true,
       resave: true,
