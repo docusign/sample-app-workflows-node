@@ -1,4 +1,4 @@
-FROM node:20.14 AS base
+FROM node:26.12.1 AS base
 
 RUN mkdir -p /home/node/app
 WORKDIR /home/node
@@ -14,11 +14,11 @@ COPY server ./
 
 
 # Run stage
-FROM node:20.14-alpine
+FROM node:26.12.1-alpine
 
 RUN mkdir -p /home/node/app
 COPY --from=base /home/node /home/node
 WORKDIR /home/node/app
 EXPOSE 4000
 
-CMD ["npm", "run", "start"];
+CMD ["npm", "run", "start"]
