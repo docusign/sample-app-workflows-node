@@ -15,7 +15,11 @@ export default defineConfig(({ mode }) => {
     plugins: [react()],
     define: {
       'global': 'globalThis',
-      'process.env': env,
+      'process.env': {
+        NODE_ENV: mode,
+        BACKEND_DEV_HOST: env.BACKEND_DEV_HOST,
+        BACKEND_PROD_HOST: env.BACKEND_PROD_HOST,
+      },
     },
     server: {
       hmr: {
